@@ -10,8 +10,8 @@
 #import "ObjectiveFlickr.h"
 #import "Photo.h"
 
-#define OBJECTIVE_FLICKR_API_KEY             @"2a27ceabcdf4b005d9a1b7bcb4f0d488"
-#define OBJECTIVE_FLICKR_API_SHARED_SECRET   @"105871eb12e708a4"
+#define OBJECTIVE_FLICKR_API_KEY             @"d383d50645fa96a10d0b9f69004b08f2"
+#define OBJECTIVE_FLICKR_API_SHARED_SECRET   @"ea0b1f6014bae383"
 
 @class MainViewController;
 

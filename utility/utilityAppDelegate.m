@@ -150,7 +150,7 @@
             
             NSString* title = [d objectForKey:@"title"];
             NSString* ownername = [d objectForKey:@"ownername"];
-            NSString* photoid = [d objectForKey:@"photoid"];
+            NSString* photoid = [d objectForKey:@"id"];
             
             Photo* photo = [[Photo alloc] init];
             
@@ -158,12 +158,47 @@
             photo.ownername = ownername;
             photo.photoid = photoid;
             
+            photo.photoThumbURL = 
+            [self.fContext photoSourceURLFromDictionary:d size:OFFlickrSmallSquareSize];
+            
+            photo.photoURL =
+            [self.fContext photoSourceURLFromDictionary:d size:OFFlickrSmallSize];
+            
+            photo.photoSourceURL =
+            [self.fContext photoWebPageURLFromDictionary:d];
+            
+            ////////
+            //http://farm{icon-farm}.static.flickr.com/{icon-server}/buddyicons/{nsid}.jpg
+            
+            NSString* buddyS;
+            NSString* iconserver = [d objectForKey:@"iconserver"];
+            if((iconserver == nil) | [iconserver isEqualToString:@"0"]) 
+               buddyS = @"http://www.flickr.com/images/buddyicon.jpg";
+            else
+               buddyS =
+               [NSString stringWithFormat:@"http://farm%@.static.flickr.com/%@/buddyicons/%@.jpg",
+                [d objectForKey:@"iconfarm"],
+                [d objectForKey:@"iconserver"],
+                [d objectForKey:@"owner"]
+                ];
+            
+            photo.buddyURL =
+            [NSURL URLWithString:buddyS];
+            ////////
+
+            CLLocationCoordinate2D aLocation = {0.0,0.0};
+            
+            photo.location = aLocation;
+            
+            photo.mapPoint = 
+            [MapPoint withCoordinate:photo.location title:photo.title];
+
+            
             [self.photos addObject:photo];
-         }
-         
-         [photosUpdatedDelegate photosUpdated];
+         }         
       }
          break;
+         
       case RECENT:
       {
          NSArray* rphotos = 
@@ -183,7 +218,7 @@
             
             NSString* title = [d objectForKey:@"title"];
             NSString* ownername = [d objectForKey:@"ownername"];
-            NSString* photoid = [d objectForKey:@"photoid"];
+            NSString* photoid = [d objectForKey:@"id"];
             
             id escription = [d valueForKey:@"description"];
             NSString* description = [escription objectForKey:@"_text"];
@@ -217,7 +252,7 @@
 
             NSString* buddyS;
             NSString* iconserver = [d objectForKey:@"iconserver"];
-            if([iconserver isEqualToString:@"0"]) 
+            if((iconserver == nil)| [iconserver isEqualToString:@"0"]) 
                buddyS = @"http://www.flickr.com/images/buddyicon.jpg";
             else
                buddyS =
@@ -243,9 +278,12 @@
          
          [photosUpdatedDelegate photosUpdated];
       }
+         break;
       default:
          break;
    }
+   
+   [photosUpdatedDelegate photosUpdated];
 }
    
 - (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest didFailWithError:(NSError *)inError

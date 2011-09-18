@@ -10,9 +10,9 @@
 
 typedef enum 
 {
-   NONE        = -1,
    PANDA       = 0,
-   RECENT      = 1
+   RECENT      = 1,
+   SEARCH      = 2
 }REQUESTTYPE;
 
 

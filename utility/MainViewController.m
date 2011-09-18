@@ -23,6 +23,15 @@
 @synthesize thumb;
 @synthesize buddy;
 
+#pragma mark - popover delegate
+-(void)popoverControllerDidDismissPopover:(WEPopoverController *)popoverController
+{
+}
+-(BOOL)popoverControllerShouldDismissPopover:(WEPopoverController *)popoverController
+{
+   return YES;
+}
+#pragma mark -
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
    NSLog(@"%s", __PRETTY_FUNCTION__);  
@@ -220,6 +229,9 @@
 {
    [super viewDidLoad];
    
+   //view type starts out as WALL
+   viewType = WALL;
+   
    //roll the corners
    //tableView.layer.cornerRadius = 10.0;
    //scrollView.layer.cornerRadius = 10.0;
@@ -332,11 +344,28 @@
 
 - (IBAction)viewTypeTapped:(id)sender
 {
-   UIBarButtonItem* viewTypeButton = (UIBarButtonItem*)sender;
-   
-   [viewTypeButton setImage:[UIImage imageNamed:@"42-photos.png"]];
    NSLog(@"%s", __PRETTY_FUNCTION__);  
    
+   UIBarButtonItem* viewTypeButton = (UIBarButtonItem*)sender;
+   switch(viewType)
+   {
+      case LIST:
+         [viewTypeButton setImage:[UIImage imageNamed:@"42-photos.png"]];
+         self.photoWall.hidden = NO;
+         tableView.hidden = YES;
+         viewType = WALL;
+         break;
+      case WALL:
+         [viewTypeButton setImage:[UIImage imageNamed:@"179-notepad.png"]];
+         self.photoWall.hidden = YES;
+         tableView.hidden = NO;
+         viewType = LIST;
+         
+         [tableView reloadData];
+         break;
+      default:
+         break;
+   }
 }
 
 - (IBAction)refreshTapped:(id)sender
@@ -347,15 +376,34 @@
    (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
    
    self.photoWall.scrollEnabled = NO;
-   MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.photoWall animated:YES];
+   
+   MBProgressHUD *hud = 
+   [MBProgressHUD showHUDAddedTo:app.mainViewController.view animated:YES];
+   
    hud.labelText = @"Loading";   
 
-   [app getRecent];
+   switch(requestType)
+   {
+      case PANDA:
+         [app getPanda];
+         break;
+      case RECENT:
+         [app getRecent];
+         break;
+      case SEARCH:
+         break;
+   }
 }
 
 - (IBAction)choiceMade:(id)sender;
 {
    NSLog(@"%s", __PRETTY_FUNCTION__);  
+   
+   UISegmentedControl* c = (UISegmentedControl*) sender;
+   
+   requestType = c.selectedSegmentIndex;
+   
+   [self refreshTapped:nil];
 }
 
 - (IBAction)photoTapped:(id)sender
@@ -372,10 +420,21 @@
    //[self.photoWall setNeedsDisplay];
    //[self.photoWall.layer setNeedsDisplay];
    
-   [MBProgressHUD hideHUDForView:self.photoWall animated:YES];
+   utilityAppDelegate* app =
+   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+   
+   [MBProgressHUD hideHUDForView:app.mainViewController.view animated:YES];
    self.photoWall.scrollEnabled = YES;
    
-   [self.tiles setNeedsDisplay];
+   switch(viewType)
+   {
+      case LIST:
+         [tableView reloadData];
+         break;
+      case WALL:
+         [self.tiles setNeedsDisplay];
+         break;
+   }
 }
 
 #pragma mark - UIScrollViewDelegate

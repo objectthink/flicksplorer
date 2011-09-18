@@ -10,8 +10,14 @@
 #import "utilityAppDelegate.h"
 #import "Photo.h"
 #import "WEPopoverController.h"
+#import "Session.h"
 
 #import "PRPTileView.h"
+
+typedef enum {
+   WALL        = 0,
+   LIST        = 1
+}VIEWTYPE;
 
 @interface InfoView : UIView <PopoverControllerDelegate>
 {
@@ -44,6 +50,9 @@ PhotosUpdatedDelegate>
    IBOutlet UIScrollView* scrollView;
    IBOutlet UIPageControl* pageControl;
    IBOutlet UISegmentedControl* choice;
+   
+   VIEWTYPE viewType;
+   REQUESTTYPE requestType;
 }
 
 @property (retain) MKMapView* mapView;

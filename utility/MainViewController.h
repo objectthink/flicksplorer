@@ -21,7 +21,7 @@ typedef enum {
 
 @interface InfoView : UIView <PopoverControllerDelegate>
 {
-   Photo* photo;
+   //Photo* photo;
    
    WEPopoverController* popover;
 }
@@ -33,6 +33,8 @@ typedef enum {
 @property (retain) IBOutlet UIImageView* thumb;
 @property (retain) IBOutlet UIImageView* buddy;
 @property (retain) IBOutlet UIButton* locationAvailable;
+
+@property (retain) Photo* photo; 
 
 -(void)updateWithPhoto:(Photo*)photo;
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;

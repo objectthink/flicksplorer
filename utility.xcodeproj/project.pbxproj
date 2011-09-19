@@ -31,6 +31,9 @@
 		73F14313141CF02C00C12473 /* 06-magnify WHITE.png in Resources */ = {isa = PBXBuildFile; fileRef = 73F14312141CF02C00C12473 /* 06-magnify WHITE.png */; };
 		A329700D14237266009CC6E3 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = A329700C14237266009CC6E3 /* MBProgressHUD.m */; };
 		A346431314197F060003FD8C /* 06-magnify.png in Resources */ = {isa = PBXBuildFile; fileRef = A346431214197F060003FD8C /* 06-magnify.png */; };
+		A346B3DD1427613C000127E8 /* SVWebViewController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A346B3DA1427613C000127E8 /* SVWebViewController.bundle */; };
+		A346B3DE1427613C000127E8 /* SVWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A346B3DC1427613C000127E8 /* SVWebViewController.m */; };
+		A346B3E5142763C4000127E8 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A346B3E4142763C4000127E8 /* MessageUI.framework */; };
 		A38EEDAB1424005500038D9B /* 74-location.png in Resources */ = {isa = PBXBuildFile; fileRef = A38EEDAA1424005500038D9B /* 74-location.png */; };
 		A3DC054C1424C787000CF95F /* WEPopoverContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3DC05481424C787000CF95F /* WEPopoverContainerView.m */; };
 		A3DC054D1424C787000CF95F /* WEPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3DC054A1424C787000CF95F /* WEPopoverController.m */; };
@@ -102,6 +105,10 @@
 		A329700B14237266009CC6E3 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		A329700C14237266009CC6E3 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		A346431214197F060003FD8C /* 06-magnify.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "06-magnify.png"; path = "utility/06-magnify.png"; sourceTree = "<group>"; };
+		A346B3DA1427613C000127E8 /* SVWebViewController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVWebViewController.bundle; sourceTree = "<group>"; };
+		A346B3DB1427613C000127E8 /* SVWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVWebViewController.h; sourceTree = "<group>"; };
+		A346B3DC1427613C000127E8 /* SVWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVWebViewController.m; sourceTree = "<group>"; };
+		A346B3E4142763C4000127E8 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		A38EEDAA1424005500038D9B /* 74-location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "74-location.png"; sourceTree = "<group>"; };
 		A3DC05471424C787000CF95F /* WEPopoverContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WEPopoverContainerView.h; sourceTree = "<group>"; };
 		A3DC05481424C787000CF95F /* WEPopoverContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WEPopoverContainerView.m; sourceTree = "<group>"; };
@@ -132,6 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A346B3E5142763C4000127E8 /* MessageUI.framework in Frameworks */,
 				A3EC8ECA141F7BE0001E52BD /* MediaPlayer.framework in Frameworks */,
 				A3EC8ECB141F7BE0001E52BD /* QuartzCore.framework in Frameworks */,
 				73E5EDD81417850100E7D61F /* MapKit.framework in Frameworks */,
@@ -149,6 +157,7 @@
 		733062711412D98300D6755C = {
 			isa = PBXGroup;
 			children = (
+				A346B3E4142763C4000127E8 /* MessageUI.framework */,
 				A3EC8EC8141F7BE0001E52BD /* MediaPlayer.framework */,
 				A3EC8EC9141F7BE0001E52BD /* QuartzCore.framework */,
 				A3EC8EC1141F7B4B001E52BD /* Extra */,
@@ -246,9 +255,20 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		A346B3D91427613C000127E8 /* SVWebViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A346B3DA1427613C000127E8 /* SVWebViewController.bundle */,
+				A346B3DB1427613C000127E8 /* SVWebViewController.h */,
+				A346B3DC1427613C000127E8 /* SVWebViewController.m */,
+			);
+			path = SVWebViewController;
+			sourceTree = "<group>";
+		};
 		A3EC8EC1141F7B4B001E52BD /* Extra */ = {
 			isa = PBXGroup;
 			children = (
+				A346B3D91427613C000127E8 /* SVWebViewController */,
 				A3DC05471424C787000CF95F /* WEPopoverContainerView.h */,
 				A3DC05481424C787000CF95F /* WEPopoverContainerView.m */,
 				A3DC05491424C787000CF95F /* WEPopoverController.h */,
@@ -355,6 +375,7 @@
 				A3DC05681424D636000CF95F /* popoverArrowUp@2x.png in Resources */,
 				A3DC05691424D636000CF95F /* popoverBg.png in Resources */,
 				A3DC056A1424D636000CF95F /* popoverBg@2x.png in Resources */,
+				A346B3DD1427613C000127E8 /* SVWebViewController.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,6 +397,7 @@
 				A329700D14237266009CC6E3 /* MBProgressHUD.m in Sources */,
 				A3DC054C1424C787000CF95F /* WEPopoverContainerView.m in Sources */,
 				A3DC054D1424C787000CF95F /* WEPopoverController.m in Sources */,
+				A346B3DE1427613C000127E8 /* SVWebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,6 +9,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "MainViewController.h"
 #import "utilityAppDelegate.h"
+
+#import "SVWebViewController.h"
 #import "MBProgressHUD.h"
 
 #define BIG 3010349
@@ -20,6 +22,7 @@
 @synthesize description;
 @synthesize descriptionView;
 @synthesize locationAvailable;
+@synthesize photo;
 @synthesize thumb;
 @synthesize buddy;
 
@@ -37,7 +40,7 @@
    NSLog(@"%s", __PRETTY_FUNCTION__);  
    
 
-   NSData  *imageData = [NSData dataWithContentsOfURL:photo.photoURL];
+   NSData  *imageData = [NSData dataWithContentsOfURL:self.photo.photoURL];
    UIImage *image = [UIImage imageWithData:imageData];
    
    /////////////////
@@ -78,16 +81,16 @@
 -(void)updateWithPhoto:(Photo*)p;
 {
    NSLog(@"%s", __PRETTY_FUNCTION__); 
-   photo = p;
+   self.photo = p;
    
-   if(photo == nil) return;
+   if(self.photo == nil) return;
    
-   self.owner.text            = [photo ownername];
-   self.title.text            = [photo title];
-   self.description.text      = [photo description];
-   self.descriptionView.text  = [photo description];
-   self.thumb.image           = [photo thumb];
-   self.buddy.image           = [photo buddy];
+   self.owner.text            = [self.photo ownername];
+   self.title.text            = [self.photo title];
+   self.description.text      = [self.photo description];
+   self.descriptionView.text  = [self.photo description];
+   self.thumb.image           = [self.photo thumb];
+   self.buddy.image           = [self.photo buddy];
    
    if(photo.mapPoint.coordinate.latitude != 0)
    { 
@@ -95,6 +98,11 @@
    }
    else
       self.locationAvailable.hidden = YES;
+}
+
+-(void)dealloc
+{
+   [super dealloc];
 }
 @end
 
@@ -452,7 +460,7 @@
    }
 }
 
-#pragma mark -
+#pragma mark - flip side
 - (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller
 {
     [self dismissModalViewControllerAnimated:YES];
@@ -460,13 +468,25 @@
 
 - (IBAction)showInfo:(id)sender
 {    
-    FlipsideViewController *controller = [[FlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
-    controller.delegate = self;
-    
-    controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self presentModalViewController:controller animated:YES];
-    
-    [controller release];
+//   FlipsideViewController *controller = 
+//   [[FlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
+//   controller.delegate = self;
+//    
+//   controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+//   [self presentModalViewController:controller animated:YES];
+//    
+//   [controller release];
+   
+   SVWebViewController *webViewController = 
+   [[SVWebViewController alloc] 
+    initWithAddress:[self.infoView.photo.photoSourceURL absoluteString]];
+	
+   webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
+   webViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+	[self presentModalViewController:webViewController animated:YES];	
+
+	[webViewController release];
+
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

@@ -52,6 +52,7 @@
 		A3EC8ECA141F7BE0001E52BD /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3EC8EC8141F7BE0001E52BD /* MediaPlayer.framework */; };
 		A3EC8ECB141F7BE0001E52BD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3EC8EC9141F7BE0001E52BD /* QuartzCore.framework */; };
 		A3EC8ECD141F7EC2001E52BD /* missing.png in Resources */ = {isa = PBXBuildFile; fileRef = A3EC8ECC141F7EC2001E52BD /* missing.png */; };
+		A3EE4F50142A092F00591E9C /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A3EE4F4F142A092F00591E9C /* icon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -132,6 +133,7 @@
 		A3EC8EC8141F7BE0001E52BD /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		A3EC8EC9141F7BE0001E52BD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A3EC8ECC141F7EC2001E52BD /* missing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = missing.png; sourceTree = "<group>"; };
+		A3EE4F4F142A092F00591E9C /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,6 +231,7 @@
 		A346431414197F220003FD8C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A3EE4F4F142A092F00591E9C /* icon.png */,
 				A3DC05571424D636000CF95F /* popoverArrowDown.png */,
 				A3DC05581424D636000CF95F /* popoverArrowDown@2x.png */,
 				A3DC05591424D636000CF95F /* popoverArrowLeft.png */,
@@ -376,6 +379,7 @@
 				A3DC05691424D636000CF95F /* popoverBg.png in Resources */,
 				A3DC056A1424D636000CF95F /* popoverBg@2x.png in Resources */,
 				A346B3DD1427613C000127E8 /* SVWebViewController.bundle in Resources */,
+				A3EE4F50142A092F00591E9C /* icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

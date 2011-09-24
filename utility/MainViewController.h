@@ -61,6 +61,7 @@ PhotosUpdatedDelegate>
 @property (retain) InfoView* infoView;
 @property (retain) UIScrollView* photoWall;
 @property (retain) PRPTileView *tiles;
+@property (retain) UISearchBar* searchBar;
 
 - (IBAction)showInfo:(id)sender;
 - (IBAction)choiceMade:(id)sender;

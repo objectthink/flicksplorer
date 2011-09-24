@@ -38,18 +38,24 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
    NSLog(@"%s", __PRETTY_FUNCTION__);  
-   
 
-   NSData  *imageData = [NSData dataWithContentsOfURL:self.photo.photoURL];
-   UIImage *image = [UIImage imageWithData:imageData];
+   if(photo.image == nil)
+   {
+      NSData  *imageData = [NSData dataWithContentsOfURL:self.photo.photoURL];
+      UIImage *image = [UIImage imageWithData:imageData];
+      
+      photo.image = image;
+   }
    
    /////////////////
    if(!popover)
    {
       UIViewController *c = [[UIViewController alloc] init];
       
-      c.view = [[UIImageView alloc] initWithImage:image];
-      c.contentSizeForViewInPopover = CGRectMake(0, 0,image.size.width,image.size.height).size;
+      c.view = [[UIImageView alloc] initWithImage:photo.image];
+      
+      c.contentSizeForViewInPopover = 
+      CGRectMake(0, 0,photo.image.size.width,photo.image.size.height).size;
       
       popover = [[WEPopoverController alloc] initWithContentViewController:c];
       
@@ -112,6 +118,7 @@
 @synthesize infoView;
 @synthesize photoWall;
 @synthesize tiles;
+@synthesize searchBar;
 
 -(void)updateInfoViewWith:(Photo*)photo
 {
@@ -325,6 +332,8 @@
    [self.tiles release];
 
    /////////////////////////////////////////////////////////////////////////////
+   
+   [self refreshTapped:nil];
 }
 
 - (void)photoWallTapped:(UITapGestureRecognizer *)tap 
@@ -376,6 +385,16 @@
    }
 }
 
+-(void)getSearchText
+{
+   utilityAppDelegate* app =
+   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+
+   UISearchBar* sb = [UISearchBar new];
+   
+   [app.mainViewController.view addSubview:sb];
+}
+
 - (IBAction)refreshTapped:(id)sender
 {
    NSLog(@"%s", __PRETTY_FUNCTION__);  
@@ -399,6 +418,8 @@
          [app getRecent];
          break;
       case SEARCH:
+         //[app getSearchWith:@"cozumel"];
+         [self getSearchText];
          break;
    }
 }

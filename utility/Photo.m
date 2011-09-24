@@ -69,6 +69,8 @@
 
 -(void) dealloc
 {
+   NSLog(@"%s", __PRETTY_FUNCTION__); 
+   
    [photoid release];
    [ownername release];
    [title release];

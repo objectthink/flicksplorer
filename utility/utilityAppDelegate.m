@@ -120,7 +120,17 @@
 
 -(void)getSearchWith:(NSString*)s
 {
+   [self.photos removeAllObjects];
    
+   //CHANGE THIS TO SEARCH
+   self.fRequest.sessionInfo = [Session sessionWithRequestType:RECENT];
+      
+   [self.fRequest 
+    callAPIMethodWithGET:@"flickr.photos.search" 
+    arguments:[NSDictionary dictionaryWithObjectsAndKeys:
+s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_server, original_format, last_update, geo, tags, machine_tags, o_dims, views, media, path_alias, url_sq, url_t, url_s, url_m, url_z, url_l, url_o", @"extras",@"200",@"per_page",@"10",@"page",nil]
+
+    ];        
 }
 
 - (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest 
@@ -192,9 +202,9 @@
             
             photo.mapPoint = 
             [MapPoint withCoordinate:photo.location title:photo.title];
-
             
             [self.photos addObject:photo];
+            [photo release];
          }         
       }
          break;
@@ -274,6 +284,7 @@
             [MapPoint withCoordinate:photo.location title:photo.title];
 
             [self.photos addObject:photo];
+            [photo release];
          }
          
          [photosUpdatedDelegate photosUpdated];

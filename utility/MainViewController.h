@@ -46,6 +46,7 @@ FlipsideViewControllerDelegate,
 UITableViewDataSource, 
 UITableViewDelegate,
 UIScrollViewDelegate,
+UISearchBarDelegate,
 PhotosUpdatedDelegate> 
 {
    IBOutlet UITableView* tableView;
@@ -61,7 +62,8 @@ PhotosUpdatedDelegate>
 @property (retain) InfoView* infoView;
 @property (retain) UIScrollView* photoWall;
 @property (retain) PRPTileView *tiles;
-@property (retain) UISearchBar* searchBar;
+@property (retain) IBOutlet UISearchBar* searchBar;
+@property (assign) utilityAppDelegate* app;
 
 - (IBAction)showInfo:(id)sender;
 - (IBAction)choiceMade:(id)sender;
@@ -70,5 +72,6 @@ PhotosUpdatedDelegate>
 - (IBAction)photoTapped:(id)sender;
 
 - (void)photosUpdated;
+
 @end
 

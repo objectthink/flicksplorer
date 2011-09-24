@@ -119,6 +119,37 @@
 @synthesize photoWall;
 @synthesize tiles;
 @synthesize searchBar;
+@synthesize app;
+
+-(void)showWait:(BOOL)on
+{
+   switch(on)
+   {
+      case YES:
+         self.photoWall.scrollEnabled = NO;
+            
+         MBProgressHUD *hud = 
+         [MBProgressHUD showHUDAddedTo:app.mainViewController.view animated:YES];
+         
+         hud.labelText = @"Loading";   
+         break;
+      case NO:
+         [MBProgressHUD hideHUDForView:app.mainViewController.view animated:YES];
+
+         self.photoWall.scrollEnabled = YES;
+         break;
+   }
+}
+
+-(void)showWaitWith:(NSString*)s
+{
+   self.photoWall.scrollEnabled = NO;
+         
+   MBProgressHUD *hud = 
+   [MBProgressHUD showHUDAddedTo:app.mainViewController.view animated:YES];
+         
+   hud.labelText = s;   
+}
 
 -(void)updateInfoViewWith:(Photo*)photo
 {
@@ -244,6 +275,8 @@
 {
    [super viewDidLoad];
    
+   self.app = (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+   
    //view type starts out as WALL
    viewType = WALL;
    
@@ -333,6 +366,8 @@
 
    /////////////////////////////////////////////////////////////////////////////
    
+   [self.view bringSubviewToFront:self.searchBar];
+   
    [self refreshTapped:nil];
 }
 
@@ -385,41 +420,54 @@
    }
 }
 
--(void)getSearchText
+-(void)doSearch
 {
-   utilityAppDelegate* app =
-   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+   self.searchBar.hidden = NO;  
+   [self.searchBar becomeFirstResponder];
+}
 
-   UISearchBar* sb = [UISearchBar new];
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+   self.searchBar.hidden = YES;
+   [self.searchBar resignFirstResponder];
    
-   [app.mainViewController.view addSubview:sb];
+   [self showWaitWith:self.searchBar.text];
+   
+   [self.app getSearchWith:self.searchBar.text];
+}
+
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+   self.searchBar.hidden = YES;
+   [self.searchBar resignFirstResponder];
 }
 
 - (IBAction)refreshTapped:(id)sender
 {
    NSLog(@"%s", __PRETTY_FUNCTION__);  
    
-   utilityAppDelegate* app =
-   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
-   
-   self.photoWall.scrollEnabled = NO;
-   
-   MBProgressHUD *hud = 
-   [MBProgressHUD showHUDAddedTo:app.mainViewController.view animated:YES];
-   
-   hud.labelText = @"Loading";   
+//   utilityAppDelegate* app =
+//   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+//   
+//   self.photoWall.scrollEnabled = NO;
+//   
+//   MBProgressHUD *hud = 
+//   [MBProgressHUD showHUDAddedTo:app.mainViewController.view animated:YES];
+//   
+//   hud.labelText = @"Loading";   
 
    switch(requestType)
    {
       case PANDA:
+         [self showWait:@"panda"];
          [app getPanda];
          break;
       case RECENT:
+         [self showWaitWith:@"recent"];
          [app getRecent];
          break;
       case SEARCH:
-         //[app getSearchWith:@"cozumel"];
-         [self getSearchText];
+         [self doSearch];
          break;
    }
 }

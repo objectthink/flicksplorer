@@ -38,6 +38,7 @@ typedef enum {
 
 -(void)updateWithPhoto:(Photo*)photo;
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
+-(IBAction)reticleClicked:(id)sender;
 
 @end
 

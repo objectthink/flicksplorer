@@ -30,10 +30,17 @@
 -(void)popoverControllerDidDismissPopover:(WEPopoverController *)popoverController
 {
 }
+
 -(BOOL)popoverControllerShouldDismissPopover:(WEPopoverController *)popoverController
 {
    return YES;
 }
+
+-(IBAction)reticleClicked:(id)sender
+{   
+   NSLog(@"%s", __PRETTY_FUNCTION__);  
+}
+
 #pragma mark -
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -50,9 +57,9 @@
    /////////////////
    if(!popover)
    {
-      UIViewController *c = [[UIViewController alloc] init];
+      UIViewController *c = [[[UIViewController alloc] init] autorelease];
       
-      c.view = [[UIImageView alloc] initWithImage:photo.image];
+      c.view = [[[UIImageView alloc] initWithImage:photo.image] autorelease];
       
       c.contentSizeForViewInPopover = 
       CGRectMake(0, 0,photo.image.size.width,photo.image.size.height).size;
@@ -201,25 +208,30 @@
 - (NSInteger)tableView:(UITableView *)tableView 
  numberOfRowsInSection:(NSInteger)section
 {
-   utilityAppDelegate* app =
-   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
-
-   return [app.photos count];
+   return [self.app.photos count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView 
+- (UITableViewCell *)tableView:(UITableView *)tv 
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   utilityAppDelegate* app =
-   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+   static NSString *CellIdentifier = @"PhotoCell";
 
-   UITableViewCell* cell = 
-   [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"test"];
+   UITableViewCell *cell = 
+   [tv dequeueReusableCellWithIdentifier:CellIdentifier];
    
-   Photo* photo = [app.photos objectAtIndex:indexPath.row];
+   if (cell == nil) 
+   {
+      cell = 
+      [[[UITableViewCell alloc] 
+        initWithStyle:UITableViewCellStyleSubtitle 
+        reuseIdentifier:CellIdentifier] autorelease];
+   }
+      
+   Photo* photo = [self.app.photos objectAtIndex:indexPath.row];
    
-   cell.textLabel.text = [[app.photos objectAtIndex:indexPath.row] title];
-
+   cell.textLabel.text       = [photo title];
+   cell.detailTextLabel.text = [photo ownername];
+   
    /////////////////////////////////////////////////////////////////////////////
    if(photo.thumb == nil)
    {
@@ -264,10 +276,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-   utilityAppDelegate* app =
-   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+   Photo* photo = [self.app.photos objectAtIndex:indexPath.row];
    
-   [self updateInfoViewWith:[app.photos objectAtIndex:indexPath.row]];
+   [self updateInfoViewWith:photo];
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -296,8 +307,11 @@
    self.infoView.thumb.layer.borderColor = [UIColor blackColor].CGColor;
    self.infoView.thumb.layer.borderWidth = 1.0;
    
+   //SNE CHECK
    //add map view
-   self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(320, 0, 320, INFO_HEIGHT)];
+   self.mapView = 
+   [[[MKMapView alloc] initWithFrame:CGRectMake(320, 0, 320, INFO_HEIGHT)] autorelease];
+   
    self.mapView.scrollEnabled = NO;
    
    //scroll view
@@ -318,10 +332,7 @@
    scrollView.bounces = NO;
    
    //make us the listener for photos changes
-   utilityAppDelegate* app =
-   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
-   
-   app.photosUpdatedDelegate = self;
+   self.app.photosUpdatedDelegate = self;
    
    /////////////////////////////////////////////////////////////////////////////
    //ADD PHOTO VIEWER
@@ -334,7 +345,7 @@
 	
    //UIScrollView *infScroller = 
    self.photoWall =
-   [[UIScrollView alloc] initWithFrame:frameRect];
+   [[[UIScrollView alloc] initWithFrame:frameRect] autorelease];
    
    self.photoWall.contentSize = CGSizeMake(BIG, BIG);
    self.photoWall.delegate = self;
@@ -346,11 +357,12 @@
    
    [self.view addSubview:self.photoWall];
    
-   [self.photoWall release];
+   //SNE CHECK
+   //[self.photoWall release];
 	
    CGRect infFrame = CGRectMake(0, 0, BIG, BIG);
    
-   self.tiles = [[PRPTileView alloc] initWithFrame:infFrame];
+   self.tiles = [[[PRPTileView alloc] initWithFrame:infFrame] autorelease];
    
    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] 
                                   initWithTarget:self 
@@ -359,10 +371,12 @@
    [tap release]; 
    
    
-   self.tiles.photos = app.photos;
+   self.tiles.photos = self.app.photos;
    
    [self.photoWall addSubview:self.tiles];
-   [self.tiles release];
+   
+   //SNE CHECK
+   //[self.tiles release];
 
    /////////////////////////////////////////////////////////////////////////////
    
@@ -406,6 +420,8 @@
          self.photoWall.hidden = NO;
          tableView.hidden = YES;
          viewType = WALL;
+         
+         [self.tiles setNeedsDisplay];
          break;
       case WALL:
          [viewTypeButton setImage:[UIImage imageNamed:@"179-notepad.png"]];
@@ -422,8 +438,29 @@
 
 -(void)doSearch
 {
+   CGRect searchBarFrame = self.searchBar.frame;
+   CGRect startFrame = self.searchBar.frame;
+   
+   startFrame.origin.y = -searchBarFrame.size.height;
+   
+   self.searchBar.frame = startFrame;
+   
    self.searchBar.hidden = NO;  
-   [self.searchBar becomeFirstResponder];
+   
+   [UIView animateWithDuration:0.7
+                         delay:0.0
+                       options: UIViewAnimationCurveEaseOut
+                    animations:
+                  ^{
+                     self.searchBar.frame = searchBarFrame;
+                  } 
+                    completion:
+                  ^(BOOL finished)
+                  {
+                     [self.searchBar becomeFirstResponder];
+                  }];
+
+   //[self.searchBar becomeFirstResponder];
 }
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -446,20 +483,10 @@
 {
    NSLog(@"%s", __PRETTY_FUNCTION__);  
    
-//   utilityAppDelegate* app =
-//   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
-//   
-//   self.photoWall.scrollEnabled = NO;
-//   
-//   MBProgressHUD *hud = 
-//   [MBProgressHUD showHUDAddedTo:app.mainViewController.view animated:YES];
-//   
-//   hud.labelText = @"Loading";   
-
    switch(requestType)
    {
       case PANDA:
-         [self showWait:@"panda"];
+         [self showWaitWith:@"panda"];
          [app getPanda];
          break;
       case RECENT:
@@ -497,10 +524,7 @@
    //[self.photoWall setNeedsDisplay];
    //[self.photoWall.layer setNeedsDisplay];
    
-   utilityAppDelegate* app =
-   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
-   
-   [MBProgressHUD hideHUDForView:app.mainViewController.view animated:YES];
+   [MBProgressHUD hideHUDForView:self.app.mainViewController.view animated:YES];
    self.photoWall.scrollEnabled = YES;
    
    switch(viewType)
@@ -521,7 +545,7 @@
    NSUInteger index = (NSUInteger)(cx / scrollView.frame.size.width);
    if (index >= pageControl.numberOfPages) 
    {
-      index = NSNotFound;
+      //index = NSNotFound;
    }
    else
    {

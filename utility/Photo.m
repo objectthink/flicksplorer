@@ -79,10 +79,13 @@
    [photoURL release];
    [photoSourceURL release];
    [photoThumbURL release];
+   [buddyURL release];
       
    [thumb release];
    [image release];
    [buddy release];
+   
+   [mapPoint release];
    
    [super dealloc];
 }

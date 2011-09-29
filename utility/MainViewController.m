@@ -587,6 +587,22 @@
    }
 }
 
+-(void)photosReturnedError:(NSError*)error
+{
+   [MBProgressHUD hideHUDForView:self.app.mainViewController.view animated:YES];
+   self.photoWall.scrollEnabled = YES;
+
+   UIAlertView* alert = 
+   [[[UIAlertView alloc] 
+    initWithTitle:@"flickr error" 
+    message:[error localizedDescription] 
+    delegate:nil 
+    cancelButtonTitle:@"Ok" 
+    otherButtonTitles:nil] autorelease];
+   
+   [alert show];
+}
+
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)sv
 {

@@ -38,6 +38,8 @@ typedef enum {
 @property (retain) Photo* photo; 
 
 -(void)updateWithPhoto:(Photo*)photo;
+-(void)photosReturnedError:(NSError*)error;
+
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
 -(IBAction)reticleClicked:(id)sender;
 

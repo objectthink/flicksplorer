@@ -285,9 +285,7 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
 
             [self.photos addObject:photo];
             [photo release];
-         }
-         
-         [photosUpdatedDelegate photosUpdated];
+         }         
       }
          break;
       default:
@@ -299,8 +297,9 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
    
 - (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest didFailWithError:(NSError *)inError
 {
-   NSLog(@"%s %@ %@", __PRETTY_FUNCTION__, inRequest, inError);   
+   NSLog(@"%s %@ %@", __PRETTY_FUNCTION__, inRequest, inError); 
    
+   [photosUpdatedDelegate photosReturnedError:inError];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

@@ -17,11 +17,11 @@
 
 @protocol PhotosUpdatedDelegate <NSObject>
 -(void)photosUpdated;
+-(void)photosReturnedError:(NSError*)error;
 @end
 
 @interface utilityAppDelegate : NSObject <UIApplicationDelegate, OFFlickrAPIRequestDelegate>
 {
-   
 }
 
 -(void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest 

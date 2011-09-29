@@ -39,6 +39,54 @@
 -(IBAction)reticleClicked:(id)sender
 {   
    NSLog(@"%s", __PRETTY_FUNCTION__);  
+   //SNE CHECK
+   //add map view
+   /////////////////
+   if(!mapover)
+   {
+      UIViewController *c = [[[UIViewController alloc] init] autorelease];
+      
+      MKMapView* mapView 
+      = [[[MKMapView alloc] initWithFrame:CGRectMake(0, 0, 290, 220)] autorelease];
+      
+      [mapView addAnnotation:photo.mapPoint];
+      [mapView setCenterCoordinate:photo.mapPoint.coordinate];
+      
+      MKCoordinateRegion region = 
+      MKCoordinateRegionMakeWithDistance([photo.mapPoint coordinate], 2500, 2500);
+      
+      [mapView setRegion:region animated:YES];
+
+      c.view = mapView;
+      
+      c.contentSizeForViewInPopover = 
+      CGRectMake(0, 0,290,220).size;
+      
+      mapover = [[WEPopoverController alloc] initWithContentViewController:c];
+      
+      [mapover setDelegate:self];
+   } 
+   
+   if([mapover isPopoverVisible]) 
+   {
+      [mapover dismissPopoverAnimated:YES];
+      [mapover setDelegate:nil];
+      [mapover autorelease];
+      
+      mapover = nil;
+   } 
+   else 
+   {
+      utilityAppDelegate* app =
+      (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+      
+      [mapover 
+       presentPopoverFromRect:CGRectMake(15, 340, 75, 75)
+       inView:app.mainViewController.view
+       permittedArrowDirections:UIPopoverArrowDirectionDown
+       animated:YES];
+   }
+
 }
 
 #pragma mark -
@@ -312,6 +360,7 @@
    self.mapView = 
    [[[MKMapView alloc] initWithFrame:CGRectMake(320, 0, 320, INFO_HEIGHT)] autorelease];
    
+   //SNE CHECK - TRY ALLOWING SCROLLING IN MAP
    self.mapView.scrollEnabled = NO;
    
    //scroll view

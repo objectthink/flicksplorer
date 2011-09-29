@@ -24,6 +24,7 @@ typedef enum {
    //Photo* photo;
    
    WEPopoverController* popover;
+   WEPopoverController* mapover;
 }
 
 @property (retain) IBOutlet UILabel* owner;

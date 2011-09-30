@@ -18,6 +18,7 @@
 		733062991412D98300D6755C /* MainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 733062981412D98300D6755C /* MainView.xib */; };
 		7330629C1412D98300D6755C /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7330629B1412D98300D6755C /* FlipsideViewController.m */; };
 		7330629E1412D98300D6755C /* FlipsideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7330629D1412D98300D6755C /* FlipsideView.xib */; };
+		73AB1B9114354A1E0053A8D8 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 73AB1B9014354A1E0053A8D8 /* Default.png */; };
 		73AFC1DB1419AB680062A501 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 73AFC1DA1419AB680062A501 /* Photo.m */; };
 		73E5EDA71416D4C600E7D61F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73E5EDA61416D4C600E7D61F /* CFNetwork.framework */; };
 		73E5EDD6141702B000E7D61F /* libObjectiveFlickr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73E5EDD31417025500E7D61F /* libObjectiveFlickr.a */; };
@@ -90,6 +91,7 @@
 		7330629A1412D98300D6755C /* FlipsideViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlipsideViewController.h; sourceTree = "<group>"; };
 		7330629B1412D98300D6755C /* FlipsideViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlipsideViewController.m; sourceTree = "<group>"; };
 		7330629D1412D98300D6755C /* FlipsideView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FlipsideView.xib; path = utility/FlipsideView.xib; sourceTree = "<group>"; };
+		73AB1B9014354A1E0053A8D8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		73AFC1D91419AB680062A501 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
 		73AFC1DA1419AB680062A501 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
 		73E5EDA61416D4C600E7D61F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -231,6 +233,7 @@
 		A346431414197F220003FD8C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				73AB1B9014354A1E0053A8D8 /* Default.png */,
 				A3EE4F4F142A092F00591E9C /* icon.png */,
 				A3DC05571424D636000CF95F /* popoverArrowDown.png */,
 				A3DC05581424D636000CF95F /* popoverArrowDown@2x.png */,
@@ -380,6 +383,7 @@
 				A3DC056A1424D636000CF95F /* popoverBg@2x.png in Resources */,
 				A346B3DD1427613C000127E8 /* SVWebViewController.bundle in Resources */,
 				A3EE4F50142A092F00591E9C /* icon.png in Resources */,
+				73AB1B9114354A1E0053A8D8 /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

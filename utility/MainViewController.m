@@ -431,7 +431,18 @@
    
    [self.view bringSubviewToFront:self.searchBar];
    
+   //[app getPandaList];
+   
+   //[self performSelector:@selector(getPandaList) withObject:nil afterDelay:3.0 inModes:nil];
+   
    [self refreshTapped:nil];
+   
+   //[self performSelector:@selector(getPandaList) withObject:nil afterDelay:3.0];
+}
+
+-(void)getPandaList
+{
+   [app getPandaList];
 }
 
 - (void)photoWallTapped:(UITapGestureRecognizer *)tap 
@@ -536,7 +547,7 @@
    {
       case PANDA:
          [self showWaitWith:@"panda"];
-         [app getPanda];
+         [app getPanda:@"ling ling"];
          break;
       case RECENT:
          [self showWaitWith:@"recent"];
@@ -544,6 +555,8 @@
          break;
       case SEARCH:
          [self doSearch];
+         break;
+      default:
          break;
    }
 }
@@ -606,6 +619,7 @@
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)sv
 {
+   //is this the scrollview with the info?
    CGFloat cx = sv.contentOffset.x;
    NSUInteger index = (NSUInteger)(cx / scrollView.frame.size.width);
    if (index >= pageControl.numberOfPages) 

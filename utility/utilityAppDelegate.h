@@ -29,7 +29,8 @@
 
 -(void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest didFailWithError:(NSError *)inError;
 
--(void)getPanda;
+-(void)getPandaList;
+-(void)getPanda:(NSString*)s;
 -(void)getRecent;
 -(void)getSearchWith:(NSString*)s;
 

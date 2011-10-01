@@ -59,6 +59,8 @@
 
 - (void)drawRect:(CGRect)rect 
 {
+   if([self.photos count]==0) return;
+   
    int col = rect.origin.x / SIZE;
    int row = rect.origin.y / SIZE;
    
@@ -68,7 +70,7 @@
     
    if(tile == nil)
    {
-      tile = [UIImage imageNamed:@"missing.png"];
+      tile = [UIImage imageNamed:@"icon.png"];
 
       [tile drawInRect:rect];
       [self setNeedsDisplayInRect:rect];
@@ -77,6 +79,7 @@
       [tile drawInRect:rect];
 }
 
+int wait_state = 0;
 - (UIImage *)tileAtPosition:(int)position
 {
    int count = [self.photos count];
@@ -92,7 +95,7 @@
    
    if(photo.thumb == nil)
    {
-      dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
+      dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0ul);
       dispatch_async(queue, 
                   ^{
                      UIImage* thumb;
@@ -100,7 +103,7 @@
                      
                      if(photo.photoThumbURL == nil)
                      {
-                        thumb = [UIImage imageNamed:@"missing.png"];
+                        thumb = [UIImage imageNamed:@"icon.png"];
                      }
                      else
                      {
@@ -108,31 +111,36 @@
                         thumb = [UIImage imageWithData:imageData];
                         
                         if(imageData == nil)
-                           thumb = [UIImage imageNamed:@"missing.png"];
+                           thumb = [UIImage imageNamed:@"icon.png"];
                      }
                      
                      if(photo.buddyURL == nil)
                      {
-                        buddy = [UIImage imageNamed:@"missing.png"];
+                        buddy = [UIImage imageNamed:@"19-gear.png"];
                      }
                      else
                      {
-                        NSData *imageData = [NSData dataWithContentsOfURL:photo.buddyURL];
-                        buddy = [UIImage imageWithData:imageData];
+                        if(photo.buddy == nil)
+                        {
+                           NSData *imageData = [NSData dataWithContentsOfURL:photo.buddyURL];
+                           photo.buddy = [UIImage imageWithData:imageData];
                         
-                        if(imageData == nil)
-                           buddy = [UIImage imageNamed:@"19-gear.png"];
+                           if(imageData == nil)
+                              photo.buddy = [UIImage imageNamed:@"19-gear.png"];
+                        }
                         
                      }
 
                      photo.thumb = thumb;
-                     photo.buddy = buddy;
+                     //photo.buddy = buddy;
                      
-//                     dispatch_sync(dispatch_get_main_queue(), 
-//                                   ^{
-//                                      //cell.imageView.image = photo.thumb;
-//                                      //[cell setNeedsLayout];
-//                                   });
+                     dispatch_sync(dispatch_get_main_queue(), 
+                                   ^{
+//                                      wait_state++;
+//                                      
+//                                      if( (wait_state%100)==0 )
+                                         [self setNeedsDisplay];
+                                   });
                    });        
    }
    

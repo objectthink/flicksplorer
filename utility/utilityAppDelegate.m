@@ -35,20 +35,11 @@
 @synthesize fContext;
 @synthesize fRequest;
 
-//dispatch_semaphore_t sema;
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-   //sema = dispatch_semaphore_create(0);
-
    // Override point for customization after application launch.
    // Add the main view controller's view to the window and display.
-   
-   //////////////////
-   //ObjectiveFlickr test
-   
-   //NSString* test = [OBJECTIVE_FLICKR_API_KEY copy];
-   
+      
    self.fContext = [OFFlickrAPIContext alloc];
    
    [self.fContext initWithAPIKey:OBJECTIVE_FLICKR_API_KEY 
@@ -59,40 +50,39 @@
    [self.fRequest setDelegate:self];
    
    self.photos = [NSMutableArray arrayWithCapacity:10];
-   
-//   dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-//   
-//   dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
-//
-//   dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
-//   dispatch_async(queue, 
-//                  ^{
-//                     MyRequest* r = [[MyRequest alloc] init];
-//                     
-//                     OFFlickrAPIContext* fContext = [OFFlickrAPIContext alloc];
-//                     [fContext initWithAPIKey:OBJECTIVE_FLICKR_API_KEY sharedSecret:OBJECTIVE_FLICKR_API_SHARED_SECRET];
-//                     
-//                     OFFlickrAPIRequest* fRequest = [[OFFlickrAPIRequest alloc] initWithAPIContext:fContext];
-//                     
-//                     [fRequest setDelegate:r];
-//                     
-//                     [fRequest 
-//                      callAPIMethodWithGET:@"flickr.panda.getList" 
-//                      arguments:[NSDictionary dictionaryWithObjectsAndKeys:nil]
-//                      ];  
-//
-//                     dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
-//                  });  
-
-   //////////////////
-
+      
    self.window.rootViewController = self.mainViewController;
    [self.window makeKeyAndVisible];
+   
+   //[self getPandaList];
    
    return YES;
 }
 
--(void)getPanda
+-(void)getPandaList
+{
+//   OFFlickrAPIContext* c = 
+//   [[OFFlickrAPIContext alloc] 
+//    initWithAPIKey:OBJECTIVE_FLICKR_API_KEY 
+//    sharedSecret:OBJECTIVE_FLICKR_API_SHARED_SECRET];
+//   
+//   OFFlickrAPIRequest* r =
+//   [[OFFlickrAPIRequest alloc] initWithAPIContext:c];
+//   
+//   r.sessionInfo = [Session sessionWithRequestType:PANDA_LIST];
+//   
+//   [r 
+//    callAPIMethodWithGET:@"flickr.panda.getList" 
+//    arguments:nil];
+
+   self.fRequest.sessionInfo = [Session sessionWithRequestType:PANDA_LIST];
+   
+   [self.fRequest 
+    callAPIMethodWithGET:@"flickr.panda.getList" 
+    arguments:nil];
+}
+
+-(void)getPanda:(NSString*)s
 {
    [self.photos removeAllObjects];
    
@@ -101,12 +91,18 @@
    [self.fRequest 
     callAPIMethodWithGET:@"flickr.panda.getPhotos" 
     arguments:[NSDictionary dictionaryWithObjectsAndKeys:
-               @"ling ling", @"panda_name",@"description, license, date_upload, date_taken, owner_name, icon_server, original_format, last_update, geo, tags, machine_tags, o_dims, views, media, path_alias, url_sq, url_t, url_s, url_m, url_z, url_l, url_o", @"extras",nil]
+               s, @"panda_name",@"description, license, date_upload, date_taken, owner_name, icon_server, original_format, last_update, geo, tags, machine_tags, o_dims, views, media, path_alias, url_sq, url_t, url_s, url_m, url_z, url_l, url_o", @"extras",nil]
     ];  
 }
 
+int page = 0;
 -(void)getRecent
 {
+   page++;
+   
+   NSString* ps =
+   [NSString stringWithFormat:@"@d",page];
+   
    [self.photos removeAllObjects];
    
    self.fRequest.sessionInfo = [Session sessionWithRequestType:RECENT];
@@ -114,13 +110,18 @@
    [self.fRequest 
     callAPIMethodWithGET:@"flickr.photos.getRecent" 
     arguments:[NSDictionary dictionaryWithObjectsAndKeys:
-               @"description,license, date_upload, date_taken, owner_name, icon_server, original_format, last_update, geo, tags, machine_tags, o_dims, views, media, path_alias, url_sq, url_t, url_s, url_m, url_z, url_l, url_o", @"extras",@"200",@"per_page",@"10",@"page",nil]
+               @"description,license, date_upload, date_taken, owner_name, icon_server, original_format, last_update, geo, tags, machine_tags, o_dims, views, media, path_alias, url_sq, url_t, url_s, url_m, url_z, url_l, url_o", @"extras",@"100",@"per_page",ps,@"page",nil]
     ];     
 }
 
 -(void)getSearchWith:(NSString*)s
 {
    [self.photos removeAllObjects];
+   page++;
+   
+   NSString* ps =
+   [NSString stringWithFormat:@"@d",page];
+
    
    //CHANGE THIS TO SEARCH
    self.fRequest.sessionInfo = [Session sessionWithRequestType:RECENT];
@@ -128,7 +129,7 @@
    [self.fRequest 
     callAPIMethodWithGET:@"flickr.photos.search" 
     arguments:[NSDictionary dictionaryWithObjectsAndKeys:
-s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_server, original_format, last_update, geo, tags, machine_tags, o_dims, views, media, path_alias, url_sq, url_t, url_s, url_m, url_z, url_l, url_o", @"extras",@"200",@"per_page",@"10",@"page",nil]
+s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_server, original_format, last_update, geo, tags, machine_tags, o_dims, views, media, path_alias, url_sq, url_t, url_s, url_m, url_z, url_l, url_o", @"extras",@"100",@"per_page",ps,@"page",nil]
 
     ];        
 }
@@ -141,12 +142,16 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
    Session* session = (Session*)inRequest.sessionInfo;
    switch (session.requestType) 
    {
+      case PANDA_LIST:
+      {         
+      }
+         break;
       case PANDA:
       {
          NSArray* rphotos = 
          [inResponseDictionary valueForKeyPath:@"photos.photo"];
          
-         NSLog(@"%@", rphotos);
+         //NSLog(@"%@", rphotos);
          
          for(NSDictionary* d in rphotos)
          {

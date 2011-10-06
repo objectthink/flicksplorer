@@ -47,7 +47,10 @@ typedef enum {
 @interface InfoViewEx : UIView
 {
 }
+@property (retain) IBOutlet UILabel* dateTaken;
+@property (retain) IBOutlet UITextView* tags;
 
+-(void)updateWithPhoto:(Photo*)photo;
 @end
 
 @interface MainViewController : UIViewController <

@@ -47,6 +47,8 @@
 @synthesize ownername;
 @synthesize title;
 @synthesize description;
+@synthesize dateTaken;
+@synthesize tags;
 
 @synthesize photoURL;
 @synthesize photoSourceURL;
@@ -92,6 +94,8 @@
    [ownername release];
    [title release];
    [description release];
+   [dateTaken release];
+   [tags release];
    
    [photoURL release];
    [photoSourceURL release];

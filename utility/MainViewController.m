@@ -17,6 +17,18 @@
 #define INFO_HEIGHT 118
 
 @implementation InfoViewEx
+@synthesize dateTaken;
+@synthesize tags;
+
+-(void)updateWithPhoto:(Photo*)p;
+{
+   NSLog(@"%s", __PRETTY_FUNCTION__); 
+   
+   if(p == nil) return;
+   
+   self.dateTaken.text = p.dateTaken;
+   self.tags.text = p.tags;
+}
 @end
 
 @implementation InfoView
@@ -219,16 +231,8 @@
    if(photo == nil) return;
    
    [self.infoView updateWithPhoto:photo];
+   [self.infoViewEx updateWithPhoto:photo];
       
-//   self.infoView.owner.text            = [photo ownername];
-//   self.infoView.title.text            = [photo title];
-//   self.infoView.description.text      = [photo description];
-//   self.infoView.descriptionView.text  = [photo description];
-//   self.infoView.thumb.image           = [photo thumb];
-//   self.infoView.buddy.image           = [photo buddy];
-   
-//   [self.infoView sizeToFit];
-   
    [self.mapView removeAnnotations:[self.mapView annotations]];
    
    if(photo.mapPoint.coordinate.latitude != 0)

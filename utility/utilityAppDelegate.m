@@ -180,12 +180,15 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
             NSString* title = [d objectForKey:@"title"];
             NSString* ownername = [d objectForKey:@"ownername"];
             NSString* photoid = [d objectForKey:@"id"];
+            NSString* tags = [d objectForKey:@"tags"];
             
             Photo* photo = [[Photo alloc] init];
             
             photo.title = title;
             photo.ownername = ownername;
             photo.photoid = photoid;
+            photo.dateTaken = @"";
+            photo.tags = tags;
             
             photo.photoThumbURL = 
             [self.fContext photoSourceURLFromDictionary:d size:OFFlickrSmallSquareSize];
@@ -248,6 +251,8 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
             NSString* title = [d objectForKey:@"title"];
             NSString* ownername = [d objectForKey:@"ownername"];
             NSString* photoid = [d objectForKey:@"id"];
+            NSString* tags = [d objectForKey:@"tags"];
+            NSString* datetaken = [d objectForKey:@"datetaken"];
             
             id escription = [d valueForKey:@"description"];
             NSString* description = [escription objectForKey:@"_text"];
@@ -266,6 +271,8 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
             photo.ownername = ownername;
             photo.photoid = photoid;
             photo.description = description;
+            photo.tags = tags;
+            photo.dateTaken = datetaken;
             
             photo.photoThumbURL = 
             [self.fContext photoSourceURLFromDictionary:d size:OFFlickrSmallSquareSize];

@@ -38,6 +38,8 @@
 @property (nonatomic, copy) NSString* ownername;
 @property (nonatomic, copy) NSString* title;
 @property (nonatomic, copy) NSString* description;
+@property (nonatomic, copy) NSString* dateTaken;
+@property (nonatomic, copy) NSString* tags;
 
 @property (retain) NSURL* photoURL;
 @property (retain) NSURL* photoThumbURL;

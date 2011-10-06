@@ -44,7 +44,7 @@
 @property (retain) NSURL* photoSourceURL;
 @property (retain) NSURL* buddyURL;
 @property (retain) UIImage* image;
-@property (retain) UIImage* thumb;
+@property (retain,getter=getthumb, setter=setthumb:) UIImage* thumb;
 @property (retain) UIImage* buddy;
 
 @property (assign) CLLocationCoordinate2D location;

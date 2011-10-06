@@ -44,6 +44,12 @@ typedef enum {
 
 @end
 
+@interface InfoViewEx : UIView
+{
+}
+
+@end
+
 @interface MainViewController : UIViewController <
 FlipsideViewControllerDelegate, 
 UITableViewDataSource, 
@@ -63,6 +69,7 @@ PhotosUpdatedDelegate>
 
 @property (retain) MKMapView* mapView;
 @property (retain) InfoView* infoView;
+@property (retain) InfoViewEx* infoViewEx;
 @property (retain) UIScrollView* photoWall;
 @property (retain) PRPTileView *tiles;
 @property (retain) IBOutlet UISearchBar* searchBar;

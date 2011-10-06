@@ -41,6 +41,8 @@
 @property (nonatomic, retain) OFFlickrAPIContext* fContext;
 @property (nonatomic, retain) OFFlickrAPIRequest* fRequest;
 
+@property (retain) NSCache* photoCache;
+
 @property (assign) id<PhotosUpdatedDelegate> photosUpdatedDelegate;
 @end
 

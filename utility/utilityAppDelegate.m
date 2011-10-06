@@ -35,6 +35,8 @@
 @synthesize fContext;
 @synthesize fRequest;
 
+@synthesize photoCache;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
    // Override point for customization after application launch.
@@ -53,6 +55,8 @@
       
    self.window.rootViewController = self.mainViewController;
    [self.window makeKeyAndVisible];
+   
+   self.photoCache = [[NSCache alloc] init];
    
    //[self getPandaList];
    
@@ -86,6 +90,8 @@
 {
    [self.photos removeAllObjects];
    
+   [self.photoCache removeAllObjects];
+   
    self.fRequest.sessionInfo = [Session sessionWithRequestType:PANDA];
    
    [self.fRequest 
@@ -105,6 +111,8 @@ int page = 0;
    
    [self.photos removeAllObjects];
    
+   [self.photoCache removeAllObjects];
+
    self.fRequest.sessionInfo = [Session sessionWithRequestType:RECENT];
    
    [self.fRequest 
@@ -117,6 +125,9 @@ int page = 0;
 -(void)getSearchWith:(NSString*)s
 {
    [self.photos removeAllObjects];
+   
+   [self.photoCache removeAllObjects];
+   
    page++;
    
    NSString* ps =
@@ -138,6 +149,9 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
  didCompleteWithResponse:(NSDictionary *)inResponseDictionary
 {
    NSLog(@"%s %@ %@", __PRETTY_FUNCTION__, inRequest, inResponseDictionary); 
+   
+   NSString* stat = [inResponseDictionary valueForKey:@"stat"];
+   if( ![stat isEqualToString:@"ok"] ) return;
       
    Session* session = (Session*)inRequest.sessionInfo;
    switch (session.requestType) 
@@ -219,7 +233,7 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
          NSArray* rphotos = 
          [inResponseDictionary valueForKeyPath:@"photos.photo"];
          
-         NSLog(@"%@", rphotos);
+         //NSLog(@"%@", rphotos);
          
          for(NSDictionary* d in rphotos)
          {
@@ -339,6 +353,8 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+   NSLog(@"%s", __PRETTY_FUNCTION__); 
+   
    /*
     Called when the application is about to terminate.
     Save data if appropriate.

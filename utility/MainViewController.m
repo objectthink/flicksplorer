@@ -16,6 +16,9 @@
 #define BIG 3010349
 #define INFO_HEIGHT 118
 
+@implementation InfoViewEx
+@end
+
 @implementation InfoView
 @synthesize owner;
 @synthesize title;
@@ -94,12 +97,19 @@
 {
    NSLog(@"%s", __PRETTY_FUNCTION__);  
 
+   utilityAppDelegate* app =
+   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+
    if(photo.image == nil)
    {
+      [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+      
       NSData  *imageData = [NSData dataWithContentsOfURL:self.photo.photoURL];
       UIImage *image = [UIImage imageWithData:imageData];
       
       photo.image = image;
+      
+      [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
    }
    
    /////////////////
@@ -127,9 +137,6 @@
    } 
    else 
    {
-      utilityAppDelegate* app =
-      (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
-
       [popover 
        presentPopoverFromRect:CGRectMake(15, 340, 75, 75)
        inView:app.mainViewController.view
@@ -150,7 +157,7 @@
    self.title.text            = [self.photo title];
    self.description.text      = [self.photo description];
    self.descriptionView.text  = [self.photo description];
-   self.thumb.image           = [self.photo thumb];
+   self.thumb.image           = self.photo.thumb;
    self.buddy.image           = [self.photo buddy];
    
    if(photo.mapPoint.coordinate.latitude != 0)
@@ -171,6 +178,7 @@
 
 @synthesize mapView;
 @synthesize infoView;
+@synthesize infoViewEx;
 @synthesize photoWall;
 @synthesize tiles;
 @synthesize searchBar;
@@ -355,21 +363,28 @@
    self.infoView.thumb.layer.borderColor = [UIColor blackColor].CGColor;
    self.infoView.thumb.layer.borderWidth = 1.0;
    
+   //add extended info view
+   NSArray *xibviewsex = 
+   [[NSBundle mainBundle] loadNibNamed: @"InfoViewEx" owner: scrollView options: NULL];
+
+   self.infoViewEx = [xibviewsex objectAtIndex:0];
+   self.infoViewEx.frame = CGRectMake(320, 0, 320, INFO_HEIGHT);
+   
    //SNE CHECK
    //add map view
    self.mapView = 
-   [[[MKMapView alloc] initWithFrame:CGRectMake(320, 0, 320, INFO_HEIGHT)] autorelease];
+   [[[MKMapView alloc] initWithFrame:CGRectMake(640, 0, 320, INFO_HEIGHT)] autorelease];
    
    //SNE CHECK - TRY ALLOWING SCROLLING IN MAP
    self.mapView.scrollEnabled = NO;
    
    //scroll view
-   scrollView.contentSize = CGSizeMake(640, INFO_HEIGHT);
+   scrollView.contentSize = CGSizeMake(960, INFO_HEIGHT);
    scrollView.pagingEnabled = YES;
    scrollView.delegate = self;
    
    //setup the page control
-   pageControl.numberOfPages = 2;
+   pageControl.numberOfPages = 3;
    [pageControl 
     addTarget:self 
     action:@selector(pageControlTapped) 
@@ -377,7 +392,9 @@
    
    
    [scrollView addSubview:infoView];
+   [scrollView addSubview:infoViewEx];
    [scrollView addSubview:mapView];
+   
    scrollView.bounces = NO;
    
    //make us the listener for photos changes

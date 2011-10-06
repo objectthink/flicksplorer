@@ -7,6 +7,7 @@
 //
 
 #import "Photo.h"
+#import "utilityAppDelegate.h"
 
 @implementation MapPoint
 @synthesize coordinate, title;
@@ -65,6 +66,22 @@
     }
     
     return self;
+}
+
+-(void)setthumb:(UIImage *)t
+{
+   utilityAppDelegate* app = 
+   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+   
+   [app.photoCache setObject:t forKey:self.photoid];
+}
+
+-(UIImage*)getthumb
+{
+   utilityAppDelegate* app = 
+   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+
+   return (UIImage*)[app.photoCache objectForKey:self.photoid];
 }
 
 -(void) dealloc

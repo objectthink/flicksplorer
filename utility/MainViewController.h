@@ -79,6 +79,7 @@ PhotosUpdatedDelegate>
 @property (assign) utilityAppDelegate* app;
 
 - (IBAction)showInfo:(id)sender;
+- (IBAction)showSettings:(id)sender;
 - (IBAction)choiceMade:(id)sender;
 - (IBAction)viewTypeTapped:(id)sender;
 - (IBAction)refreshTapped:(id)sender;

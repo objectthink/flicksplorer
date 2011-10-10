@@ -428,6 +428,15 @@
 					</object>
 					<int key="connectionID">100</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">showSettings:</string>
+						<reference key="source" ref="326861428"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">101</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -639,7 +648,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">100</int>
+			<int key="maxID">101</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -655,10 +664,12 @@
 							<string>photoTapped:</string>
 							<string>refreshTapped:</string>
 							<string>showInfo:</string>
+							<string>showSettings:</string>
 							<string>viewTypeTapped:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -674,6 +685,7 @@
 							<string>photoTapped:</string>
 							<string>refreshTapped:</string>
 							<string>showInfo:</string>
+							<string>showSettings:</string>
 							<string>viewTypeTapped:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -692,6 +704,10 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">showInfo:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showSettings:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">

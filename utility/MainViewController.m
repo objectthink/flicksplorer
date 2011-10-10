@@ -659,17 +659,20 @@
     [self dismissModalViewControllerAnimated:YES];
 }
 
+- (IBAction)showSettings:(id)sender
+{    
+   FlipsideViewController *controller = 
+   [[FlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
+   controller.delegate = self;
+       
+   controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+   [self presentModalViewController:controller animated:YES];
+       
+   [controller release];
+}
+
 - (IBAction)showInfo:(id)sender
 {    
-//   FlipsideViewController *controller = 
-//   [[FlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
-//   controller.delegate = self;
-//    
-//   controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-//   [self presentModalViewController:controller animated:YES];
-//    
-//   [controller release];
-   
    SVWebViewController *webViewController = 
    [[SVWebViewController alloc] 
     initWithAddress:[self.infoView.photo.photoSourceURL absoluteString]];

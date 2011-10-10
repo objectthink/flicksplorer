@@ -8,14 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+#define SETTING_MAP_TYPE @"SETTING_MAP_TYPE"
+
 @class FlipsideViewController;
 
 @protocol FlipsideViewControllerDelegate
 - (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller;
 @end
 
-@interface FlipsideViewController : UIViewController
-
+@interface FlipsideViewController : UIViewController <
+UITableViewDataSource,
+UITableViewDelegate>
 @property (nonatomic, assign) id <FlipsideViewControllerDelegate> delegate;
 
 - (IBAction)done:(id)sender;

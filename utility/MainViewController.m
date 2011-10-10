@@ -67,6 +67,11 @@
       [mapView addAnnotation:photo.mapPoint];
       [mapView setCenterCoordinate:photo.mapPoint.coordinate];
       
+      if([[NSUserDefaults standardUserDefaults] boolForKey:SETTING_MAP_TYPE])
+      {
+         mapView.mapType = MKMapTypeSatellite;
+      }
+      
       MKCoordinateRegion region = 
       MKCoordinateRegionMakeWithDistance([photo.mapPoint coordinate], 2500, 2500);
       
@@ -234,6 +239,11 @@
    [self.infoViewEx updateWithPhoto:photo];
       
    [self.mapView removeAnnotations:[self.mapView annotations]];
+   
+   if([[NSUserDefaults standardUserDefaults] boolForKey:SETTING_MAP_TYPE])
+      self.mapView.mapType = MKMapTypeSatellite;
+   else
+      self.mapView.mapType = MKMapTypeStandard;
    
    if(photo.mapPoint.coordinate.latitude != 0)
    { 

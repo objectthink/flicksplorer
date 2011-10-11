@@ -109,6 +109,14 @@
 
 }
 
+-(void)downloadImage
+{
+   NSData  *imageData = [NSData dataWithContentsOfURL:self.photo.photoURL];
+   UIImage *image = [UIImage imageWithData:imageData];
+   
+   photo.image = image;   
+}
+
 #pragma mark -
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -119,14 +127,14 @@
 
    if(photo.image == nil)
    {
-      [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-      
+      [MBProgressHUD showHUDAddedTo:self.thumb animated:YES];
+
       NSData  *imageData = [NSData dataWithContentsOfURL:self.photo.photoURL];
       UIImage *image = [UIImage imageWithData:imageData];
       
-      photo.image = image;
+      photo.image = image;   
       
-      [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+      [MBProgressHUD hideHUDForView:self.thumb animated:YES];
    }
    
    /////////////////
@@ -686,6 +694,8 @@
    SVWebViewController *webViewController = 
    [[SVWebViewController alloc] 
     initWithAddress:[self.infoView.photo.photoSourceURL absoluteString]];
+   
+   webViewController.navigationController.navigationBar.tintColor = [UIColor blackColor];
 	
    webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
    webViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;

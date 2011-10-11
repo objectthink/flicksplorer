@@ -82,6 +82,9 @@
             navBar = self.navigationController.navigationBar;
             toolbar = self.navigationController.toolbar;
         }
+      
+      navBar.tintColor = [UIColor blackColor];
+      toolbar.tintColor = [UIColor blackColor]; 
 	}
 	
 	else {
@@ -160,7 +163,7 @@
 		[navBar addSubview:refreshStopButton];	
 		[navBar addSubview:backButton];	
 		[navBar addSubview:forwardButton];	
-		[navBar addSubview:actionButton];	
+		[navBar addSubview:actionButton];      
 	}
 }
 

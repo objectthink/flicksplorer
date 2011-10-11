@@ -98,7 +98,7 @@
          }
          break;
       case 1: //LEGAL
-         cell.textLabel.text = @"Legal";
+         cell.textLabel.text = @"Credits";
          cell.textLabel.textAlignment = UITextAlignmentCenter;
          cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
          break;
@@ -151,7 +151,7 @@
       
       UIViewController* controller = [[UIViewController alloc] init];
       
-      controller.title = @"Legal";
+      controller.title = @"Credits";
       
       UITextView* statement = [[UITextView alloc] init];
       
@@ -182,19 +182,6 @@
       "the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to " 
       "permit persons to whom the Software is furnished to do so, subject to the following conditions in this license.  "
       "\n\n"
-      "TDBAGEDCELL - Created by Tim Davies."
-      "\n\n"      
-      "It is important when using this class that you credit the author within your credits."
-      " "      
-      "THE WORK (TDBADGECELL) IS PROVIDED UNDER THE TERMS OF THIS CREATIVE COMMONS PUBLIC LICENCE (\"CCPL\" OR \"LICENCE\") "
-      "THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER APPLICABLE LAW. ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS "
-      "LICENCE OR COPYRIGHT LAW IS PROHIBITED. BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND AGR EE TO BE "
-      "BOUND BY THE TERMS OF THIS LICENCE. THE LICENSOR GRANTS YOU THE RIGHTS CONTAINED HERE IN CONSIDERATION OF YOUR"
-      "ACCEPTANCE OF SUCH TERMS AND CONDITIONS."
-      "\n\n"      
-      "The Licensor hereby grants to You a worldwide, royalty-free, non-exclusive, Licence for use and for the duration of "
-      "copyright in the Work.  See http://github.com/tmdvs/TDBadgedCell fore more information."      
-      "\n\n"      
       "Special thanks to:"
       "\n\n"      
       "SVWebViewController\n"
@@ -204,6 +191,10 @@
       "MBProgressHUD\n"
       "Version 0.4\n"
       "Created by Matej Bukovinski on 2.4.09.\n"
+      "\n\n"     
+      "iOS Recipes\n"
+      "The Pragmatic Programmer"
+      "\n\n"
       ;      
       
       statement.editable = NO;

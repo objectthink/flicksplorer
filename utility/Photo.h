@@ -40,6 +40,7 @@
 @property (nonatomic, copy) NSString* description;
 @property (nonatomic, copy) NSString* dateTaken;
 @property (nonatomic, copy) NSString* tags;
+@property (assign)          BOOL      isFetching;
 
 @property (retain) NSURL* photoURL;
 @property (retain) NSURL* photoThumbURL;

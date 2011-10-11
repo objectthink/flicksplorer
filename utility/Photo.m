@@ -49,6 +49,7 @@
 @synthesize description;
 @synthesize dateTaken;
 @synthesize tags;
+@synthesize isFetching;
 
 @synthesize photoURL;
 @synthesize photoSourceURL;

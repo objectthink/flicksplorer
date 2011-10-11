@@ -93,8 +93,10 @@ int wait_state = 0;
 	
    Photo* photo = [self.photos objectAtIndex:index];
    
-   if(photo.thumb == nil)
+   if((photo.thumb == nil)&&(!photo.isFetching))
    {
+      photo.isFetching = YES;
+      
       dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0ul);
       dispatch_async(queue, 
                   ^{
@@ -112,6 +114,8 @@ int wait_state = 0;
                         
                         if(imageData == nil)
                            thumb = [UIImage imageNamed:@"icon.png"];
+                        
+                        photo.isFetching = NO;
                      }
                      
                      if(photo.buddyURL == nil)
@@ -136,9 +140,6 @@ int wait_state = 0;
                      
                      dispatch_sync(dispatch_get_main_queue(), 
                                    ^{
-//                                      wait_state++;
-//                                      
-//                                      if( (wait_state%100)==0 )
                                          [self setNeedsDisplay];
                                    });
                    });        

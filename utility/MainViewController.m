@@ -117,25 +117,10 @@
    photo.image = image;   
 }
 
-#pragma mark -
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+-(void)processPopover
 {
-   NSLog(@"%s", __PRETTY_FUNCTION__);  
-
    utilityAppDelegate* app =
    (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
-
-   if(photo.image == nil)
-   {
-      [MBProgressHUD showHUDAddedTo:self.thumb animated:YES];
-
-      NSData  *imageData = [NSData dataWithContentsOfURL:self.photo.photoURL];
-      UIImage *image = [UIImage imageWithData:imageData];
-      
-      photo.image = image;   
-      
-      [MBProgressHUD hideHUDForView:self.thumb animated:YES];
-   }
    
    /////////////////
    if(!popover)
@@ -168,7 +153,73 @@
        permittedArrowDirections:UIPopoverArrowDirectionDown
        animated:YES];
    }
-/////////////////
+}
+
+#pragma mark -
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+   NSLog(@"%s", __PRETTY_FUNCTION__);  
+
+   if(photo.image == nil)
+   {
+      [MBProgressHUD showHUDAddedTo:self.thumb animated:YES];
+
+      dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), 
+                     ^{
+                        [self downloadImage];
+                        
+                        dispatch_async(dispatch_get_main_queue(), 
+                                       ^{
+                                          [self processPopover];
+                                          
+                                          [MBProgressHUD hideHUDForView:self.thumb animated:YES];
+                                       });
+                     });
+      
+
+      //      NSData  *imageData = [NSData dataWithContentsOfURL:self.photo.photoURL];
+//      UIImage *image = [UIImage imageWithData:imageData];
+//      
+//      photo.image = image;   
+//      
+//      [MBProgressHUD hideHUDForView:self.thumb animated:YES];
+   }
+   else
+      [self processPopover];
+   
+//   utilityAppDelegate* app =
+//   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+
+//   if(!popover)
+//   {
+//      UIViewController *c = [[[UIViewController alloc] init] autorelease];
+//      
+//      c.view = [[[UIImageView alloc] initWithImage:photo.image] autorelease];
+//      
+//      c.contentSizeForViewInPopover = 
+//      CGRectMake(0, 0,photo.image.size.width,photo.image.size.height).size;
+//      
+//      popover = [[WEPopoverController alloc] initWithContentViewController:c];
+//      
+//      [popover setDelegate:self];
+//   } 
+//   
+//   if([popover isPopoverVisible]) 
+//   {
+//      [popover dismissPopoverAnimated:YES];
+//      [popover setDelegate:nil];
+//      [popover autorelease];
+//      
+//      popover = nil;
+//   } 
+//   else 
+//   {
+//      [popover 
+//       presentPopoverFromRect:CGRectMake(15, 340, 75, 75)
+//       inView:app.mainViewController.view
+//       permittedArrowDirections:UIPopoverArrowDirectionDown
+//       animated:YES];
+//   }
 }
 
 -(void)updateWithPhoto:(Photo*)p;

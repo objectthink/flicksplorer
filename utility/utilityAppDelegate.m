@@ -30,6 +30,7 @@
 @synthesize window = _window;
 @synthesize mainViewController = _mainViewController;
 @synthesize photos;
+@synthesize pandas;
 @synthesize photosUpdatedDelegate;
 
 @synthesize fContext;
@@ -52,6 +53,7 @@
    [self.fRequest setDelegate:self];
    
    self.photos = [NSMutableArray arrayWithCapacity:10];
+   self.pandas = [NSMutableArray arrayWithObjects:@"ling ling",@"hsing hsing",@"wang wang", nil];
       
    self.window.rootViewController = self.mainViewController;
    [self.window makeKeyAndVisible];

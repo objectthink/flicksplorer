@@ -37,6 +37,7 @@
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet MainViewController *mainViewController;
 @property (nonatomic, retain) NSMutableArray* photos;
+@property (nonatomic, retain) NSMutableArray* pandas;
 
 @property (nonatomic, retain) OFFlickrAPIContext* fContext;
 @property (nonatomic, retain) OFFlickrAPIRequest* fRequest;

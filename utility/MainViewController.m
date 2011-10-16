@@ -328,19 +328,31 @@
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-   return 1;
+   return 3;
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView 
              titleForRow:(NSInteger)row 
             forComponent:(NSInteger)component
 {
-   return @"test";
+   switch(row)
+   {
+      case 0: return @"ling ling"; 
+      case 1: return @"hsing hsing";
+      case 2: return @"wang wang";
+      default: return @"";
+   }
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
+   self.pandaPicker.hidden = YES;
+
+   NSInteger panda = [self.pandaPicker selectedRowInComponent:0];
    
+   [self showWaitWith:[app.pandas objectAtIndex:panda]];
+   
+   [app getPanda:[app.pandas objectAtIndex:panda]];
 }
 
 
@@ -545,14 +557,17 @@
    /////////////////////////////////////////////////////////////////////////////
    
    [self.view bringSubviewToFront:self.searchBar];
+   [self.view bringSubviewToFront:self.pandaPicker];
    
    //[app getPandaList];
    
    //[self performSelector:@selector(getPandaList) withObject:nil afterDelay:3.0 inModes:nil];
    
-   [self refreshTapped:nil];
+   //[self refreshTapped:nil];
    
    //[self performSelector:@selector(getPandaList) withObject:nil afterDelay:3.0];
+   
+   [app getPanda:@"ling ling"];
 }
 
 -(void)getPandaList
@@ -611,6 +626,32 @@
    }
 }
 
+-(void)doPanda
+{
+   [self.pandaPicker selectRow:-1 inComponent:0 animated:YES];
+   
+   CGRect pickerframe = self.pandaPicker.frame;
+   CGRect startFrame = self.pandaPicker.frame;
+   
+   startFrame.origin.y = -pickerframe.size.height;
+   
+   self.pandaPicker.frame = startFrame;
+   
+   self.pandaPicker.hidden = NO;  
+   
+   [UIView animateWithDuration:0.7
+                         delay:0.0
+                       options: UIViewAnimationCurveEaseOut
+                    animations:
+    ^{
+       self.pandaPicker.frame = pickerframe;
+    } 
+                    completion:
+    ^(BOOL finished)
+    {
+    }];
+}
+
 -(void)doSearch
 {
    CGRect searchBarFrame = self.searchBar.frame;
@@ -634,8 +675,6 @@
                   {
                      [self.searchBar becomeFirstResponder];
                   }];
-
-   //[self.searchBar becomeFirstResponder];
 }
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -661,8 +700,9 @@
    switch(requestType)
    {
       case PANDA:
-         [self showWaitWith:@"panda"];
-         [app getPanda:@"ling ling"];
+         //[self showWaitWith:@"panda"];
+         //[app getPanda:@"ling ling"];
+         [self doPanda];
          break;
       case RECENT:
          [self showWaitWith:@"recent"];

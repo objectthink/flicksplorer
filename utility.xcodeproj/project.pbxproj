@@ -320,7 +320,7 @@
 		733062731412D98300D6755C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "blue sky computing";
 			};
 			buildConfigurationList = 733062761412D98300D6755C /* Build configuration list for PBXProject "utility" */;
@@ -493,7 +493,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "utility/utility-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				"HEADER_SEARCH_PATHS[arch=*]" = (
 					../objectiveflickr/Source,
 					../objectiveflickr/LFWebAPIKit,
@@ -510,7 +510,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: stephen eshelman";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "utility/utility-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				"HEADER_SEARCH_PATHS[arch=*]" = (
 					../objectiveflickr/Source,
 					../objectiveflickr/LFWebAPIKit,

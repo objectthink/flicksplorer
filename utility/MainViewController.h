@@ -76,6 +76,7 @@ PhotosUpdatedDelegate>
 @property (retain) UIScrollView* photoWall;
 @property (retain) PRPTileView *tiles;
 @property (retain) IBOutlet UISearchBar* searchBar;
+@property (retain) IBOutlet UIPickerView* pandaPicker;
 @property (assign) utilityAppDelegate* app;
 
 - (IBAction)showInfo:(id)sender;

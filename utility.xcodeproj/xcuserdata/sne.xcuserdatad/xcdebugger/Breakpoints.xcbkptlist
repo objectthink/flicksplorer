@@ -12,20 +12,6 @@
          timestampString = "339386131.681516"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "312"
-         endingLineNumber = "312"
-         landmarkName = "-flickrAPIRequest:didCompleteWithResponse:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "utility/utilityAppDelegate.m"
-         timestampString = "339386131.681516"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
          startingLineNumber = "226"
          endingLineNumber = "226"
          landmarkName = "-flickrAPIRequest:didCompleteWithResponse:"

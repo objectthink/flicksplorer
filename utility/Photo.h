@@ -46,10 +46,12 @@
 @property (retain) NSURL* photoThumbURL;
 @property (retain) NSURL* photoSourceURL;
 @property (retain) NSURL* buddyURL;
-@property (retain) UIImage* image;
-@property (retain,getter=getthumb, setter=setthumb:) UIImage* thumb;
+@property (retain, getter=getimage, setter=setimage:) UIImage* image;
+@property (retain,getter=getthumb, setter=setthumb: ) UIImage* thumb;
 @property (retain) UIImage* buddy;
 
 @property (assign) CLLocationCoordinate2D location;
 @property (retain) MapPoint* mapPoint;
+
+-(NSString*)getImageKey;
 @end

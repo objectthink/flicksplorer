@@ -71,6 +71,27 @@
     return self;
 }
 
+-(NSString*)getImageKey
+{
+   return [NSString stringWithFormat:@"%@2X",self.photoid];
+}
+
+-(void)setimage:(UIImage *)t
+{
+   utilityAppDelegate* app = 
+   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+   
+   [app.photoCache setObject:t forKey:[self getImageKey]];
+}
+
+-(UIImage*)getimage
+{
+   utilityAppDelegate* app = 
+   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+   
+   return (UIImage*)[app.photoCache objectForKey:[self getImageKey]];
+}
+
 -(void)setthumb:(UIImage *)t
 {
    utilityAppDelegate* app = 

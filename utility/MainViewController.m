@@ -258,6 +258,7 @@
 @synthesize photoWall;
 @synthesize tiles;
 @synthesize searchBar;
+@synthesize pandaPicker;
 @synthesize app;
 
 -(void)showWait:(BOOL)on
@@ -319,6 +320,30 @@
 //   else
 //      self.infoView.locationAvailable.hidden = YES;
 }
+#pragma mark - UIPickerView
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+   return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+   return 1;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView 
+             titleForRow:(NSInteger)row 
+            forComponent:(NSInteger)component
+{
+   return @"test";
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+   
+}
+
+
 #pragma mark - UITableViewDelegate
 //- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 //{

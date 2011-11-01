@@ -22,18 +22,18 @@
 
 @interface PRPTileView()
 
-@property (nonatomic, copy)  NSArray *albumCollections;
+//@property (nonatomic, copy)  NSArray *albumCollections;
 
 @end
 
 @implementation PRPTileView
 
-@synthesize albumCollections;
 @synthesize photos;
 
 + (Class)layerClass 
 {
-   return [CATiledLayer class];
+   //return [CATiledLayer class];
+   return [PRPTiledLayerX class];   
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -43,17 +43,14 @@
        CATiledLayer *tiledLayer = (CATiledLayer *)[self layer];
         
        CGFloat sf = self.contentScaleFactor;
-       tiledLayer.tileSize = CGSizeMake(SIZE*sf, SIZE*sf);
 
-//       MPMediaQuery *everything = [MPMediaQuery albumsQuery];
-//       self.albumCollections = [everything collections];		
+       tiledLayer.tileSize = CGSizeMake(SIZE*sf, SIZE*sf);
     }
     return self;
 }
 
 - (void)dealloc 
 {
-   [albumCollections release]; albumCollections=nil;
    [super dealloc];
 }
 
@@ -110,10 +107,12 @@ int wait_state = 0;
                      else
                      {
                         NSData *imageData = [NSData dataWithContentsOfURL:photo.photoThumbURL];
-                        thumb = [UIImage imageWithData:imageData];
-                        
+                                                
                         if(imageData == nil)
                            thumb = [UIImage imageNamed:@"icon.png"];
+                        else
+                           thumb = [UIImage imageWithData:imageData];
+
                         
                         photo.isFetching = NO;
                      }
@@ -127,18 +126,18 @@ int wait_state = 0;
                         if(photo.buddy == nil)
                         {
                            NSData *imageData = [NSData dataWithContentsOfURL:photo.buddyURL];
-                           photo.buddy = [UIImage imageWithData:imageData];
-                        
+                                                   
                            if(imageData == nil)
                               photo.buddy = [UIImage imageNamed:@"19-gear.png"];
+                           else
+                              photo.buddy = [UIImage imageWithData:imageData];
                         }
                         
                      }
 
                      photo.thumb = thumb;
-                     //photo.buddy = buddy;
                      
-                     dispatch_sync(dispatch_get_main_queue(), 
+                     dispatch_async(dispatch_get_main_queue(), 
                                    ^{
                                          [self setNeedsDisplay];
                                    });
@@ -172,25 +171,25 @@ int wait_state = 0;
    return [photos objectAtIndex:index];
 }
 
-- (UIImage *)tileAtPositionX:(int)position
-{
-   int albums = [self.albumCollections count];
-   if (albums == 0) {
-      return [UIImage imageNamed:@"missing.png"];
-	}
-	
-   int index = position%albums;
-	
-   MPMediaItemCollection *mCollection = [self.albumCollections 
-                                         objectAtIndex:index];
-   MPMediaItem *mItem = [mCollection representativeItem];
-   MPMediaItemArtwork *artwork =
-   [mItem valueForProperty: MPMediaItemPropertyArtwork];
-	
-   UIImage *image = [artwork imageWithSize: CGSizeMake(SIZE, SIZE)];
-   if (!image) image = [UIImage imageNamed:@"missing.png"];
-   
-   return image;
-}
+//- (UIImage *)tileAtPositionX:(int)position
+//{
+//   int albums = [self.albumCollections count];
+//   if (albums == 0) {
+//      return [UIImage imageNamed:@"missing.png"];
+//	}
+//	
+//   int index = position%albums;
+//	
+//   MPMediaItemCollection *mCollection = [self.albumCollections 
+//                                         objectAtIndex:index];
+//   MPMediaItem *mItem = [mCollection representativeItem];
+//   MPMediaItemArtwork *artwork =
+//   [mItem valueForProperty: MPMediaItemPropertyArtwork];
+//	
+//   UIImage *image = [artwork imageWithSize: CGSizeMake(SIZE, SIZE)];
+//   if (!image) image = [UIImage imageNamed:@"missing.png"];
+//   
+//   return image;
+//}
 
 @end

@@ -16,6 +16,7 @@
 #define BIG 3010349
 #define INFO_HEIGHT 118
 
+#pragma mark - InfoViewEx
 @implementation InfoViewEx
 @synthesize dateTaken;
 @synthesize tags;
@@ -31,6 +32,7 @@
 }
 @end
 
+#pragma mark - InfoView
 @implementation InfoView
 @synthesize owner;
 @synthesize title;
@@ -38,6 +40,8 @@
 @synthesize descriptionView;
 @synthesize locationAvailable;
 @synthesize photo;
+@synthesize popover;
+@synthesize mapover;
 @synthesize thumb;
 @synthesize buddy;
 
@@ -54,51 +58,84 @@
 -(IBAction)reticleClicked:(id)sender
 {   
    NSLog(@"%s", __PRETTY_FUNCTION__);  
+   
    //SNE CHECK
    //add map view
    /////////////////
-   if(!mapover)
-   {
-      UIViewController *c = [[[UIViewController alloc] init] autorelease];
-      
-      MKMapView* mapView 
-      = [[[MKMapView alloc] initWithFrame:CGRectMake(0, 0, 290, 220)] autorelease];
-      
-      [mapView addAnnotation:photo.mapPoint];
-      [mapView setCenterCoordinate:photo.mapPoint.coordinate];
-      
-      if([[NSUserDefaults standardUserDefaults] boolForKey:SETTING_MAP_TYPE])
-      {
-         mapView.mapType = MKMapTypeSatellite;
-      }
-      
-      MKCoordinateRegion region = 
-      MKCoordinateRegionMakeWithDistance([photo.mapPoint coordinate], 2500, 2500);
-      
-      [mapView setRegion:region animated:YES];
-
-      c.view = mapView;
-      
-      c.contentSizeForViewInPopover = 
-      CGRectMake(0, 0,290,220).size;
-      
-      mapover = [[WEPopoverController alloc] initWithContentViewController:c];
-      
-      [mapover setDelegate:self];
-   } 
+//   if(!mapover)
+//   {
+//      UIViewController *c = [[[UIViewController alloc] init] autorelease];
+//      
+//      MKMapView* mapView 
+//      = [[[MKMapView alloc] initWithFrame:CGRectMake(0, 0, 290, 220)] autorelease];
+//      
+//      [mapView addAnnotation:photo.mapPoint];
+//      [mapView setCenterCoordinate:photo.mapPoint.coordinate];
+//      
+//      if([[NSUserDefaults standardUserDefaults] boolForKey:SETTING_MAP_TYPE])
+//      {
+//         mapView.mapType = MKMapTypeSatellite;
+//      }
+//      
+//      MKCoordinateRegion region = 
+//      MKCoordinateRegionMakeWithDistance([photo.mapPoint coordinate], 2500, 2500);
+//      
+//      [mapView setRegion:region animated:YES];
+//
+//      c.view = mapView;
+//      
+//      c.contentSizeForViewInPopover = 
+//      CGRectMake(0, 0,290,220).size;
+//      
+//      mapover = [[WEPopoverController alloc] initWithContentViewController:c];
+//      
+//      [mapover setDelegate:self];
+//   } 
    
+   WEPopoverController* mTemp;
+   
+   UIViewController *c = [[[UIViewController alloc] init] autorelease];
+   
+   MKMapView* mapView 
+   = [[[MKMapView alloc] initWithFrame:CGRectMake(0, 0, 290, 220)] autorelease];
+   
+   [mapView addAnnotation:photo.mapPoint];
+   [mapView setCenterCoordinate:photo.mapPoint.coordinate];
+   
+   if([[NSUserDefaults standardUserDefaults] boolForKey:SETTING_MAP_TYPE])
+   {
+      mapView.mapType = MKMapTypeSatellite;
+   }
+   
+   MKCoordinateRegion region = 
+   MKCoordinateRegionMakeWithDistance([photo.mapPoint coordinate], 2500, 2500);
+   
+   [mapView setRegion:region animated:YES];
+   
+   c.view = mapView;
+   
+   c.contentSizeForViewInPopover = 
+   CGRectMake(0, 0,290,220).size;
+   
+   mTemp = [[WEPopoverController alloc] initWithContentViewController:c];
+   
+   [mTemp setDelegate:self];
+
    if([mapover isPopoverVisible]) 
    {
       [mapover dismissPopoverAnimated:YES];
       [mapover setDelegate:nil];
       [mapover autorelease];
       
-      mapover = nil;
+      //mapover = nil;
+      mapover = mTemp;
    } 
    else 
    {
       utilityAppDelegate* app =
       (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+      
+      mapover = mTemp;
       
       [mapover 
        presentPopoverFromRect:CGRectMake(15, 340, 75, 75)
@@ -123,30 +160,46 @@
    (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
    
    /////////////////
-   if(!popover)
-   {
-      UIViewController *c = [[[UIViewController alloc] init] autorelease];
-      
-      c.view = [[[UIImageView alloc] initWithImage:photo.image] autorelease];
-      
-      c.contentSizeForViewInPopover = 
-      CGRectMake(0, 0,photo.image.size.width,photo.image.size.height).size;
-      
-      popover = [[WEPopoverController alloc] initWithContentViewController:c];
-      
-      [popover setDelegate:self];
-   } 
+//   if(!popover)
+//   {
+//      UIViewController *c = [[[UIViewController alloc] init] autorelease];
+//      
+//      c.view = [[[UIImageView alloc] initWithImage:photo.image] autorelease];
+//      
+//      c.contentSizeForViewInPopover = 
+//      CGRectMake(0, 0,photo.image.size.width,photo.image.size.height).size;
+//      
+//      popover = [[WEPopoverController alloc] initWithContentViewController:c];
+//      
+//      [popover setDelegate:self];
+//   } 
    
+   WEPopoverController* pTemp;
+   
+   UIViewController *c = [[[UIViewController alloc] init] autorelease];
+   
+   c.view = [[[UIImageView alloc] initWithImage:photo.image] autorelease];
+   
+   c.contentSizeForViewInPopover = 
+   CGRectMake(0, 0,photo.image.size.width,photo.image.size.height).size;
+   
+   pTemp = [[WEPopoverController alloc] initWithContentViewController:c];
+   
+   [pTemp setDelegate:self];
+
    if([popover isPopoverVisible]) 
    {
       [popover dismissPopoverAnimated:YES];
       [popover setDelegate:nil];
       [popover autorelease];
       
-      popover = nil;
+      //popover = nil;
+      popover = pTemp;
    } 
    else 
    {
+      popover = pTemp;
+      
       [popover 
        presentPopoverFromRect:CGRectMake(15, 340, 75, 75)
        inView:app.mainViewController.view
@@ -159,7 +212,23 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
    NSLog(@"%s", __PRETTY_FUNCTION__);  
-
+   
+   __block BOOL process = false;
+   [touches enumerateObjectsUsingBlock:
+    ^(id object, BOOL *stop) 
+   {
+      UITouch* touch = (UITouch*)object;
+      
+      CGPoint p = [touch locationInView:self];
+      
+      CGRect frame = [self.thumb frame];
+      
+      if(CGRectContainsPoint(frame, p))
+         process = YES;
+   }];
+   
+   if(process == NO) return;
+      
    if(photo.image == nil)
    {
       [MBProgressHUD showHUDAddedTo:self.thumb animated:YES];
@@ -242,6 +311,24 @@
    }
    else
       self.locationAvailable.hidden = YES;
+   
+   if([popover isPopoverVisible]) 
+   {
+      [popover dismissPopoverAnimated:YES];
+      [popover setDelegate:nil];
+      [popover autorelease];
+      
+      popover = nil;
+   } 
+   
+   if([mapover isPopoverVisible]) 
+   {
+      [mapover dismissPopoverAnimated:YES];
+      [mapover setDelegate:nil];
+      [mapover autorelease];
+      
+      mapover = nil;
+   } 
 }
 
 -(void)dealloc
@@ -751,6 +838,11 @@
          break;
       case WALL:
          [self.tiles setNeedsDisplay];
+//         dispatch_async(dispatch_get_main_queue(), 
+//                        ^{
+//                           [self.tiles setNeedsDisplay];
+//                        });
+//
          break;
    }
 }

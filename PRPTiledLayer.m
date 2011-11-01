@@ -20,7 +20,7 @@
 @implementation PRPTiledLayerX
 
 + (CFTimeInterval)fadeDuration {	
-	return 0.00;
+	return 1.00;
 }
 
 

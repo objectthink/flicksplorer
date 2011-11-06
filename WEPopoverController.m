@@ -219,9 +219,8 @@
 - (WEPopoverContainerViewProperties *)defaultContainerViewProperties {
 	WEPopoverContainerViewProperties *ret = [[WEPopoverContainerViewProperties alloc] autorelease];
 	
-	CGSize theSize = self.popoverContentSize;
-	
-	NSLog(@"TheSize: %@", NSStringFromCGSize(theSize));
+	//CGSize theSize = self.popoverContentSize;
+	//NSLog(@"TheSize: %@", NSStringFromCGSize(theSize));
 	
 	NSString *bgImageName = nil;
 	CGFloat bgMargin = 0.0;

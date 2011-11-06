@@ -23,7 +23,7 @@
 
 -(void)updateWithPhoto:(Photo*)p;
 {
-   NSLog(@"%s", __PRETTY_FUNCTION__); 
+   //NSLog(@"%s", __PRETTY_FUNCTION__); 
    
    if(p == nil) return;
    
@@ -57,7 +57,7 @@
 
 -(IBAction)reticleClicked:(id)sender
 {   
-   NSLog(@"%s", __PRETTY_FUNCTION__);  
+   //NSLog(@"%s", __PRETTY_FUNCTION__);  
    
    //SNE CHECK
    //add map view
@@ -193,8 +193,8 @@
       [popover setDelegate:nil];
       [popover autorelease];
       
-      //popover = nil;
-      popover = pTemp;
+      popover = nil;
+      //popover = pTemp;
    } 
    else 
    {
@@ -211,7 +211,7 @@
 #pragma mark -
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-   NSLog(@"%s", __PRETTY_FUNCTION__);  
+   //NSLog(@"%s", __PRETTY_FUNCTION__);  
    
    __block BOOL process = false;
    [touches enumerateObjectsUsingBlock:
@@ -229,29 +229,27 @@
    
    if(process == NO) return;
       
-   if(photo.image == nil)
+   if((photo.image == nil)&&(!photo.isFetching))
    {
+      //NSLog(@"PHOTO IS NIL");
+      photo.isFetching=YES;
       [MBProgressHUD showHUDAddedTo:self.thumb animated:YES];
 
       dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), 
                      ^{
                         [self downloadImage];
                         
-                        dispatch_async(dispatch_get_main_queue(), 
+                        dispatch_sync(dispatch_get_main_queue(), 
                                        ^{
                                           [self processPopover];
                                           
+                                          //NSLog(@"UPDATE------------");
                                           [MBProgressHUD hideHUDForView:self.thumb animated:YES];
                                        });
-                     });
-      
-
-      //      NSData  *imageData = [NSData dataWithContentsOfURL:self.photo.photoURL];
-//      UIImage *image = [UIImage imageWithData:imageData];
-//      
-//      photo.image = image;   
-//      
-//      [MBProgressHUD hideHUDForView:self.thumb animated:YES];
+                        
+                        
+                        photo.isFetching = NO;
+                     });      
    }
    else
       [self processPopover];
@@ -293,7 +291,7 @@
 
 -(void)updateWithPhoto:(Photo*)p;
 {
-   NSLog(@"%s", __PRETTY_FUNCTION__); 
+   //NSLog(@"%s", __PRETTY_FUNCTION__); 
    self.photo = p;
    
    if(self.photo == nil) return;
@@ -401,11 +399,7 @@
       MKCoordinateRegionMakeWithDistance([photo.mapPoint coordinate], 2500, 2500);
    
       [self.mapView setRegion:region animated:YES];
-      
-//      self.infoView.locationAvailable.hidden = NO;
    }
-//   else
-//      self.infoView.locationAvailable.hidden = YES;
 }
 #pragma mark - UIPickerView
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
@@ -444,15 +438,6 @@
 
 
 #pragma mark - UITableViewDelegate
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-//{
-//   return @"header";
-//}
-//
-//- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
-//{
-//   return @"footer";
-//}
 -(NSInteger)numberOfSectionsInTableView:tableView
 {
    return 1;
@@ -620,9 +605,6 @@
    
    [self.view addSubview:self.photoWall];
    
-   //SNE CHECK
-   //[self.photoWall release];
-	
    CGRect infFrame = CGRectMake(0, 0, BIG, BIG);
    
    self.tiles = [[[PRPTileView alloc] initWithFrame:infFrame] autorelease];
@@ -638,9 +620,6 @@
    
    [self.photoWall addSubview:self.tiles];
    
-   //SNE CHECK
-   //[self.tiles release];
-
    /////////////////////////////////////////////////////////////////////////////
    
    [self.view bringSubviewToFront:self.searchBar];
@@ -664,7 +643,7 @@
 
 - (void)photoWallTapped:(UITapGestureRecognizer *)tap 
 { 
-   NSLog(@"%s", __PRETTY_FUNCTION__);  
+   //NSLog(@"%s", __PRETTY_FUNCTION__);  
 
    //PRPTileView *theTiles = (PRPTileView *)tap.view;
    
@@ -679,7 +658,7 @@
 #pragma mark - button events
 -(void)pageControlTapped
 {
-   NSLog(@"%s %d", __PRETTY_FUNCTION__,pageControl.currentPage);
+   //NSLog(@"%s %d", __PRETTY_FUNCTION__,pageControl.currentPage);
    
    CGRect moveTo = CGRectMake(320*(pageControl.currentPage), 0, 320, 118);
    [scrollView scrollRectToVisible:moveTo animated:YES];
@@ -687,7 +666,7 @@
 
 - (IBAction)viewTypeTapped:(id)sender
 {
-   NSLog(@"%s", __PRETTY_FUNCTION__);  
+   //NSLog(@"%s", __PRETTY_FUNCTION__);  
    
    UIBarButtonItem* viewTypeButton = (UIBarButtonItem*)sender;
    switch(viewType)
@@ -713,7 +692,7 @@
    }
 }
 
--(void)doPanda
+-(void)doPandaX
 {
    [self.pandaPicker selectRow:-1 inComponent:0 animated:YES];
    
@@ -730,13 +709,21 @@
                          delay:0.0
                        options: UIViewAnimationCurveEaseOut
                     animations:
-    ^{
+   ^{
        self.pandaPicker.frame = pickerframe;
     } 
                     completion:
     ^(BOOL finished)
     {
     }];
+}
+
+-(void)doPanda
+{
+   NSString* panda = [self.app nextPanda];
+   
+   [self showWaitWith:panda];   
+   [self.app getPanda:panda];
 }
 
 -(void)doSearch
@@ -782,7 +769,7 @@
 
 - (IBAction)refreshTapped:(id)sender
 {
-   NSLog(@"%s", __PRETTY_FUNCTION__);  
+   //NSLog(@"%s", __PRETTY_FUNCTION__);  
    
    switch(requestType)
    {
@@ -805,7 +792,7 @@
 
 - (IBAction)choiceMade:(id)sender;
 {
-   NSLog(@"%s", __PRETTY_FUNCTION__);  
+   //NSLog(@"%s", __PRETTY_FUNCTION__);  
    
    UISegmentedControl* c = (UISegmentedControl*) sender;
    
@@ -816,12 +803,12 @@
 
 - (IBAction)photoTapped:(id)sender
 {
-   NSLog(@"%s", __PRETTY_FUNCTION__);  
+   //NSLog(@"%s", __PRETTY_FUNCTION__);  
 }
 
 - (void)photosUpdated
 {
-   NSLog(@"%s", __PRETTY_FUNCTION__); 
+   //NSLog(@"%s", __PRETTY_FUNCTION__); 
    
    //[tableView reloadData];
    //self.photoWall.layer.contents = nil;

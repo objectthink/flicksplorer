@@ -15,13 +15,13 @@
 
 - (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest didCompleteWithResponse:(NSDictionary *)inResponseDictionary
 {
-   NSLog(@"%s %@ %@", __PRETTY_FUNCTION__, inRequest, inResponseDictionary);   
+   //NSLog(@"%s %@ %@", __PRETTY_FUNCTION__, inRequest, inResponseDictionary);   
    
 }
 
 - (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest didFailWithError:(NSError *)inError
 {
-   NSLog(@"%s %@ %@", __PRETTY_FUNCTION__, inRequest, inError);   
+   //NSLog(@"%s %@ %@", __PRETTY_FUNCTION__, inRequest, inError);   
 }
 @end
 
@@ -53,7 +53,8 @@
    [self.fRequest setDelegate:self];
    
    self.photos = [NSMutableArray arrayWithCapacity:10];
-   self.pandas = [NSMutableArray arrayWithObjects:@"ling ling",@"hsing hsing",@"wang wang", nil];
+   
+   //self.pandas = [NSMutableArray arrayWithObjects:@"ling ling",@"hsing hsing",@"wang wang", nil];
       
    self.window.rootViewController = self.mainViewController;
    [self.window makeKeyAndVisible];
@@ -62,6 +63,21 @@
    
    //[self getPandaList];
    
+   //populate pandas array from static data for now
+   self.pandas = [NSMutableArray array];
+   
+   if([[NSUserDefaults standardUserDefaults] boolForKey:PANDA_LING_LING])
+      [self.pandas addObject:@"ling ling"];
+
+   if([[NSUserDefaults standardUserDefaults] boolForKey:PANDA_HSING_HSING])
+      [self.pandas addObject:@"hsing hsing"];
+   
+   if([[NSUserDefaults standardUserDefaults] boolForKey:PANDA_WANG_WANG])
+      [self.pandas addObject:@"wang wang"];
+   
+   if([self.pandas count]==0)
+      [self.pandas addObject:@"ling ling"];
+
    return YES;
 }
 
@@ -88,6 +104,32 @@
     arguments:nil];
 }
 
+-(void)refreshPandaList
+{
+   [self.pandas removeAllObjects];
+
+   if([[NSUserDefaults standardUserDefaults] boolForKey:PANDA_LING_LING])
+      [self.pandas addObject:@"ling ling"];
+   
+   if([[NSUserDefaults standardUserDefaults] boolForKey:PANDA_HSING_HSING])
+      [self.pandas addObject:@"hsing hsing"];
+   
+   if([[NSUserDefaults standardUserDefaults] boolForKey:PANDA_WANG_WANG])
+      [self.pandas addObject:@"wang wang"];
+   
+   if([self.pandas count]==0)
+      [self.pandas addObject:@"ling ling"];
+}
+
+int pandaIndex=0;
+-(NSString*)nextPanda
+{
+   if(pandaIndex >= [self.pandas count])
+      pandaIndex = 0;
+   
+   return [self.pandas objectAtIndex:pandaIndex++];
+}
+
 -(void)getPanda:(NSString*)s
 {
    [self.photos removeAllObjects];
@@ -99,7 +141,8 @@
    [self.fRequest 
     callAPIMethodWithGET:@"flickr.panda.getPhotos" 
     arguments:[NSDictionary dictionaryWithObjectsAndKeys:
-               s, @"panda_name",@"description, license, date_upload, date_taken, owner_name, icon_server, original_format, last_update, geo, tags, machine_tags, o_dims, views, media, path_alias, url_sq, url_t, url_s, url_m, url_z, url_l, url_o", @"extras",nil]
+               s, @"panda_name",
+               @"description, license, date_upload, date_taken, owner_name, icon_server, original_format, last_update, geo, tags, machine_tags, o_dims, views, media, path_alias, url_sq, url_t, url_s, url_m, url_z, url_l, url_o", @"extras",nil]
     ];  
 }
 
@@ -150,7 +193,7 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
 - (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest 
  didCompleteWithResponse:(NSDictionary *)inResponseDictionary
 {
-   NSLog(@"%s %@ %@", __PRETTY_FUNCTION__, inRequest, inResponseDictionary); 
+   //NSLog(@"%s %@ %@", __PRETTY_FUNCTION__, inRequest, inResponseDictionary); 
    
    NSString* stat = [inResponseDictionary valueForKey:@"stat"];
    if( ![stat isEqualToString:@"ok"] ) return;
@@ -325,7 +368,7 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
    
 - (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest didFailWithError:(NSError *)inError
 {
-   NSLog(@"%s %@ %@", __PRETTY_FUNCTION__, inRequest, inError); 
+   //NSLog(@"%s %@ %@", __PRETTY_FUNCTION__, inRequest, inError); 
    
    [photosUpdatedDelegate photosReturnedError:inError];
 }
@@ -362,7 +405,7 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-   NSLog(@"%s", __PRETTY_FUNCTION__); 
+   //NSLog(@"%s", __PRETTY_FUNCTION__); 
    
    /*
     Called when the application is about to terminate.

@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 #define SETTING_MAP_TYPE @"SETTING_MAP_TYPE"
+#define PANDA_LING_LING @"PANDA_LING_LING"
+#define PANDA_HSING_HSING @"PANDA_HSING_HSING"
+#define PANDA_WANG_WANG @"PANDA_WANG_WANG"
 
 @class FlipsideViewController;
 

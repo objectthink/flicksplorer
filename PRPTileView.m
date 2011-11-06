@@ -83,14 +83,13 @@ int wait_state = 0;
    if (count == 0) 
    {
       return nil;
-      //return [UIImage imageNamed:@"missing.png"];
 	}
 	
    int index = position%count;
 	
    Photo* photo = [self.photos objectAtIndex:index];
    
-   if((photo.thumb == nil)&&(!photo.isFetching))
+   if(((photo.thumb == nil)||(photo.buddy == nil))&&(!photo.isFetching))
    {
       photo.isFetching = YES;
       
@@ -106,15 +105,13 @@ int wait_state = 0;
                      }
                      else
                      {
+                        //NSLog(@"FETCHING THUMB");
                         NSData *imageData = [NSData dataWithContentsOfURL:photo.photoThumbURL];
                                                 
                         if(imageData == nil)
                            thumb = [UIImage imageNamed:@"icon.png"];
                         else
                            thumb = [UIImage imageWithData:imageData];
-
-                        
-                        photo.isFetching = NO;
                      }
                      
                      if(photo.buddyURL == nil)
@@ -123,25 +120,26 @@ int wait_state = 0;
                      }
                      else
                      {
-                        if(photo.buddy == nil)
-                        {
-                           NSData *imageData = [NSData dataWithContentsOfURL:photo.buddyURL];
+                        //NSLog(@"FETCHING BUDDY");
+                        NSData *imageData = [NSData dataWithContentsOfURL:photo.buddyURL];
                                                    
-                           if(imageData == nil)
-                              photo.buddy = [UIImage imageNamed:@"19-gear.png"];
-                           else
-                              photo.buddy = [UIImage imageWithData:imageData];
-                        }
-                        
+                        if(imageData == nil)
+                           buddy = [UIImage imageNamed:@"19-gear.png"];
+                        else
+                           buddy = [UIImage imageWithData:imageData];
                      }
 
                      photo.thumb = thumb;
+                     photo.buddy = buddy;
                      
-                     dispatch_async(dispatch_get_main_queue(), 
+                     dispatch_sync(dispatch_get_main_queue(), 
                                    ^{
-                                         [self setNeedsDisplay];
+                                      //NSLog(@"SET NEEDS DISPLAY");
+                                      [self setNeedsDisplay];
                                    });
-                   });        
+                     photo.isFetching = NO;
+ 
+                  });        
    }
    
    return photo.thumb;
@@ -149,7 +147,7 @@ int wait_state = 0;
 
 - (Photo*)photoFromTouch:(CGPoint)touchPoint 
 {
-   NSLog(@"%s %f %f", __PRETTY_FUNCTION__,touchPoint.x,touchPoint.y);  
+   //NSLog(@"%s %f %f", __PRETTY_FUNCTION__,touchPoint.x,touchPoint.y);  
 
    if(photos.count == 0) return nil;
    
@@ -161,12 +159,12 @@ int wait_state = 0;
    
    int index = position%self.photos.count;
    
-   NSLog(@"row:%d col:%d position:%d index:%d count:%d",
-         row,
-         col,
-         position,
-         index,
-         self.photos.count);  
+   //NSLog(@"row:%d col:%d position:%d index:%d count:%d",
+//         row,
+//         col,
+//         position,
+//         index,
+//         self.photos.count);  
 
    return [photos objectAtIndex:index];
 }

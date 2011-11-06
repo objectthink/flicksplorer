@@ -25,11 +25,13 @@
 }
 
 -(void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest 
- didCompleteWithResponse:(NSDictionary *)inResponseDictionary;
+   didCompleteWithResponse:(NSDictionary *)inResponseDictionary;
 
 -(void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest didFailWithError:(NSError *)inError;
 
 -(void)getPandaList;
+-(void)refreshPandaList;
+-(NSString*)nextPanda;
 -(void)getPanda:(NSString*)s;
 -(void)getRecent;
 -(void)getSearchWith:(NSString*)s;

@@ -7,6 +7,7 @@
 //
 
 #import "FlipsideViewController.h"
+#import "utilityAppDelegate.h"
 
 @implementation FlipsideViewController
 
@@ -23,7 +24,7 @@
 #pragma mark - UITableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-   return 2;
+   return 3;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -34,11 +35,27 @@
          return [NSString stringWithString:@"Map"];
          break;
       case 1:
+         return [NSString stringWithString:@"Pandas"];
+         break;
+      case 2:
          return [NSString stringWithFormat:@""];
          break;
    }
    
    return nil;
+}
+
+-(NSString*)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+   switch(section)
+   {
+      case 1:
+         return [NSString stringWithString:@"Choose which flickr pandas you wish to hear from!"];
+         break;
+      default:
+         return @"";
+         break;
+   }   
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -48,7 +65,10 @@
       case 0:        //map settings, photo settings
          return 1;
          break;
-      case 1:        //legal
+      case 1:
+         return 3;
+         break;
+      case 2:        //legal
          return 1;
          break;
       default:
@@ -92,12 +112,50 @@
                      mySwitch.tag = 7;
                      break;
                }
-               break;
             }
-               break;
          }
          break;
-      case 1: //LEGAL
+      case 1: //pandas
+      switch(indexPath.row)
+      {
+         default:
+         {
+            UISwitch *mySwitch = [[[UISwitch alloc] initWithFrame:CGRectZero] autorelease];
+            [mySwitch addTarget:self action:@selector(doit:) forControlEvents:UIControlEventValueChanged];
+            cell.accessoryView = mySwitch;
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            switch(indexPath.row)
+            {
+               case 0:
+                  cell.textLabel.text = @"ling ling";
+                  
+                  mySwitch.on = 
+                  [[NSUserDefaults standardUserDefaults] boolForKey:PANDA_LING_LING];
+                  
+                  mySwitch.tag = 77;
+                  break;
+               case 1:
+                  cell.textLabel.text = @"hsing hsing";
+                  
+                  mySwitch.on = 
+                  [[NSUserDefaults standardUserDefaults] boolForKey:PANDA_HSING_HSING];
+                  
+                  mySwitch.tag = 777;
+                  break;
+               case 2:
+                  cell.textLabel.text = @"wang wang";
+                  
+                  mySwitch.on = 
+                  [[NSUserDefaults standardUserDefaults] boolForKey:PANDA_WANG_WANG];
+                  
+                  mySwitch.tag = 7777;
+                  break;
+            }
+         }
+      }
+      break;
+      case 2: //LEGAL
          cell.textLabel.text = @"Credits";
          cell.textLabel.textAlignment = UITextAlignmentCenter;
          cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -120,10 +178,25 @@
          break;
          break;
       case 77:
+         if ([aSwitch isOn])
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:PANDA_LING_LING];
+         else 
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:PANDA_LING_LING];
+         break;
          break;
       case 777:
+         if ([aSwitch isOn])
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:PANDA_HSING_HSING];
+         else 
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:PANDA_HSING_HSING];
+         break;
          break;
       case 7777:
+         if ([aSwitch isOn])
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:PANDA_WANG_WANG];
+         else 
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:PANDA_WANG_WANG];
+         break;
          break;
       case 77777:
          break;
@@ -135,6 +208,11 @@
    //UPDATE THE USER DEFAULTS
    [[NSUserDefaults standardUserDefaults] synchronize];
    [NSUserDefaults resetStandardUserDefaults];
+   
+   //tell the app to refresh the based on the user's choice
+   utilityAppDelegate* app =
+   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+   [app refreshPandaList];
 }
 
 -(void)dismissLegal
@@ -142,10 +220,9 @@
    [self dismissModalViewControllerAnimated:YES];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-   // Navigation logic may go here. Create and push another view controller.
-   
-   if(indexPath.section == 1) //LEGAL
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+   if(indexPath.section == 2) //LEGAL
    {
       [tableView deselectRowAtIndexPath:indexPath animated:YES];
       

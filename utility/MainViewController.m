@@ -21,6 +21,7 @@
 @synthesize dateTaken;
 @synthesize tags;
 
+#pragma mark - 
 -(void)updateWithPhoto:(Photo*)p;
 {
    //NSLog(@"%s", __PRETTY_FUNCTION__); 
@@ -346,6 +347,13 @@
 @synthesize pandaPicker;
 @synthesize app;
 
+#pragma mark - fonemonkey
+-(void) fmAssureAutomationInit
+{
+}
+
+
+#pragma mark - 
 -(void)showWait:(BOOL)on
 {
    switch(on)

@@ -36,6 +36,7 @@
 
 @property (nonatomic, copy) NSString* photoid;
 @property (nonatomic, copy) NSString* ownername;
+@property (nonatomic, copy) NSString* owner;
 @property (nonatomic, copy) NSString* title;
 @property (nonatomic, copy) NSString* description;
 @property (nonatomic, copy) NSString* dateTaken;

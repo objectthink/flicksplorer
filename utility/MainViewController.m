@@ -213,8 +213,14 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
    //NSLog(@"%s", __PRETTY_FUNCTION__);  
+
+   utilityAppDelegate* app =
+   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
    
+   MainViewController* mainViewController = (MainViewController*)app.mainViewController;
+
    __block BOOL process = false;
+   __block BOOL processOwner = false;
    [touches enumerateObjectsUsingBlock:
     ^(id object, BOOL *stop) 
    {
@@ -226,10 +232,16 @@
       
       if(CGRectContainsPoint(frame, p))
          process = YES;
+      
+      CGRect buddyFrame = [self.buddy frame];
+
+      if(CGRectContainsPoint(buddyFrame, p))
+         processOwner = YES;
    }];
    
-   if(process == NO) return;
+   if( (process == NO)&&(processOwner == NO)) return;
       
+   if(process == YES)
    if((photo.image == nil)&&(!photo.isFetching))
    {
       //NSLog(@"PHOTO IS NIL");
@@ -255,39 +267,11 @@
    else
       [self processPopover];
    
-//   utilityAppDelegate* app =
-//   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
-
-//   if(!popover)
-//   {
-//      UIViewController *c = [[[UIViewController alloc] init] autorelease];
-//      
-//      c.view = [[[UIImageView alloc] initWithImage:photo.image] autorelease];
-//      
-//      c.contentSizeForViewInPopover = 
-//      CGRectMake(0, 0,photo.image.size.width,photo.image.size.height).size;
-//      
-//      popover = [[WEPopoverController alloc] initWithContentViewController:c];
-//      
-//      [popover setDelegate:self];
-//   } 
-//   
-//   if([popover isPopoverVisible]) 
-//   {
-//      [popover dismissPopoverAnimated:YES];
-//      [popover setDelegate:nil];
-//      [popover autorelease];
-//      
-//      popover = nil;
-//   } 
-//   else 
-//   {
-//      [popover 
-//       presentPopoverFromRect:CGRectMake(15, 340, 75, 75)
-//       inView:app.mainViewController.view
-//       permittedArrowDirections:UIPopoverArrowDirectionDown
-//       animated:YES];
-//   }
+   if(processOwner == YES)
+   {
+      [mainViewController showWaitWith:photo.ownername];
+      [app getSearchWithOwner:photo.owner];
+   }
 }
 
 -(void)updateWithPhoto:(Photo*)p;
@@ -767,6 +751,7 @@
    [self showWaitWith:self.searchBar.text];
    
    [self.app getSearchWith:self.searchBar.text];
+   //[self.app getSearchWithOwner:self.infoView.photo.owner];
 }
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar

@@ -190,6 +190,29 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
     ];        
 }
 
+-(void)getSearchWithOwner:(NSString*)s
+{
+   [self.photos removeAllObjects];
+   
+   [self.photoCache removeAllObjects];
+   
+   page++;
+   
+   NSString* ps =
+   [NSString stringWithFormat:@"@d",page];
+   
+   
+   //CHANGE THIS TO SEARCH
+   self.fRequest.sessionInfo = [Session sessionWithRequestType:RECENT];
+   
+   [self.fRequest 
+    callAPIMethodWithGET:@"flickr.photos.search" 
+    arguments:[NSDictionary dictionaryWithObjectsAndKeys:
+               s,@"user_id",@"description,license, date_upload, date_taken, owner_name, icon_server, original_format, last_update, geo, tags, machine_tags, o_dims, views, media, path_alias, url_sq, url_t, url_s, url_m, url_z, url_l, url_o", @"extras",@"100",@"per_page",ps,@"page",nil]
+    
+    ];        
+}
+
 - (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest 
  didCompleteWithResponse:(NSDictionary *)inResponseDictionary
 {
@@ -224,6 +247,7 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
             
             NSString* title = [d objectForKey:@"title"];
             NSString* ownername = [d objectForKey:@"ownername"];
+            NSString* owner = [d objectForKey:@"owner"];
             NSString* photoid = [d objectForKey:@"id"];
             NSString* tags = [d objectForKey:@"tags"];
             
@@ -231,6 +255,7 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
             
             photo.title = title;
             photo.ownername = ownername;
+            photo.owner = owner;
             photo.photoid = photoid;
             photo.dateTaken = @"";
             photo.tags = tags;
@@ -295,6 +320,7 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
             
             NSString* title = [d objectForKey:@"title"];
             NSString* ownername = [d objectForKey:@"ownername"];
+            NSString* owner = [d objectForKey:@"owner"];
             NSString* photoid = [d objectForKey:@"id"];
             NSString* tags = [d objectForKey:@"tags"];
             NSString* datetaken = [d objectForKey:@"datetaken"];
@@ -314,6 +340,7 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
             
             photo.title = title;
             photo.ownername = ownername;
+            photo.owner = owner;
             photo.photoid = photoid;
             photo.description = description;
             photo.tags = tags;

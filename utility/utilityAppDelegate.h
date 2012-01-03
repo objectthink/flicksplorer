@@ -35,6 +35,7 @@
 -(void)getPanda:(NSString*)s;
 -(void)getRecent;
 -(void)getSearchWith:(NSString*)s;
+-(void)getSearchWithOwner:(NSString*)s;
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet MainViewController *mainViewController;

@@ -43,15 +43,16 @@
 
 @implementation Photo
 
-@synthesize photoid;
-@synthesize ownername;
-@synthesize title;
-@synthesize description;
-@synthesize dateTaken;
-@synthesize tags;
-@synthesize isFetching;
+@synthesize photoid = _photoid;
+@synthesize ownername = _ownername;
+@synthesize owner =_owner;
+@synthesize title = _title;
+@synthesize description = _description;
+@synthesize dateTaken = _dateTaken;
+@synthesize tags = _tags;
+@synthesize isFetching = _isFetching;
 
-@synthesize photoURL;
+@synthesize photoURL = _photoURL;
 @synthesize photoSourceURL;
 @synthesize photoThumbURL;
 @synthesize buddyURL;
@@ -110,16 +111,26 @@
 
 -(void) dealloc
 {
-   //NSLog(@"%s", __PRETTY_FUNCTION__); 
+   NSLog(@"%s", __PRETTY_FUNCTION__); 
    
-   [photoid release];
-   [ownername release];
-   [title release];
-   [description release];
-   [dateTaken release];
-   [tags release];
+   _owner = nil;
+   _photoid = nil;
+   _ownername = nil;
+   _title = nil;
+   _description = nil;
+   _dateTaken = nil;
+   _tags = nil;
    
-   [photoURL release];
+   _photoURL = nil;
+   
+   //[photoid release];
+   //[ownername release];
+   //[title release];
+   //[description release];
+   //[dateTaken release];
+   //[tags release];
+   
+   //[photoURL release];
    [photoSourceURL release];
    [photoThumbURL release];
    [buddyURL release];

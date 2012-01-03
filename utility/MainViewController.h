@@ -86,6 +86,8 @@ PhotosUpdatedDelegate>
 - (IBAction)refreshTapped:(id)sender;
 - (IBAction)photoTapped:(id)sender;
 
+-(void)showWaitWith:(NSString*)s;
+
 -(void)photosUpdated;
 -(void)photosReturnedError:(NSError*)error;
 

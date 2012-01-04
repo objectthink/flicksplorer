@@ -19,10 +19,10 @@ typedef enum {
    LIST        = 1
 }VIEWTYPE;
 
-@interface InfoView : UIView <PopoverControllerDelegate>
+@interface InfoView : UIView <
+PopoverControllerDelegate,
+UIActionSheetDelegate>
 {
-//   WEPopoverController* popover;
-//   WEPopoverController* mapover;
 }
 
 @property (retain) IBOutlet UILabel* owner;
@@ -32,6 +32,7 @@ typedef enum {
 @property (retain) IBOutlet UIImageView* thumb;
 @property (retain) IBOutlet UIImageView* buddy;
 @property (retain) IBOutlet UIButton* locationAvailable;
+@property (retain) NSMutableDictionary* owners;
 
 @property (retain) Photo* photo; 
 @property (atomic, retain) WEPopoverController* popover;

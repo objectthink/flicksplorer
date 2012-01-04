@@ -45,6 +45,7 @@
 @synthesize mapover;
 @synthesize thumb;
 @synthesize buddy;
+@synthesize owners = _owners;
 
 #pragma mark - popover delegate
 -(void)popoverControllerDidDismissPopover:(WEPopoverController *)popoverController
@@ -269,9 +270,69 @@
    
    if(processOwner == YES)
    {
-      [mainViewController showWaitWith:photo.ownername];
-      [app getSearchWithOwner:photo.owner];
+//      [self updateOwners];
+//      
+//      //fetch owner
+//      [mainViewController showWaitWith:photo.ownername];
+//      [app getSearchWithOwner:photo.owner];
+      
+      UIActionSheet *popupQuery = 
+      [[UIActionSheet alloc] 
+       initWithTitle:@"Owner options" 
+       delegate:self 
+       cancelButtonTitle:@"Cancel" 
+       destructiveButtonTitle:nil
+       otherButtonTitles:photo.ownername, @"Add", @"List", nil];
+      
+      popupQuery.actionSheetStyle = UIActionSheetStyleAutomatic;
+      [popupQuery showInView:mainViewController.view];
+      [popupQuery release];
+
    }
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex 
+{
+   utilityAppDelegate* app =
+   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+   
+   MainViewController* mainViewController = (MainViewController*)app.mainViewController;
+
+   switch(buttonIndex)
+   {
+      case 0:         
+         //fetch owner
+         [mainViewController showWaitWith:photo.ownername];
+         [app getSearchWithOwner:photo.owner];
+         break;
+      case 1:
+         [self updateOwners];
+         break;
+      case 2:
+         break;
+   }
+}
+
+-(void)updateOwners
+{   
+   NSString* documentsPath = 
+   [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];      
+   
+   NSString* ownersPath = 
+   [documentsPath stringByAppendingPathComponent:@"owners"];
+
+   if(self.owners == nil)
+   {      
+      BOOL ownersExists = [[NSFileManager defaultManager] fileExistsAtPath:ownersPath];
+      
+      if(ownersExists)
+         self.owners = [NSMutableDictionary dictionaryWithContentsOfFile:ownersPath];
+      else
+         self.owners = [NSMutableDictionary dictionary];
+   }
+   
+   [self.owners setValue:photo.ownername forKey:photo.owner];
+   [self.owners writeToFile:ownersPath atomically:YES];
 }
 
 -(void)updateWithPhoto:(Photo*)p;

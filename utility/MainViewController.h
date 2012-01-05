@@ -21,7 +21,9 @@ typedef enum {
 
 @interface InfoView : UIView <
 PopoverControllerDelegate,
-UIActionSheetDelegate>
+UIActionSheetDelegate,
+UITableViewDataSource,
+UITableViewDelegate>
 {
 }
 

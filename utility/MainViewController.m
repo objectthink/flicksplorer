@@ -291,8 +291,85 @@
    }
 }
 
+#pragma mark - owner table
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+   return self.owners.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+   static NSString *CellIdentifier = @"OwnerCell";
+   
+   UITableViewCell *cell = 
+   [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+   
+   if (cell == nil) 
+   {
+      cell = 
+      [[[UITableViewCell alloc] 
+        initWithStyle:UITableViewCellStyleDefault
+        reuseIdentifier:CellIdentifier] autorelease];
+   }
+   
+   cell.textLabel.text = [[self.owners allValues] objectAtIndex:indexPath.row];
+ 
+   return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+   utilityAppDelegate* app =
+   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+   
+   MainViewController* mainViewController = (MainViewController*)app.mainViewController;
+
+   //fetch owner
+   [mainViewController showWaitWith:[[self.owners allValues]objectAtIndex:indexPath.row]];
+   [app getSearchWithOwner:[[self.owners allKeys]objectAtIndex:indexPath.row]];
+   
+   [mainViewController dismissModalViewControllerAnimated:YES];
+}
+
+-(void)cancelOwnerList:(id)sender
+{
+   utilityAppDelegate* app =
+   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+   
+   MainViewController* mainViewController = (MainViewController*)app.mainViewController;
+   
+   [mainViewController dismissModalViewControllerAnimated:YES];   
+}
+
+-(void)showOwnerList
+{
+   utilityAppDelegate* app =
+   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+   
+   MainViewController* mainViewController = (MainViewController*)app.mainViewController;
+
+   UITableViewController* tvc =
+   [[[UITableViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
+     
+   UIToolbar* tb = [[[UIToolbar alloc]initWithFrame:CGRectMake(0, 0,320, 44)] autorelease];
+   UIBarButtonItem* tbi = 
+   [[[UIBarButtonItem alloc] 
+    initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelOwnerList:)] autorelease];
+   
+   [tb setItems:[NSArray arrayWithObject:tbi]];
+    
+   tvc.tableView.tableHeaderView = tb;
+   
+   tvc.tableView.delegate = self;
+   tvc.tableView.dataSource = self;
+   
+   [mainViewController presentModalViewController:tvc animated:YES];
+}
+
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex 
 {
+   [self fetchOwners];
+   
    utilityAppDelegate* app =
    (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
    
@@ -309,18 +386,19 @@
          [self updateOwners];
          break;
       case 2:
+         [self showOwnerList];
          break;
    }
 }
 
--(void)updateOwners
-{   
+-(void)fetchOwners
+{
    NSString* documentsPath = 
    [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];      
    
    NSString* ownersPath = 
    [documentsPath stringByAppendingPathComponent:@"owners"];
-
+   
    if(self.owners == nil)
    {      
       BOOL ownersExists = [[NSFileManager defaultManager] fileExistsAtPath:ownersPath];
@@ -330,7 +408,16 @@
       else
          self.owners = [NSMutableDictionary dictionary];
    }
+}
+
+-(void)updateOwners
+{ 
+   NSString* documentsPath = 
+   [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];      
    
+   NSString* ownersPath = 
+   [documentsPath stringByAppendingPathComponent:@"owners"];
+
    [self.owners setValue:photo.ownername forKey:photo.owner];
    [self.owners writeToFile:ownersPath atomically:YES];
 }

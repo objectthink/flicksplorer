@@ -272,7 +272,7 @@
    {
       UIActionSheet *popupQuery = 
       [[UIActionSheet alloc] 
-       initWithTitle:@"Owner options" 
+       initWithTitle:@"flickr user" 
        delegate:self 
        cancelButtonTitle:@"Cancel" 
        destructiveButtonTitle:nil
@@ -288,7 +288,7 @@
 #pragma mark - owner table
 -(NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-   return @"Choose an owner";
+   return @"Choose user to see their photos";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -314,6 +314,29 @@
    cell.textLabel.text = [[self.owners allValues] objectAtIndex:indexPath.row];
  
    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView 
+commitEditingStyle:(UITableViewCellEditingStyle)editingStyle 
+forRowAtIndexPath:(NSIndexPath *)indexPath 
+{    
+   if (editingStyle == UITableViewCellEditingStyleDelete) 
+   {
+      NSString* ownerKey = [[self.owners allKeys] objectAtIndex:indexPath.row];
+      
+      NSLog(@"%@", ownerKey);
+      NSLog(@"%@", self.owners);
+      
+      [self.owners removeObjectForKey:ownerKey];
+      
+      NSLog(@"%@", self.owners);
+      
+      [self writeOwners];
+      
+      [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                       withRowAnimation:UITableViewRowAnimationFade];
+
+   }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
@@ -409,6 +432,20 @@
    }
 }
 
+//write owners
+-(void)writeOwners
+{
+   
+   NSString* documentsPath = 
+   [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];      
+   
+   NSString* ownersPath = 
+   [documentsPath stringByAppendingPathComponent:@"owners"];
+   
+   [self.owners writeToFile:ownersPath atomically:YES];
+}
+
+//add the current photo owner and save list
 -(void)updateOwners
 { 
    NSString* documentsPath = 

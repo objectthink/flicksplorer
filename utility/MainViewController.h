@@ -41,6 +41,10 @@ UITableViewDelegate>
 @property (atomic, retain) WEPopoverController* mapover;
 
 -(void)updateWithPhoto:(Photo*)photo;
+-(void)fetchOwners;
+-(void)updateOwners;
+-(void)writeOwners;
+
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
 -(IBAction)reticleClicked:(id)sender;

@@ -270,12 +270,6 @@
    
    if(processOwner == YES)
    {
-//      [self updateOwners];
-//      
-//      //fetch owner
-//      [mainViewController showWaitWith:photo.ownername];
-//      [app getSearchWithOwner:photo.owner];
-      
       UIActionSheet *popupQuery = 
       [[UIActionSheet alloc] 
        initWithTitle:@"Owner options" 
@@ -292,6 +286,11 @@
 }
 
 #pragma mark - owner table
+-(NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+   return @"Choose an owner";
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
    return self.owners.count;

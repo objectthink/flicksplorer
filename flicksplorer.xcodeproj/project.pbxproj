@@ -1160,7 +1160,7 @@
 		733062A31412D98300D6755C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: stephen eshelman";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "utility/flicksplorer-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -1174,7 +1174,7 @@
 					"\"$(SRCROOT)/FoneMonkey/lib\"",
 				);
 				PRODUCT_NAME = flicksplorer;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "27F51451-3003-489D-98F9-6140CEA0DC5B";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

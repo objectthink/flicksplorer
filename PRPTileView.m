@@ -57,10 +57,12 @@
 - (void)drawRect:(CGRect)rect 
 {
    if([self.photos count]==0) return;
-   
+      
    int col = rect.origin.x / SIZE;
    int row = rect.origin.y / SIZE;
    
+   NSLog(@"row:%d col:%d",row, col);
+
    int columns = self.bounds.size.width/SIZE;
    
    UIImage *tile = [self tileAtPosition:row*columns+col];
@@ -70,7 +72,12 @@
       tile = [UIImage imageNamed:@"icon.png"];
 
       [tile drawInRect:rect];
-      [self setNeedsDisplayInRect:rect];
+      
+      //this was causing the photo wall update latency
+      //as each set needs display was requesting every
+      //photo be redrawn
+      
+      //[self setNeedsDisplayInRect:rect];
    }
    else
       [tile drawInRect:rect];
@@ -78,7 +85,7 @@
 
 int wait_state = 0;
 - (UIImage *)tileAtPosition:(int)position
-{
+{   
    int count = [self.photos count];
    if (count == 0) 
    {

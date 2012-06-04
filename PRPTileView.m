@@ -22,8 +22,6 @@
 
 @interface PRPTileView()
 
-//@property (nonatomic, copy)  NSArray *albumCollections;
-
 @end
 
 @implementation PRPTileView
@@ -175,26 +173,5 @@ int wait_state = 0;
 
    return [photos objectAtIndex:index];
 }
-
-//- (UIImage *)tileAtPositionX:(int)position
-//{
-//   int albums = [self.albumCollections count];
-//   if (albums == 0) {
-//      return [UIImage imageNamed:@"missing.png"];
-//	}
-//	
-//   int index = position%albums;
-//	
-//   MPMediaItemCollection *mCollection = [self.albumCollections 
-//                                         objectAtIndex:index];
-//   MPMediaItem *mItem = [mCollection representativeItem];
-//   MPMediaItemArtwork *artwork =
-//   [mItem valueForProperty: MPMediaItemPropertyArtwork];
-//	
-//   UIImage *image = [artwork imageWithSize: CGSizeMake(SIZE, SIZE)];
-//   if (!image) image = [UIImage imageNamed:@"missing.png"];
-//   
-//   return image;
-//}
 
 @end

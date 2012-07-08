@@ -913,35 +913,80 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    
    self.searchBar.hidden = NO;  
    
-   [UIView animateWithDuration:0.7
+   [UIView animateWithDuration:0.3
                          delay:0.0
                        options: UIViewAnimationCurveEaseOut
                     animations:
                   ^{
                      self.searchBar.frame = searchBarFrame;
+                     [self.searchBar becomeFirstResponder];
                   } 
                     completion:
                   ^(BOOL finished)
                   {
-                     [self.searchBar becomeFirstResponder];
+                     //[self.searchBar becomeFirstResponder];
                   }];
 }
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-   self.searchBar.hidden = YES;
-   [self.searchBar resignFirstResponder];
+   //self.searchBar.hidden = YES;
+   //[self.searchBar resignFirstResponder];
+      
+   //MOVE THE SEARCHBAR
+   CGRect searchBarFrame = self.searchBar.frame;
+   CGRect endFrame = self.searchBar.frame;
    
-   [self showWaitWith:self.searchBar.text];
+   endFrame.origin.y = -searchBarFrame.size.height;
    
+   self.searchBar.hidden = NO;  
+   
+   [UIView animateWithDuration:0.3
+                         delay:0.0
+                       options: UIViewAnimationCurveEaseOut
+                    animations:
+    ^{
+       self.searchBar.frame = endFrame;
+       [self.searchBar resignFirstResponder];
+    } 
+                    completion:
+    ^(BOOL finished)
+    {
+       self.searchBar.hidden = YES;
+       self.searchBar.frame = searchBarFrame;
+    }];
+   ////////////////////
+   
+   [self showWaitWith:self.searchBar.text];   
    [self.app getSearchWith:self.searchBar.text];
-   //[self.app getSearchWithOwner:self.infoView.photo.owner];
 }
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-   self.searchBar.hidden = YES;
-   [self.searchBar resignFirstResponder];
+   //self.searchBar.hidden = YES;
+   //[self.searchBar resignFirstResponder];
+   
+   CGRect searchBarFrame = self.searchBar.frame;
+   CGRect endFrame = self.searchBar.frame;
+   
+   endFrame.origin.y = -searchBarFrame.size.height;
+   
+   self.searchBar.hidden = NO;  
+   
+   [UIView animateWithDuration:0.3
+                         delay:0.0
+                       options: UIViewAnimationCurveEaseOut
+                    animations:
+    ^{
+       self.searchBar.frame = endFrame;
+       [self.searchBar resignFirstResponder];
+    } 
+                    completion:
+    ^(BOOL finished)
+    {
+       self.searchBar.hidden = YES;
+       self.searchBar.frame = searchBarFrame;
+    }];
 }
 
 - (IBAction)refreshTapped:(id)sender

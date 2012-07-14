@@ -266,7 +266,9 @@
                      });      
    }
    else
+   {
       [self processPopover];
+   }
    
    if(processOwner == YES)
    {
@@ -281,7 +283,6 @@
       popupQuery.actionSheetStyle = UIActionSheetStyleAutomatic;
       [popupQuery showInView:mainViewController.view];
       [popupQuery release];
-
    }
 }
 
@@ -695,6 +696,18 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    [self updateInfoViewWith:photo];
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+   switch(requestType)
+   {
+      case RECENT: return @"Recent"; break;
+      case PANDA:  return @"Panda"; break;
+      case SEARCH: return @"Search"; break;
+   }
+   
+   return nil;
+}
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
@@ -800,12 +813,17 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    [self.view bringSubviewToFront:self.searchBar];
    [self.view bringSubviewToFront:self.pandaPicker];
    
+   //set the keyboard appearance for the searchbar
+   for(UIView *subView in searchBar.subviews)
+      if([subView isKindOfClass: [UITextField class]])
+         [(UITextField *)subView setKeyboardAppearance: UIKeyboardAppearanceAlert];
+   
+   /////////////////////////////////
+   
+   /////////////// NOT DOING THIS NOW
    //[app getPandaList];
-   
    //[self performSelector:@selector(getPandaList) withObject:nil afterDelay:3.0 inModes:nil];
-   
    //[self refreshTapped:nil];
-   
    //[self performSelector:@selector(getPandaList) withObject:nil afterDelay:3.0];
    
    [app getPanda:@"ling ling"];

@@ -32,13 +32,13 @@
    switch(section)
    {
       case 0:
-         return [NSString stringWithString:@"Map"];
+         return @"Map";
          break;
       case 1:
-         return [NSString stringWithString:@"Pandas"];
+         return @"Pandas";
          break;
       case 2:
-         return [NSString stringWithFormat:@""];
+         return @"";
          break;
    }
    
@@ -50,7 +50,7 @@
    switch(section)
    {
       case 1:
-         return [NSString stringWithString:@"Choose which flickr pandas you wish to hear from!"];
+         return @"Choose which flickr pandas you wish to hear from!";
          break;
       default:
          return @"";

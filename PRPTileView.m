@@ -59,7 +59,7 @@
    int col = rect.origin.x / SIZE;
    int row = rect.origin.y / SIZE;
    
-   NSLog(@"row:%d col:%d",row, col);
+   //NSLog(@"row:%d col:%d",row, col);
 
    int columns = self.bounds.size.width/SIZE;
    

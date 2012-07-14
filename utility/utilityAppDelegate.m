@@ -303,7 +303,7 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
          
       case RECENT:
       {
-         NSLog(@"%@", inResponseDictionary);
+         //NSLog(@"%@", inResponseDictionary);
 
          NSArray* rphotos =
          [inResponseDictionary valueForKeyPath:@"photos.photo"];

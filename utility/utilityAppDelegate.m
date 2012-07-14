@@ -152,7 +152,7 @@ int page = 0;
    page++;
    
    NSString* ps =
-   [NSString stringWithFormat:@"@d",page];
+   [NSString stringWithFormat:@"%d",page];
    
    [self.photos removeAllObjects];
    
@@ -176,7 +176,7 @@ int page = 0;
    page++;
    
    NSString* ps =
-   [NSString stringWithFormat:@"@d",page];
+   [NSString stringWithFormat:@"%d",page];
 
    
    //CHANGE THIS TO SEARCH
@@ -199,7 +199,7 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
    page++;
    
    NSString* ps =
-   [NSString stringWithFormat:@"@d",page];
+   [NSString stringWithFormat:@"%d",page];
    
    
    //CHANGE THIS TO SEARCH
@@ -303,10 +303,20 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
          
       case RECENT:
       {
-         NSArray* rphotos = 
+         NSLog(@"%@", inResponseDictionary);
+
+         NSArray* rphotos =
          [inResponseDictionary valueForKeyPath:@"photos.photo"];
          
-         //NSLog(@"%@", rphotos);
+         
+         NSString* numberOfPagesAsString =
+         [[inResponseDictionary objectForKey:@"photos"] objectForKey:@"pages"];
+         
+         //have we seen all the pages?
+         int numberOfPages = [numberOfPagesAsString intValue];
+         if(page >= numberOfPages)
+            page = 0;
+
          
          for(NSDictionary* d in rphotos)
          {

@@ -791,7 +791,6 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    [self.tiles addGestureRecognizer:tap];
    [tap release]; 
    
-   
    self.tiles.photos = self.app.photos;
    
    [self.photoWall addSubview:self.tiles];

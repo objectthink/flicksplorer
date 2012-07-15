@@ -26,6 +26,17 @@
 	<string>1.0.2</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>flicksplorer</string>
+			</array>
+			<key>CFBundleURLName</key>
+			<string>com.objectthink.flicksplorer</string>
+		</dict>
+	</array>
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>
 	<key>UISupportedInterfaceOrientations</key>

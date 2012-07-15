@@ -8,6 +8,7 @@
 
 #import "utilityAppDelegate.h"
 #import "MainViewController.h"
+#import "SVWebViewController.h"
 #import "Session.h"
 #import "Photo.h"
 
@@ -213,7 +214,86 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
     ];        
 }
 
-- (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest 
+-(void)authorization
+{
+   self.fRequest.sessionInfo = [Session sessionWithRequestType:AUTH];
+   [self.fRequest fetchOAuthRequestTokenWithCallbackURL:[NSURL URLWithString:CALLBACK_BASE_STRING]];
+}
+
+-(BOOL)application:(UIApplication *)application
+           openURL:(NSURL *)url
+ sourceApplication:(NSString *)sourceApplication
+        annotation:(id)annotation
+{
+//   if (self.fRequest.sessionInfo)
+//   {
+//      // already running some other request
+//      NSLog(@"Already running some other request");
+//   }
+//   else
+//   {
+      NSString *token = nil;
+      NSString *verifier = nil;
+      BOOL result = OFExtractOAuthCallback(url, [NSURL URLWithString:CALLBACK_BASE_STRING], &token, &verifier);
+      
+      if (!result)
+      {
+         NSLog(@"Cannot obtain token/secret from URL: %@", [url absoluteString]);
+         return NO;
+      }
+      
+      self.fRequest.sessionInfo = @"";
+      [self.fRequest fetchOAuthAccessTokenWithRequestToken:token verifier:verifier];
+
+      //progress view goes here
+   //}
+	
+   return YES;
+}
+
+- (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest
+didObtainOAuthAccessToken:(NSString *)inAccessToken
+                  secret:(NSString *)inSecret
+            userFullName:(NSString *)inFullName
+                userName:(NSString *)inUserName
+                userNSID:(NSString *)inNSID
+{
+   NSLog(@"received authorization");
+   
+   //dismiss progress here
+   //store token and secret in user defaults
+}
+
+- (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest
+didObtainOAuthRequestToken:(NSString *)inRequestToken
+                  secret:(NSString *)inSecret
+{
+   // these two lines are important
+   self.fContext.OAuthToken = inRequestToken;
+   self.fContext.OAuthTokenSecret = inSecret;
+   
+   NSURL *authURL =
+   [self.fContext
+    userAuthorizationURLWithRequestToken:inRequestToken
+    requestedPermission:OFFlickrWritePermission];
+   
+   [[UIApplication sharedApplication] openURL:authURL];
+
+   
+//   SVWebViewController *webViewController =
+//   [[SVWebViewController alloc]
+//    initWithAddress:[authURL absoluteString]];
+//   
+//   webViewController.navigationController.navigationBar.tintColor = [UIColor blackColor];
+//	
+//   webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
+//   webViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+//	[self.mainViewController presentModalViewController:webViewController animated:YES];
+//   
+//	[webViewController release];
+}
+
+- (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest
  didCompleteWithResponse:(NSDictionary *)inResponseDictionary
 {
    //NSLog(@"%s %@ %@", __PRETTY_FUNCTION__, inRequest, inResponseDictionary); 

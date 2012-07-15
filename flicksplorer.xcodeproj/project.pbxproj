@@ -181,13 +181,11 @@
 		73F14310141CE71C00C12473 /* 01-refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "01-refresh.png"; sourceTree = "<group>"; };
 		73F14312141CF02C00C12473 /* 06-magnify WHITE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "06-magnify WHITE.png"; sourceTree = "<group>"; };
 		73F2D520146760AC0025E19A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		73FDB6A6146750C6005091BF /* flicksplorer copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "flicksplorer copy-Info.plist"; sourceTree = "<group>"; };
 		73FDB6A8146750D3005091BF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "Resources-iPad/utility/en.lproj/MainWindow.xib"; sourceTree = "<group>"; };
 		73FDB6A9146750D3005091BF /* MainView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainView.xib; path = "Resources-iPad/utility/MainView.xib"; sourceTree = "<group>"; };
 		73FDB6AA146750D3005091BF /* FlipsideView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FlipsideView.xib; path = "Resources-iPad/utility/FlipsideView.xib"; sourceTree = "<group>"; };
 		73FDB6AB146750D3005091BF /* InfoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = InfoView.xib; path = "Resources-iPad/utility/InfoView.xib"; sourceTree = "<group>"; };
 		73FDB6AC146750D3005091BF /* InfoViewEx.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = InfoViewEx.xib; path = "Resources-iPad/InfoViewEx.xib"; sourceTree = "<group>"; };
-		73FDB6ED146750DC005091BF /* flicksplorer copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "flicksplorer copy2-Info.plist"; sourceTree = "<group>"; };
 		73FDB72C14675B6D005091BF /* iphonesim */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = iphonesim; sourceTree = "<group>"; };
 		73FDB72D14675B6D005091BF /* COPYRIGHT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYRIGHT; sourceTree = "<group>"; };
 		73FDB72F14675B6D005091BF /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -331,8 +329,6 @@
 				733062861412D98300D6755C /* utility */,
 				7330627F1412D98300D6755C /* Frameworks */,
 				7330627D1412D98300D6755C /* Products */,
-				73FDB6A6146750C6005091BF /* flicksplorer copy-Info.plist */,
-				73FDB6ED146750DC005091BF /* flicksplorer copy2-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};

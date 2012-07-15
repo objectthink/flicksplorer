@@ -12,6 +12,7 @@
 
 #define OBJECTIVE_FLICKR_API_KEY             @"d383d50645fa96a10d0b9f69004b08f2"
 #define OBJECTIVE_FLICKR_API_SHARED_SECRET   @"ea0b1f6014bae383"
+#define CALLBACK_BASE_STRING                 @"flicksplorer://auth"
 
 @class MainViewController;
 
@@ -36,6 +37,7 @@
 -(void)getRecent;
 -(void)getSearchWith:(NSString*)s;
 -(void)getSearchWithOwner:(NSString*)s;
+-(void)authorization;
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet MainViewController *mainViewController;

@@ -15,7 +15,8 @@ typedef enum
    PANDA       = 0,
    RECENT      = 1,
    SEARCH      = 2,
-   PANDA_LIST  = 3
+   PANDA_LIST  = 3,
+   AUTH        = 4
 }REQUESTTYPE;
 
 

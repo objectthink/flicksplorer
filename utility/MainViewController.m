@@ -1029,6 +1029,12 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    }
 }
 
+-(IBAction)cameraTapped:(id)sender
+{
+   NSLog(@"cameraTapped");
+   [self.app authorization];
+}
+
 - (IBAction)choiceMade:(id)sender;
 {
    //NSLog(@"%s", __PRETTY_FUNCTION__);  
@@ -1136,7 +1142,6 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 	[self presentModalViewController:webViewController animated:YES];	
 
 	[webViewController release];
-
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

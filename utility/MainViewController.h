@@ -92,6 +92,7 @@ PhotosUpdatedDelegate>
 - (IBAction)viewTypeTapped:(id)sender;
 - (IBAction)refreshTapped:(id)sender;
 - (IBAction)photoTapped:(id)sender;
+- (IBAction)cameraTapped:(id)sender;
 
 -(void)showWaitWith:(NSString*)s;
 

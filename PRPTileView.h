@@ -19,13 +19,23 @@
 #import "PRPTiledLayer.h"
 #import "Photo.h"
 
+typedef enum
+{
+   SMALL = 50,
+   MEDIUM = 75,
+   LARGE = 100,
+   EXLARGE = 125
+}PHOTOSIZE;
+
 @interface PRPTileView : UIView 
 {
+   int SIZE;
 }
 
 @property (assign) NSArray* photos;
+@property (assign) int size;
 
 - (UIImage *)tileAtPosition:(int)position;
 - (Photo*)photoFromTouch:(CGPoint)touchPoint;
-
+- (id)initWithFrame:(CGRect)frame size:(int)aSize;
 @end

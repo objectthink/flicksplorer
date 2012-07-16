@@ -98,6 +98,7 @@ PhotosUpdatedDelegate>
 
 -(void)photosUpdated;
 -(void)photosReturnedError:(NSError*)error;
+-(void)flickrAuthorizationReceived;
 
 @end
 

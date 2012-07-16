@@ -216,6 +216,10 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
 
 -(void)authorization
 {
+   //set these to nil each time for now
+   self.fContext.OAuthToken = nil;
+   self.fContext.OAuthTokenSecret = nil;
+
    self.fRequest.sessionInfo = [Session sessionWithRequestType:AUTH];
    [self.fRequest fetchOAuthRequestTokenWithCallbackURL:[NSURL URLWithString:CALLBACK_BASE_STRING]];
 }
@@ -260,8 +264,14 @@ didObtainOAuthAccessToken:(NSString *)inAccessToken
 {
    NSLog(@"received authorization");
    
+   [photosUpdatedDelegate flickrAuthorizationReceived];
+   
    //dismiss progress here
    //store token and secret in user defaults
+
+   //set these here for now
+   self.fContext.OAuthToken = inAccessToken;
+   self.fContext.OAuthTokenSecret = inSecret;
 }
 
 - (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest
@@ -277,20 +287,19 @@ didObtainOAuthRequestToken:(NSString *)inRequestToken
     userAuthorizationURLWithRequestToken:inRequestToken
     requestedPermission:OFFlickrWritePermission];
    
-   [[UIApplication sharedApplication] openURL:authURL];
-
+   //[[UIApplication sharedApplication] openURL:authURL];
    
-//   SVWebViewController *webViewController =
-//   [[SVWebViewController alloc]
-//    initWithAddress:[authURL absoluteString]];
-//   
-//   webViewController.navigationController.navigationBar.tintColor = [UIColor blackColor];
-//	
-//   webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
-//   webViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-//	[self.mainViewController presentModalViewController:webViewController animated:YES];
-//   
-//	[webViewController release];
+   SVWebViewController *webViewController =
+   [[SVWebViewController alloc]
+    initWithAddress:[authURL absoluteString]];
+   
+   webViewController.navigationController.navigationBar.tintColor = [UIColor blackColor];
+	
+   webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
+   webViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+	[self.mainViewController presentModalViewController:webViewController animated:YES];
+   
+	[webViewController release];
 }
 
 - (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest

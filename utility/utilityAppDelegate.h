@@ -19,6 +19,7 @@
 @protocol PhotosUpdatedDelegate <NSObject>
 -(void)photosUpdated;
 -(void)photosReturnedError:(NSError*)error;
+-(void)flickrAuthorizationReceived;
 @end
 
 @interface utilityAppDelegate : NSObject <UIApplicationDelegate, OFFlickrAPIRequestDelegate>

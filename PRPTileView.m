@@ -18,7 +18,7 @@
 #import <QuartzCore/CATiledLayer.h>
 #import "Photo.h"
 
-#define SIZE 75
+//#define SIZE 75
 
 @interface PRPTileView()
 
@@ -27,24 +27,44 @@
 @implementation PRPTileView
 
 @synthesize photos;
+@synthesize size=SIZE;
 
-+ (Class)layerClass 
++ (Class)layerClass
 {
    //return [CATiledLayer class];
    return [PRPTiledLayerX class];   
 }
 
+- (id)initWithFrame:(CGRect)frame size:(int)aSize
+{
+   self.size = aSize;
+   
+   if ((self = [super initWithFrame:frame]))
+   {
+      CATiledLayer *tiledLayer = (CATiledLayer *)[self layer];
+      
+      CGFloat sf = self.contentScaleFactor;
+      
+      tiledLayer.tileSize = CGSizeMake(SIZE*sf, SIZE*sf);
+   }
+   
+   return self;
+}
+
 - (id)initWithFrame:(CGRect)frame
 {
-    if ((self = [super initWithFrame:frame])) 
-    {
-       CATiledLayer *tiledLayer = (CATiledLayer *)[self layer];
+   SIZE = MEDIUM;
+   
+   if ((self = [super initWithFrame:frame]))
+   {
+      CATiledLayer *tiledLayer = (CATiledLayer *)[self layer];
         
-       CGFloat sf = self.contentScaleFactor;
+      CGFloat sf = self.contentScaleFactor;
 
-       tiledLayer.tileSize = CGSizeMake(SIZE*sf, SIZE*sf);
-    }
-    return self;
+      tiledLayer.tileSize = CGSizeMake(SIZE*sf, SIZE*sf);
+   }
+   
+   return self;
 }
 
 - (void)dealloc 

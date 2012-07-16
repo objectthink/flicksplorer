@@ -516,10 +516,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 @synthesize pandaPicker;
 @synthesize app;
 
-#pragma mark - fonemonkey
--(void) fmAssureAutomationInit
-{
-}
+//#pragma mark - fonemonkey
+//-(void) fmAssureAutomationInit
+//{
+//}
 
 
 #pragma mark - 
@@ -1009,7 +1009,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 - (IBAction)refreshTapped:(id)sender
 {
    //NSLog(@"%s", __PRETTY_FUNCTION__);  
-   
+
    switch(requestType)
    {
       case PANDA:
@@ -1027,6 +1027,29 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
       default:
          break;
    }
+   
+   //test
+   [self changePhotoWallSize];
+}
+
+-(void)changePhotoWallSize
+{
+   [self.tiles removeFromSuperview];
+   self.tiles = nil;
+   
+   CGRect infFrame = CGRectMake(0, 0, BIG, BIG);
+   self.tiles =
+   [[[PRPTileView alloc] initWithFrame:infFrame size:SMALL] autorelease];
+
+   UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                  initWithTarget:self
+                                  action:@selector(photoWallTapped:)];
+   [self.tiles addGestureRecognizer:tap];
+   [tap release];
+   
+   self.tiles.photos = self.app.photos;
+   
+   [self.photoWall addSubview:self.tiles];
 }
 
 -(IBAction)cameraTapped:(id)sender
@@ -1051,6 +1074,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    //NSLog(@"%s", __PRETTY_FUNCTION__);  
 }
 
+#pragma mark - PhotosUpdatedDelegate
 - (void)photosUpdated
 {
    //NSLog(@"%s", __PRETTY_FUNCTION__); 
@@ -1093,6 +1117,11 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     otherButtonTitles:nil] autorelease];
    
    [alert show];
+}
+
+-(void)flickrAuthorizationReceived
+{
+   [self flipsideViewControllerDidFinish:nil];
 }
 
 #pragma mark - UIScrollViewDelegate

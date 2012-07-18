@@ -24,6 +24,4 @@ UITableViewDataSource,
 UITableViewDelegate>
 @property (nonatomic, assign) id <FlipsideViewControllerDelegate> delegate;
 
-- (IBAction)done:(id)sender;
-
 @end

@@ -9,6 +9,25 @@
 #import "FlipsideViewController.h"
 #import "utilityAppDelegate.h"
 
+#define SECTIONS_COUNT 5
+
+#define SECTION_PHOTO_WALL 0
+#define SECTION_AUTHORIZATION 1
+#define SECTION_MAP 2
+#define SECTION_PANDAS 3
+#define SECTION_CREDITS 4
+
+#define SECTION_PHOTO_WALL_COUNT 1
+#define SECTION_AUTHORIZATION_COUNT 1
+#define SECTION_MAP_COUNT 1
+#define SECTION_PANDAS_COUNT 3
+#define SECTION_CREDITS_COUNT 1
+
+#define MAP_TYPE_SETTING 7
+#define PANDA_LING_LING_SETTING 77
+#define PANDA_HSING_HSING_SETTING 777
+#define PANDA_WANG_WANG_SETTING 7777
+
 @implementation FlipsideViewController
 
 @synthesize delegate = _delegate;
@@ -24,20 +43,26 @@
 #pragma mark - UITableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-   return 3;
+   return SECTIONS_COUNT;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
    switch(section)
    {
-      case 0:
+      case SECTION_PHOTO_WALL:
+         return @"Photo Wall";
+         break;
+      case SECTION_AUTHORIZATION:
+         return @"flickr Authorization";
+         break;
+      case SECTION_MAP:
          return @"Map";
          break;
-      case 1:
+      case SECTION_PANDAS:
          return @"Pandas";
          break;
-      case 2:
+      case SECTION_CREDITS:
          return @"";
          break;
    }
@@ -49,8 +74,11 @@
 {
    switch(section)
    {
-      case 1:
-         return @"Choose which flickr pandas you wish to hear from!";
+      case SECTION_AUTHORIZATION:
+         return @"flickr account used for uploads";
+         break;
+      case SECTION_PANDAS:
+         return @"flickr pandas you wish to see!";
          break;
       default:
          return @"";
@@ -62,14 +90,20 @@
 {
    switch(section)
    {
-      case 0:        //map settings, photo settings
-         return 1;
+      case SECTION_AUTHORIZATION:
+         return SECTION_AUTHORIZATION_COUNT;
          break;
-      case 1:
-         return 3;
+      case SECTION_PHOTO_WALL:         //photo wall settings
+         return SECTION_PHOTO_WALL_COUNT;
          break;
-      case 2:        //legal
-         return 1;
+      case SECTION_MAP:                //map settings, photo settings
+         return SECTION_MAP_COUNT;
+         break;
+      case SECTION_PANDAS:
+         return SECTION_PANDAS_COUNT;
+         break;
+      case SECTION_CREDITS:            //legal
+         return SECTION_CREDITS_COUNT;
          break;
       default:
          return 0;
@@ -79,19 +113,53 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   static NSString *CellIdentifier = @"Cell";
+   static NSString* CellIdentifier = @"Cell";
+   static NSString* ValueCellIdentifier = @"ValueCell";
    
-   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-   if (cell == nil) 
+   UITableViewCell *cell;   // = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+
+   if(
+      (indexPath.section == SECTION_PHOTO_WALL)||(indexPath.section == SECTION_AUTHORIZATION)
+      )
    {
-      cell = 
-      [[[UITableViewCell alloc] 
-        initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+      cell = [tableView dequeueReusableCellWithIdentifier:ValueCellIdentifier];
+      
+      if (cell==nil)
+         cell =
+         [[[UITableViewCell alloc]
+           initWithStyle:UITableViewCellStyleValue1
+           reuseIdentifier:ValueCellIdentifier] autorelease];
+   }
+   else
+   {
+      cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+
+      if(cell==nil)
+         cell =
+         [[[UITableViewCell alloc]
+           initWithStyle:UITableViewCellStyleDefault
+           reuseIdentifier:CellIdentifier] autorelease];
    }
    
    switch(indexPath.section)
    {
-      case 0: //SETTINGS
+      case SECTION_AUTHORIZATION:
+         cell.textLabel.text = @"flickr Authorization";
+         cell.textLabel.textAlignment = UITextAlignmentLeft;
+         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+         
+         cell.detailTextLabel.text = @"objectthink";
+         break;
+      case SECTION_PHOTO_WALL:
+         cell.textLabel.text = @"Photo size";
+         cell.textLabel.textAlignment = UITextAlignmentLeft;
+         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+         
+         //SET FROM USER DEFAULTS
+         cell.detailTextLabel.text = @"medium";
+         
+         break;
+      case SECTION_MAP:
          switch(indexPath.row)
          {
             default:
@@ -109,13 +177,13 @@
                      mySwitch.on = 
                      [[NSUserDefaults standardUserDefaults] boolForKey:SETTING_MAP_TYPE];
                      
-                     mySwitch.tag = 7;
+                     mySwitch.tag = MAP_TYPE_SETTING;
                      break;
                }
             }
          }
          break;
-      case 1: //pandas
+      case SECTION_PANDAS: //pandas
       switch(indexPath.row)
       {
          default:
@@ -133,7 +201,7 @@
                   mySwitch.on = 
                   [[NSUserDefaults standardUserDefaults] boolForKey:PANDA_LING_LING];
                   
-                  mySwitch.tag = 77;
+                  mySwitch.tag = PANDA_LING_LING_SETTING;
                   break;
                case 1:
                   cell.textLabel.text = @"hsing hsing";
@@ -141,7 +209,7 @@
                   mySwitch.on = 
                   [[NSUserDefaults standardUserDefaults] boolForKey:PANDA_HSING_HSING];
                   
-                  mySwitch.tag = 777;
+                  mySwitch.tag = PANDA_HSING_HSING_SETTING;
                   break;
                case 2:
                   cell.textLabel.text = @"wang wang";
@@ -149,13 +217,13 @@
                   mySwitch.on = 
                   [[NSUserDefaults standardUserDefaults] boolForKey:PANDA_WANG_WANG];
                   
-                  mySwitch.tag = 7777;
+                  mySwitch.tag = PANDA_WANG_WANG_SETTING;
                   break;
             }
          }
       }
       break;
-      case 2: //LEGAL
+      case SECTION_CREDITS: //LEGAL
          cell.textLabel.text = @"Credits";
          cell.textLabel.textAlignment = UITextAlignmentCenter;
          cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -170,33 +238,29 @@
    UISwitch* aSwitch = (UISwitch*)sender;
    switch(aSwitch.tag)
    {
-      case 7:
+      case MAP_TYPE_SETTING:
          if ([aSwitch isOn])
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SETTING_MAP_TYPE];
          else 
             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:SETTING_MAP_TYPE];
          break;
-         break;
-      case 77:
+      case PANDA_LING_LING_SETTING:
          if ([aSwitch isOn])
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:PANDA_LING_LING];
          else 
             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:PANDA_LING_LING];
          break;
-         break;
-      case 777:
+      case PANDA_HSING_HSING_SETTING:
          if ([aSwitch isOn])
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:PANDA_HSING_HSING];
          else 
             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:PANDA_HSING_HSING];
          break;
-         break;
-      case 7777:
+      case PANDA_WANG_WANG_SETTING:
          if ([aSwitch isOn])
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:PANDA_WANG_WANG];
          else 
             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:PANDA_WANG_WANG];
-         break;
          break;
       case 77777:
          break;
@@ -215,14 +279,9 @@
    [app refreshPandaList];
 }
 
--(void)dismissLegal
-{
-   [self dismissModalViewControllerAnimated:YES];
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-   if(indexPath.section == 2) //LEGAL
+   if(indexPath.section == SECTION_CREDITS) //LEGAL
    {
       [tableView deselectRowAtIndexPath:indexPath animated:YES];
       
@@ -232,14 +291,7 @@
       
       UITextView* statement = [[UITextView alloc] init];
       
-      //UIButton* back = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-      //[back addTarget:self action:@selector(dismissLegal) forControlEvents:UIControlEventTouchUpInside];
-      //[back setBackgroundColor:[UIColor whiteColor]];
-      //back.frame = CGRectMake(0, 0, 320, 30);
-      //[back setTitle:@"Back" forState:UIControlStateNormal];
-      //[statement addSubview:back];
-       
-      statement.text = 
+      statement.text =
       @"\nThis product uses the Flickr API but is not endorsed or certified by Flickr\n\n"
       "ObjectiveFlickr Copyright (c) 2006-2009 Lukhnos D. Liu.\n"
       "LFWebAPIKit Copyright (c) 2007-2009 Lukhnos D. Liu and Lithoglyph Inc."
@@ -305,10 +357,5 @@
 }
 
 #pragma mark - Actions
-
-- (IBAction)done:(id)sender
-{
-    [self.delegate flipsideViewControllerDidFinish:self];
-}
 
 @end

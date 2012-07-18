@@ -1146,14 +1146,38 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     [self dismissModalViewControllerAnimated:YES];
 }
 
+-(void)dismissSettings
+{
+   [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (IBAction)showSettings:(id)sender
-{    
-   FlipsideViewController *controller = 
+{
+   FlipsideViewController *controller =
    [[FlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
+
    controller.delegate = self;
        
+   UINavigationController* navigation =
+   [[UINavigationController alloc] initWithRootViewController:controller];
+   
+   navigation.navigationBar.tintColor = [UIColor blackColor];
+   
+   UIBarButtonItem* done =
+   [[UIBarButtonItem alloc]
+    initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+    target:self
+    action:@selector(dismissSettings)];
+
+   controller.navigationItem.leftBarButtonItem = done;
+   
+   //navigation.navigationItem.leftBarButtonItem = done;
+      
    controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-   [self presentModalViewController:controller animated:YES];
+
+   //[self presentModalViewController:controller animated:YES];
+   
+   [self presentModalViewController:navigation animated:YES];
        
    [controller release];
 }

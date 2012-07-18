@@ -232,20 +232,15 @@
       
       UITextView* statement = [[UITextView alloc] init];
       
-      UIButton* back = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-      
-      [back addTarget:self action:@selector(dismissLegal) forControlEvents:UIControlEventTouchUpInside];
-      
-      [back setBackgroundColor:[UIColor whiteColor]];
-      
-      back.frame = CGRectMake(0, 0, 320, 30);
-      
-      [back setTitle:@"Back" forState:UIControlStateNormal];
-      
-      [statement addSubview:back];
+      //UIButton* back = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+      //[back addTarget:self action:@selector(dismissLegal) forControlEvents:UIControlEventTouchUpInside];
+      //[back setBackgroundColor:[UIColor whiteColor]];
+      //back.frame = CGRectMake(0, 0, 320, 30);
+      //[back setTitle:@"Back" forState:UIControlStateNormal];
+      //[statement addSubview:back];
        
       statement.text = 
-      @"\n\nThis product uses the Flickr API but is not endorsed or certified by Flickr\n\n"
+      @"\nThis product uses the Flickr API but is not endorsed or certified by Flickr\n\n"
       "ObjectiveFlickr Copyright (c) 2006-2009 Lukhnos D. Liu.\n"
       "LFWebAPIKit Copyright (c) 2007-2009 Lukhnos D. Liu and Lithoglyph Inc."
       "\n\n"
@@ -280,7 +275,8 @@
       
       [statement release];      
       
-      [self presentModalViewController:controller animated:YES];
+      //[self presentModalViewController:controller animated:YES];
+      [self.navigationController pushViewController:controller animated:YES];
       
       [controller release];
    }

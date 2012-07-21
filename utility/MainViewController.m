@@ -1157,6 +1157,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    [[FlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
 
    controller.delegate = self;
+   
+   controller.title = @"Settings";
        
    UINavigationController* navigation =
    [[UINavigationController alloc] initWithRootViewController:controller];
@@ -1171,14 +1173,12 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
    controller.navigationItem.leftBarButtonItem = done;
    
-   //navigation.navigationItem.leftBarButtonItem = done;
-      
    controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
 
-   //[self presentModalViewController:controller animated:YES];
-   
    [self presentModalViewController:navigation animated:YES];
        
+   [navigation release];
+   [done release];
    [controller release];
 }
 

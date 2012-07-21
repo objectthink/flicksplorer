@@ -28,6 +28,79 @@
 #define PANDA_HSING_HSING_SETTING 777
 #define PANDA_WANG_WANG_SETTING 7777
 
+@implementation PhotoWallSetting
+-(NSInteger)numberOfSectionsInTableView:(UITableView*)tableView
+{
+   return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+   return 4;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+   return @"Choose the size of the photos on the photo wall";
+}
+
+-(NSString*)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+   return @"The photo size will be updated in the photo wall the next time the photo wall is updated";
+}
+
+- (UITableViewCell *)
+tableView:(UITableView *)tableView
+cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+   static NSString* CellIdentifier = @"Cell";
+
+   UITableViewCell *cell;   // = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+
+   cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+   
+   if(cell==nil)
+      cell =
+      [[[UITableViewCell alloc]
+        initWithStyle:UITableViewCellStyleDefault
+        reuseIdentifier:CellIdentifier] autorelease];
+
+   switch (indexPath.row) {
+      case 0:
+         cell.textLabel.text = @"Small";
+         break;
+      case 1:
+         cell.textLabel.text = @"Medium";
+         break;
+      case 2:
+         cell.textLabel.text = @"Large";
+         break;
+      case 3:
+         cell.textLabel.text = @"Extra Large";
+         break;
+      default:
+         break;
+   }
+   
+   if(indexPath.row == selected)
+      [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+   else
+      [cell setAccessoryType:UITableViewCellAccessoryNone];
+   
+   return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+   [tableView deselectRowAtIndexPath:indexPath animated:YES];
+   
+   selected = indexPath.row;
+   
+   [tableView reloadData];
+}
+
+@end
+
 @implementation FlipsideViewController
 
 @synthesize delegate = _delegate;
@@ -281,56 +354,80 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-   if(indexPath.section == SECTION_CREDITS) //LEGAL
+   [tableView deselectRowAtIndexPath:indexPath animated:YES];
+   
+   switch (indexPath.section)
    {
-      [tableView deselectRowAtIndexPath:indexPath animated:YES];
-      
-      UIViewController* controller = [[UIViewController alloc] init];
-      
-      controller.title = @"Credits";
-      
-      UITextView* statement = [[UITextView alloc] init];
-      
-      statement.text =
-      @"\nThis product uses the Flickr API but is not endorsed or certified by Flickr\n\n"
-      "ObjectiveFlickr Copyright (c) 2006-2009 Lukhnos D. Liu.\n"
-      "LFWebAPIKit Copyright (c) 2007-2009 Lukhnos D. Liu and Lithoglyph Inc."
-      "\n\n"
-      "One test in LFWebAPIKit (Tests/StreamedBodySendingTest) makes use of Google Toolbox for Mac, Copyright (c) 2008"
-      "Google Inc. Refer to COPYING.txt in the directory for the full text of the Apache License, Version 2.0, under"
-      "which the said software is licensed."
-      "Both ObjectiveFlickr and LFWebAPIKit are released under the MIT license, the full text of which is printed here as "
-      "follows. You can also find the text at: http://www.opensource.org/licenses/mit-license.php "
-      "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated "
-      "documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation "                           
-      "the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to " 
-      "permit persons to whom the Software is furnished to do so, subject to the following conditions in this license.  "
-      "\n\n"
-      "Special thanks to:"
-      "\n\n"      
-      "SVWebViewController\n"
-      "Created by Sam Vermette on 08.11.10.\n"
-      "Copyright 2010 Sam Vermette. All rights reserved.\n"
-      "\n\n"     
-      "MBProgressHUD\n"
-      "Version 0.4\n"
-      "Created by Matej Bukovinski on 2.4.09.\n"
-      "\n\n"     
-      "iOS Recipes\n"
-      "The Pragmatic Programmer"
-      "\n\n"
-      ;      
-      
-      statement.editable = NO;
-      
-      controller.view = statement;
-      
-      [statement release];      
-      
-      //[self presentModalViewController:controller animated:YES];
-      [self.navigationController pushViewController:controller animated:YES];
-      
-      [controller release];
+      case SECTION_PHOTO_WALL:
+      {
+         UITableViewController* controller =
+         [[UITableViewController alloc]initWithStyle:UITableViewStyleGrouped];
+         
+         controller.title = @"Photo Size";
+         
+         PhotoWallSetting* settings =
+         [[PhotoWallSetting alloc]init];
+         
+         controller.tableView.delegate = settings;
+         controller.tableView.dataSource = settings;
+                  
+         [self.navigationController pushViewController:controller animated:YES];
+         [controller release];
+      }
+         break;
+      case SECTION_AUTHORIZATION:
+         break;
+      case SECTION_CREDITS:
+         [tableView deselectRowAtIndexPath:indexPath animated:YES];
+         
+         UIViewController* controller = [[UIViewController alloc] init];
+         
+         controller.title = @"Credits";
+         
+         UITextView* statement = [[UITextView alloc] init];
+         
+         statement.text =
+         @"\nThis product uses the Flickr API but is not endorsed or certified by Flickr\n\n"
+         "ObjectiveFlickr Copyright (c) 2006-2009 Lukhnos D. Liu.\n"
+         "LFWebAPIKit Copyright (c) 2007-2009 Lukhnos D. Liu and Lithoglyph Inc."
+         "\n\n"
+         "One test in LFWebAPIKit (Tests/StreamedBodySendingTest) makes use of Google Toolbox for Mac, Copyright (c) 2008"
+         "Google Inc. Refer to COPYING.txt in the directory for the full text of the Apache License, Version 2.0, under"
+         "which the said software is licensed."
+         "Both ObjectiveFlickr and LFWebAPIKit are released under the MIT license, the full text of which is printed here as "
+         "follows. You can also find the text at: http://www.opensource.org/licenses/mit-license.php "
+         "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated "
+         "documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation "
+         "the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to "
+         "permit persons to whom the Software is furnished to do so, subject to the following conditions in this license.  "
+         "\n\n"
+         "Special thanks to:"
+         "\n\n"
+         "SVWebViewController\n"
+         "Created by Sam Vermette on 08.11.10.\n"
+         "Copyright 2010 Sam Vermette. All rights reserved.\n"
+         "\n\n"
+         "MBProgressHUD\n"
+         "Version 0.4\n"
+         "Created by Matej Bukovinski on 2.4.09.\n"
+         "\n\n"
+         "iOS Recipes\n"
+         "The Pragmatic Programmer"
+         "\n\n"
+         ;
+         
+         statement.editable = NO;
+         
+         controller.view = statement;
+         
+         [statement release];
+         
+         [self.navigationController pushViewController:controller animated:YES];
+         
+         [controller release];
+         break;
+      default:
+         break;
    }
 }
 

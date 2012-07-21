@@ -15,6 +15,15 @@
 
 @class FlipsideViewController;
 
+@interface PhotoWallSetting : NSObject <
+UITableViewDataSource,
+UITableViewDelegate>
+{
+   int selected;
+}
+
+@end
+
 @protocol FlipsideViewControllerDelegate
 - (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller;
 @end
@@ -22,6 +31,7 @@
 @interface FlipsideViewController : UIViewController <
 UITableViewDataSource,
 UITableViewDelegate>
+
 @property (nonatomic, assign) id <FlipsideViewControllerDelegate> delegate;
 
 @end

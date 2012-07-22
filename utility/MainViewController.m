@@ -796,11 +796,17 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    
    CGRect infFrame = CGRectMake(0, 0, BIG, BIG);
    
-   self.tiles = [[[PRPTileView alloc] initWithFrame:infFrame] autorelease];
+   int size =
+   [[NSUserDefaults standardUserDefaults] integerForKey:USER_DEFAULT_PHOTO_SIZE];
    
-   UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] 
-                                  initWithTarget:self 
-                                  action:@selector(photoWallTapped:)];								
+   self.tiles =
+   [[[PRPTileView alloc] initWithFrame:infFrame size:size] autorelease];
+   
+   UITapGestureRecognizer *tap =
+   [[UITapGestureRecognizer alloc]
+    initWithTarget:self
+    action:@selector(photoWallTapped:)];
+   
    [self.tiles addGestureRecognizer:tap];
    [tap release]; 
    
@@ -827,6 +833,13 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    //[self performSelector:@selector(getPandaList) withObject:nil afterDelay:3.0];
    
    [app getPanda:@"ling ling"];
+   
+   //listen for photo size change notification
+   [[NSNotificationCenter defaultCenter]
+    addObserver:self
+    selector:@selector(changePhotoWallSize)
+    name:@"photoWallSizeChanged"
+    object:nil];
 }
 
 -(void)getPandaList
@@ -1027,23 +1040,25 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
       default:
          break;
    }
-   
-   //test
-   [self changePhotoWallSize];
 }
 
 -(void)changePhotoWallSize
 {
+   int size = 50;
+   size = [[NSUserDefaults standardUserDefaults] integerForKey:USER_DEFAULT_PHOTO_SIZE];
+
    [self.tiles removeFromSuperview];
    self.tiles = nil;
    
    CGRect infFrame = CGRectMake(0, 0, BIG, BIG);
+   
    self.tiles =
-   [[[PRPTileView alloc] initWithFrame:infFrame size:SMALL] autorelease];
+   [[[PRPTileView alloc] initWithFrame:infFrame size:size] autorelease];
 
    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
                                   initWithTarget:self
                                   action:@selector(photoWallTapped:)];
+   
    [self.tiles addGestureRecognizer:tap];
    [tap release];
    

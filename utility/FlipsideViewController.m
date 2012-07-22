@@ -82,7 +82,7 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
          break;
    }
    
-   if(indexPath.row == selected)
+   if(indexPath.row == self.selected)
       [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
    else
       [cell setAccessoryType:UITableViewCellAccessoryNone];
@@ -94,9 +94,36 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
    [tableView deselectRowAtIndexPath:indexPath animated:YES];
    
-   selected = indexPath.row;
+   self.selected = indexPath.row;
    
    [tableView reloadData];
+   
+   int size = 50;
+   switch (indexPath.row) {
+      case 0:
+         size = SETTING_PHOTO_SMALL;
+         break;
+      case 1:
+         size = SETTING_PHOTO_MEDIUM;
+         break;
+      case 2:
+         size = SETTING_PHOTO_LARGE;
+         break;
+      case 3:
+         size = SETTING_PHOTO_XLARGE;
+         break;
+      default:
+         break;
+   }
+
+   [[NSUserDefaults standardUserDefaults] setInteger:size forKey:USER_DEFAULT_PHOTO_SIZE];
+
+   [[NSUserDefaults standardUserDefaults] synchronize];
+   [NSUserDefaults resetStandardUserDefaults];
+   
+   //Post change notification
+   [[NSNotificationCenter defaultCenter]
+    postNotificationName:@"photoWallSizeChanged" object:self];
 }
 
 @end
@@ -229,7 +256,25 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
          cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
          
          //SET FROM USER DEFAULTS
-         cell.detailTextLabel.text = @"medium";
+         switch ([[NSUserDefaults standardUserDefaults] integerForKey:USER_DEFAULT_PHOTO_SIZE])
+         {
+            case 50:
+               cell.detailTextLabel.text = @"Small";
+               break;
+            case 75:
+               cell.detailTextLabel.text = @"Medium";
+               break;
+            case 100:
+               cell.detailTextLabel.text = @"Large";
+               break;
+            case 125:
+               cell.detailTextLabel.text = @"XLarge";
+            break;
+            
+            default:
+            break;
+      }
+
          
          break;
       case SECTION_MAP:
@@ -368,6 +413,25 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
          PhotoWallSetting* settings =
          [[PhotoWallSetting alloc]init];
          
+         switch ([[NSUserDefaults standardUserDefaults] integerForKey:USER_DEFAULT_PHOTO_SIZE])
+         {
+            case 50:
+               settings.selected = 0;
+               break;
+            case 75:
+               settings.selected = 1;
+               break;
+            case 100:
+               settings.selected = 2;
+               break;
+            case 125:
+               settings.selected = 3;
+               break;
+               
+            default:
+               break;
+         }
+         
          controller.tableView.delegate = settings;
          controller.tableView.dataSource = settings;
                   
@@ -436,8 +500,20 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];  
+   [super viewDidLoad];
+   self.view.backgroundColor = [UIColor blackColor]; //[UIColor viewFlipsideBackgroundColor];
+   
+   //listen for photo size change notification
+   [[NSNotificationCenter defaultCenter]
+    addObserver:self
+    selector:@selector(changePhotoWallSize)
+    name:@"photoWallSizeChanged"
+    object:nil];
+}
+
+-(void) changePhotoWallSize
+{
+   [self.tableView reloadData];
 }
 
 - (void)viewDidUnload

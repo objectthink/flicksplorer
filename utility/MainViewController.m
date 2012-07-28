@@ -799,6 +799,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    int size =
    [[NSUserDefaults standardUserDefaults] integerForKey:USER_DEFAULT_PHOTO_SIZE];
    
+   if(size==0)
+       size = 50;
+    
    self.tiles =
    [[[PRPTileView alloc] initWithFrame:infFrame size:size] autorelease];
    

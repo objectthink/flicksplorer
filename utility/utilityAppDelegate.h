@@ -22,9 +22,23 @@
 -(void)flickrAuthorizationReceived;
 @end
 
-@interface utilityAppDelegate : NSObject <UIApplicationDelegate, OFFlickrAPIRequestDelegate>
+@interface utilityAppDelegate : NSObject <
+UIApplicationDelegate,
+OFFlickrAPIRequestDelegate,
+UIImagePickerControllerDelegate,
+UINavigationControllerDelegate,
+CLLocationManagerDelegate>
 {
+   CLLocationManager* locationManager;
+   CLLocationCoordinate2D currentLocation;
 }
+
+//CLLocationManagerDelegate
+-(void)locationManager:(CLLocationManager *)manager
+   didUpdateToLocation:(CLLocation *)newLocation
+          fromLocation:(CLLocation *)oldLocation;
+
+-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error;
 
 -(void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest 
    didCompleteWithResponse:(NSDictionary *)inResponseDictionary;
@@ -39,6 +53,7 @@
 -(void)getSearchWith:(NSString*)s;
 -(void)getSearchWithOwner:(NSString*)s;
 -(void)authorization;
+-(void)upload;
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet MainViewController *mainViewController;

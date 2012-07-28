@@ -39,6 +39,87 @@
 
 @synthesize photoCache;
 
+////////////////////////////////////////////////////////////////////////////////
+//locationManager:didUpdateToLocation:fromLocation
+//store the current location to be used in the new stop
+-(void)locationManager:(CLLocationManager *)manager
+   didUpdateToLocation:(CLLocation *)newLocation
+          fromLocation:(CLLocation *)oldLocation
+{
+   NSLog(@"%@ time:%f",newLocation,[[newLocation timestamp]timeIntervalSinceNow]);
+   
+   currentLocation = [newLocation coordinate];
+   
+   // test that the horizontal accuracy does not indicate an invalid measurement
+   if (newLocation.horizontalAccuracy < 0) return;
+   // test the age of the location measurement to determine if the measurement is cached
+   // in most cases you will not want to rely on cached measurements
+   NSTimeInterval locationAge = -[newLocation.timestamp timeIntervalSinceNow];
+   if (locationAge > 5.0) return;
+   
+   //WEVE GOT A LOCATION SO STOP UPDATES
+   [locationManager stopUpdatingLocation];
+}
+
+BOOL userInformedOfDisabledLocationServices = NO;
+////////////////////////////////////////////////////////////////////////
+//locationManager:didFailWithError
+//there was an error getting the current location
+-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+   NSLog(@"%s %@", __PRETTY_FUNCTION__, error);
+   
+   //[ModalAlert say:[error localizedDescription]];
+   
+   if ([error domain] == kCLErrorDomain)
+   {
+      // We handle CoreLocation-related errors here
+      switch ([error code])
+      {
+            // "Don't Allow" on two successive app launches is the same as saying "never allow". The user
+            // can reset this for all apps by going to Settings > General > Reset > Reset Location Warnings.
+         case kCLErrorDenied:
+            // USER HAS DISALLOWED LOCATION SERVICES
+            // STOP UPDATING LOCATION
+            [locationManager stopUpdatingLocation];
+            break;
+         case kCLErrorLocationUnknown:
+            break;
+         default:
+            break;
+      }
+   }
+   else
+   {
+      // We handle all non-CoreLocation errors here
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//UIImagePicker delegate interface
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+   //STOP THE LOCATION MANAGER
+   [locationManager stopUpdatingLocation];
+   
+   [self.mainViewController dismissModalViewControllerAnimated:YES];
+}
+///////////////////////////////////////////////////////////////////////////////
+//imagePickerController:didFInishPickingMediaWithInfo:
+- (void)imagePickerController:(UIImagePickerController *)picker
+        didFinishPickingImage:(UIImage *)image
+                  editingInfo:(NSDictionary *)editingInfo
+{
+   //[image retain];
+      
+   [self.mainViewController dismissModalViewControllerAnimated:YES];
+      
+   /////////////////////////////////////////////////////////////////////////
+   // we schedule this call in run loop because we want to dismiss the modal view first
+   //[self performSelector:@selector(getStopInfo:) withObject:image afterDelay:0.5];
+   //[self performSelector:@selector(Upload:) withObject:image afterDelay:0.5];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
    // Override point for customization after application launch.
@@ -78,6 +159,11 @@
    
    if([self.pandas count]==0)
       [self.pandas addObject:@"ling ling"];
+
+   //CREATE THE LOCATION MANAGER INSTANCE
+   locationManager = [[CLLocationManager alloc] init];
+   [locationManager setDistanceFilter:kCLDistanceFilterNone];
+   [locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
 
    return YES;
 }
@@ -223,6 +309,42 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
    self.fRequest.sessionInfo = [Session sessionWithRequestType:AUTH];
    [self.fRequest fetchOAuthRequestTokenWithCallbackURL:[NSURL URLWithString:CALLBACK_BASE_STRING]];
 }
+      
+/**
+	take and upload photo to flickr
+ */
+-(void)upload
+{
+   //CHANGE THIS TO UPLOAD
+   self.fRequest.sessionInfo = [Session sessionWithRequestType:UPLOAD];
+   
+   ///////////////////////////////////////////////////////
+   //START THE LOCATION MANAGER
+   locationManager.delegate = self;
+   [locationManager startUpdatingLocation];
+   
+   //////////////////////////////////////////////////////
+   //START WITH NO CURRENT LOCATION SO THAT A PREVIOUS
+   //LOCATION DOES NOT LEAK INTO A SUBSEQUENT STOP
+   //currentLocation.latitude = 0;
+   //currentLocation.longitude = 0;
+   
+   UIImagePickerController* picker = [[UIImagePickerController alloc] init];
+   
+   picker.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+   
+//   if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+//      picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+   
+   picker.delegate = self;
+   picker.allowsEditing = YES;
+   
+   [self.mainViewController
+    presentModalViewController:picker
+    animated:YES];
+   
+   [picker release];
+}
 
 -(BOOL)application:(UIApplication *)application
            openURL:(NSURL *)url
@@ -295,8 +417,9 @@ didObtainOAuthRequestToken:(NSString *)inRequestToken
    
    webViewController.navigationController.navigationBar.tintColor = [UIColor blackColor];
 	
-   webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
+   //webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
    webViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+   
 	[self.mainViewController presentModalViewController:webViewController animated:YES];
    
 	[webViewController release];
@@ -392,7 +515,7 @@ didObtainOAuthRequestToken:(NSString *)inRequestToken
          
       case RECENT:
       {
-         //NSLog(@"%@", inResponseDictionary);
+         NSLog(@"%@", inResponseDictionary);
 
          NSArray* rphotos =
          [inResponseDictionary valueForKeyPath:@"photos.photo"];

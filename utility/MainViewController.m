@@ -1072,8 +1072,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 -(IBAction)cameraTapped:(id)sender
 {
-   NSLog(@"cameraTapped");
-   [self.app authorization];
+   //NSLog(@"cameraTapped");
+   
+   //[self.app authorization];
+   [self.app upload];
 }
 
 - (IBAction)choiceMade:(id)sender;

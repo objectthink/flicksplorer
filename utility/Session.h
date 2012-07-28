@@ -13,10 +13,11 @@
 typedef enum 
 {
    PANDA       = 0,
-   RECENT      = 1,
-   SEARCH      = 2,
-   PANDA_LIST  = 3,
-   AUTH        = 4
+   RECENT,
+   SEARCH,
+   PANDA_LIST,
+   AUTH,
+   UPLOAD
 }REQUESTTYPE;
 
 

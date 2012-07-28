@@ -18,6 +18,7 @@
 		733062991412D98300D6755C /* MainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 733062981412D98300D6755C /* MainView.xib */; };
 		7330629C1412D98300D6755C /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7330629B1412D98300D6755C /* FlipsideViewController.m */; };
 		7330629E1412D98300D6755C /* FlipsideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7330629D1412D98300D6755C /* FlipsideView.xib */; };
+		73678F2815C432BC0095C7E4 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73678F2715C432BC0095C7E4 /* CoreLocation.framework */; };
 		73AB1B9114354A1E0053A8D8 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 73AB1B9014354A1E0053A8D8 /* Default.png */; };
 		73AFC1DB1419AB680062A501 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 73AFC1DA1419AB680062A501 /* Photo.m */; };
 		73C02597143B296C00ADD23F /* InfoViewEx.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73C02596143B296C00ADD23F /* InfoViewEx.xib */; };
@@ -165,6 +166,7 @@
 		7330629A1412D98300D6755C /* FlipsideViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlipsideViewController.h; sourceTree = "<group>"; };
 		7330629B1412D98300D6755C /* FlipsideViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlipsideViewController.m; sourceTree = "<group>"; };
 		7330629D1412D98300D6755C /* FlipsideView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FlipsideView.xib; path = utility/FlipsideView.xib; sourceTree = "<group>"; };
+		73678F2715C432BC0095C7E4 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		73AB1B9014354A1E0053A8D8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		73AFC1D91419AB680062A501 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
 		73AFC1DA1419AB680062A501 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Photo.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -298,6 +300,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73678F2815C432BC0095C7E4 /* CoreLocation.framework in Frameworks */,
 				73C3BC1F15B1AB4100C37F2B /* libObjectiveFlickr.a in Frameworks */,
 				A346B3E5142763C4000127E8 /* MessageUI.framework in Frameworks */,
 				A3EC8ECA141F7BE0001E52BD /* MediaPlayer.framework in Frameworks */,
@@ -316,6 +319,7 @@
 		733062711412D98300D6755C = {
 			isa = PBXGroup;
 			children = (
+				73678F2715C432BC0095C7E4 /* CoreLocation.framework */,
 				73E0259E15B1A0ED00CFA14D /* ObjectiveFlickr.xcodeproj */,
 				73F2D520146760AC0025E19A /* SystemConfiguration.framework */,
 				73FDB72A14675B6D005091BF /* FoneMonkey */,

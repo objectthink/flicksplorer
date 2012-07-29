@@ -27,10 +27,13 @@ UIApplicationDelegate,
 OFFlickrAPIRequestDelegate,
 UIImagePickerControllerDelegate,
 UINavigationControllerDelegate,
+UIActionSheetDelegate,
 CLLocationManagerDelegate>
 {
    CLLocationManager* locationManager;
    CLLocationCoordinate2D currentLocation;
+   UIActionSheet* uploadProgressActionSheet;
+   UIProgressView* progressView;
 }
 
 //CLLocationManagerDelegate

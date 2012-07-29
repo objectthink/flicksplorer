@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "utility/utilityAppDelegate.m"
-         timestampString = "365179841.39807"
+         timestampString = "365269780.655697"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "387"
-         endingLineNumber = "387"
+         startingLineNumber = "470"
+         endingLineNumber = "470"
          landmarkName = "-flickrAPIRequest:didObtainOAuthAccessToken:secret:userFullName:userName:userNSID:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -21,11 +21,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "utility/utilityAppDelegate.m"
-         timestampString = "365179841.39807"
+         timestampString = "365269780.655697"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "353"
-         endingLineNumber = "353"
+         startingLineNumber = "436"
+         endingLineNumber = "436"
          landmarkName = "-application:openURL:sourceApplication:annotation:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -34,25 +34,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "utility/utilityAppDelegate.m"
-         timestampString = "365179841.39807"
+         timestampString = "365270149.425355"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "112"
-         endingLineNumber = "112"
-         landmarkName = "-imagePickerController:didFinishPickingImage:editingInfo:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "utility/utilityAppDelegate.m"
-         timestampString = "365179837.127627"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "101"
-         endingLineNumber = "101"
-         landmarkName = "-imagePickerControllerDidCancel:"
+         startingLineNumber = "166"
+         endingLineNumber = "166"
+         landmarkName = "-send:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

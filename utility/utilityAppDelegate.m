@@ -116,9 +116,92 @@ BOOL userInformedOfDisabledLocationServices = NO;
       
    /////////////////////////////////////////////////////////////////////////
    // we schedule this call in run loop because we want to dismiss the modal view first
-   //[self performSelector:@selector(getStopInfo:) withObject:image afterDelay:0.5];
-   //[self performSelector:@selector(Upload:) withObject:image afterDelay:0.5];
+   [self performSelector:@selector(send:) withObject:image afterDelay:0.5];
 }
+
+///////////////////////////////////////////////////////////////////////////////
+//Upload:withStop
+- (void)send:(UIImage *)image
+{
+   //NSLog(@"%s", __PRETTY_FUNCTION__);
+   
+   UIImage* newImage = image;
+   
+   //consider support for delayed upload
+   //consider support for scaled images
+   
+//   if(image == nil)
+//      newImage = data.image;
+//   else
+//      if([[NSUserDefaults standardUserDefaults]boolForKey:UPLOAD_FULLSIZE_KEY])
+//      {
+//         newImage = image;
+//      }
+//      else
+//      {
+//         newImage = [self resizeImage:image];
+//      }
+   
+   //upload image data
+   NSData *JPEGData = UIImageJPEGRepresentation(newImage, 1.0);
+   
+   //add  tags
+   
+   //NSString* tags = [stop tags];
+   
+   //consider public or not
+   
+//   NSString* isPublic;
+//   if([[NSUserDefaults standardUserDefaults]boolForKey:UPLOAD_PUBLIC_KEY])
+//      isPublic = [[[NSString alloc] initWithString:@"1"]autorelease];
+//   else
+//      isPublic = [[[NSString alloc] initWithString:@"0"]autorelease];
+   
+   NSString* is_public     = @"0";
+   NSString* title         = @"TITLE";
+   NSString* description   = @"DESCRIPTION";
+   NSString* safety_level  = @"1";
+   NSString* tags          = @"";
+   
+   [self.fRequest
+    uploadImageStream:[NSInputStream inputStreamWithData:JPEGData]
+    suggestedFilename:@"flicksplorer"
+    MIMEType:@"image/jpeg"
+    arguments:[NSDictionary dictionaryWithObjectsAndKeys:
+               is_public            ,@"is_public",
+               title                ,@"title",
+               description          ,@"description",
+               safety_level         ,@"safety_level",
+               tags                 ,@"tags",
+               nil]
+    ];
+   
+   uploadProgressActionSheet =
+   [[[UIActionSheet alloc]
+     initWithTitle:[NSString stringWithFormat:@"Uploading image.\n%@\n\n",title]
+     delegate:self
+     cancelButtonTitle:nil
+     destructiveButtonTitle: nil
+     otherButtonTitles: nil]
+    autorelease];
+   
+   progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0.0f, 50.0f, 220.0f, 90.0f)];
+   [progressView setProgressViewStyle: UIProgressViewStyleDefault];
+   [uploadProgressActionSheet addSubview:progressView];
+   [progressView release];
+	
+   UIToolbar* toolbar =
+   (UIToolbar*)
+   [self.mainViewController.view viewWithTag:7];
+   
+   [progressView setProgress:(0.0f)];
+   [uploadProgressActionSheet
+    //showFromToolbar:toolbar];
+    showInView:self.mainViewController.view];
+   
+   progressView.center = CGPointMake(uploadProgressActionSheet.center.x, progressView.center.y);
+}   
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -620,6 +703,18 @@ didObtainOAuthRequestToken:(NSString *)inRequestToken
    //NSLog(@"%s %@ %@", __PRETTY_FUNCTION__, inRequest, inError); 
    
    [photosUpdatedDelegate photosReturnedError:inError];
+}
+
+-(void)flickrAPIRequest:(OFFlickrAPIRequest *)request imageUploadSentBytes:(NSUInteger)sent totalBytes:(NSUInteger)total
+{
+   
+   float fSent = sent;
+   float fTotal = total;
+   
+   [progressView setProgress: (fSent/fTotal)];
+   
+   if(sent==total)
+      uploadProgressActionSheet.title = @"Waiting for flickr...\n\n\n";
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

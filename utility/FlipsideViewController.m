@@ -400,6 +400,9 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    utilityAppDelegate* app =
+    (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
    
    switch (indexPath.section)
    {
@@ -440,7 +443,8 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
       }
          break;
       case SECTION_AUTHORIZATION:
-         break;
+           [app authorization];
+        break;
       case SECTION_CREDITS:
          [tableView deselectRowAtIndexPath:indexPath animated:YES];
          

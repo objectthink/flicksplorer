@@ -125,6 +125,8 @@ BOOL userInformedOfDisabledLocationServices = NO;
 {
    //NSLog(@"%s", __PRETTY_FUNCTION__);
    
+   [locationManager stopUpdatingLocation];
+   
    UIImage* newImage = image;
    
    //consider support for delayed upload
@@ -185,14 +187,16 @@ BOOL userInformedOfDisabledLocationServices = NO;
      otherButtonTitles: nil]
     autorelease];
    
+   [uploadProgressActionSheet retain];
+   
    progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0.0f, 50.0f, 220.0f, 90.0f)];
    [progressView setProgressViewStyle: UIProgressViewStyleDefault];
    [uploadProgressActionSheet addSubview:progressView];
    [progressView release];
 	
-   UIToolbar* toolbar =
-   (UIToolbar*)
-   [self.mainViewController.view viewWithTag:7];
+   //UIToolbar* toolbar =
+   //(UIToolbar*)
+   //[self.mainViewController.view viewWithTag:7];
    
    [progressView setProgress:(0.0f)];
    [uploadProgressActionSheet
@@ -390,7 +394,8 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
    self.fContext.OAuthTokenSecret = nil;
 
    self.fRequest.sessionInfo = [Session sessionWithRequestType:AUTH];
-   [self.fRequest fetchOAuthRequestTokenWithCallbackURL:[NSURL URLWithString:CALLBACK_BASE_STRING]];
+   [self.fRequest
+    fetchOAuthRequestTokenWithCallbackURL:[NSURL URLWithString:CALLBACK_BASE_STRING]];
 }
       
 /**
@@ -416,8 +421,8 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
    
    picker.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
    
-//   if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-//      picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+   if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+      picker.sourceType = UIImagePickerControllerSourceTypeCamera;
    
    picker.delegate = self;
    picker.allowsEditing = YES;
@@ -469,7 +474,12 @@ didObtainOAuthAccessToken:(NSString *)inAccessToken
 {
    NSLog(@"received authorization");
    
-   [photosUpdatedDelegate flickrAuthorizationReceived];
+   if([self.mainViewController presentedViewController] != nil)
+      [[self.mainViewController presentedViewController]dismissModalViewControllerAnimated:YES];
+   else
+      [self.mainViewController dismissModalViewControllerAnimated:YES];
+      
+   //[photosUpdatedDelegate flickrAuthorizationReceived];
    
    //dismiss progress here
    //store token and secret in user defaults
@@ -503,9 +513,14 @@ didObtainOAuthRequestToken:(NSString *)inRequestToken
    //webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
    webViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
    
-	[self.mainViewController presentModalViewController:webViewController animated:YES];
+   if([self.mainViewController presentedViewController] != nil)
+      [self.mainViewController.presentedViewController
+       presentModalViewController:webViewController
+       animated:YES];
+   else
+      [self.mainViewController presentModalViewController:webViewController animated:YES];
    
-	[webViewController release];
+   [webViewController release];
 }
 
 - (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest
@@ -714,7 +729,8 @@ didObtainOAuthRequestToken:(NSString *)inRequestToken
    [progressView setProgress: (fSent/fTotal)];
    
    if(sent==total)
-      uploadProgressActionSheet.title = @"Waiting for flickr...\n\n\n";
+      //uploadProgressActionSheet.title = @"Waiting for flickr...\n\n\n";
+      [uploadProgressActionSheet dismissWithClickedButtonIndex:0 animated:YES];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

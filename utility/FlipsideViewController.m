@@ -216,6 +216,9 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
    static NSString* CellIdentifier = @"Cell";
    static NSString* ValueCellIdentifier = @"ValueCell";
    
+   utilityAppDelegate* app =
+   (utilityAppDelegate*)[[UIApplication sharedApplication] delegate];
+   
    UITableViewCell *cell;   // = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
    if(
@@ -248,7 +251,8 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
          cell.textLabel.textAlignment = UITextAlignmentLeft;
          cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
          
-         cell.detailTextLabel.text = @"objectthink";
+         //cell.detailTextLabel.text = @"Unauthorized";
+         cell.detailTextLabel.text = app.user.username;
          break;
       case SECTION_PHOTO_WALL:
          cell.textLabel.text = @"Photo size";
@@ -274,7 +278,6 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
             default:
             break;
       }
-
          
          break;
       case SECTION_MAP:

@@ -32,6 +32,13 @@
 }
 @end
 
+@implementation AuthorizedUser
+@synthesize username;
+@synthesize fullname;
+@synthesize token;
+@synthesize secret;
+@end
+
 @implementation utilityAppDelegate
 
 @synthesize window = _window;
@@ -173,7 +180,7 @@ BOOL userInformedOfDisabledLocationServices = NO;
    NSString* safety_level  = @"1";
    NSString* tags          = @"";
    
-   [self.fRequest
+   [self.fUploadRequest
     uploadImageStream:[NSInputStream inputStreamWithData:JPEGData]
     suggestedFilename:@"flicksplorer"
     MIMEType:@"image/jpeg"
@@ -221,13 +228,20 @@ BOOL userInformedOfDisabledLocationServices = NO;
    // Add the main view controller's view to the window and display.
       
    self.fContext = [OFFlickrAPIContext alloc];
-   
    [self.fContext initWithAPIKey:OBJECTIVE_FLICKR_API_KEY 
                     sharedSecret:OBJECTIVE_FLICKR_API_SHARED_SECRET];
+   self.fRequest =
+   [[OFFlickrAPIRequest alloc] initWithAPIContext:self.fContext];
+
    
-   self.fRequest = [[OFFlickrAPIRequest alloc] initWithAPIContext:self.fContext];
+   self.fUploadContext = [OFFlickrAPIContext alloc];
+   [self.fUploadContext initWithAPIKey:OBJECTIVE_FLICKR_API_KEY
+                          sharedSecret:OBJECTIVE_FLICKR_API_SHARED_SECRET];
+   self.fUploadRequest =
+   [[OFFlickrAPIRequest alloc] initWithAPIContext:self.fUploadContext];
    
    [self.fRequest setDelegate:self];
+   [self.fUploadRequest setDelegate:self];
    
    self.photos = [NSMutableArray arrayWithCapacity:10];
    
@@ -260,6 +274,22 @@ BOOL userInformedOfDisabledLocationServices = NO;
    [locationManager setDistanceFilter:kCLDistanceFilterNone];
    [locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
 
+   //do we have an oauth token?
+   NSString* token =
+   [[NSUserDefaults standardUserDefaults] stringForKey:FLICKR_AUTH_TOKEN_KEY];
+   NSString* secret =
+   [[NSUserDefaults standardUserDefaults] stringForKey:FLICKR_AUTH_SECRET_KEY];
+
+   self.fUploadContext.OAuthToken = token;
+   self.fUploadContext.OAuthTokenSecret = secret;
+   
+   self.user = [[AuthorizedUser alloc] init];
+   
+   self.user.username =
+   [[NSUserDefaults standardUserDefaults] stringForKey:FLICKR_USERNAME_KEY];
+   self.user.fullname =
+   [[NSUserDefaults standardUserDefaults] stringForKey:FLICKR_FULLNAME_KEY];
+   
    return YES;
 }
 
@@ -397,11 +427,11 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
 -(void)authorization
 {
    //set these to nil each time for now
-   self.fContext.OAuthToken = nil;
-   self.fContext.OAuthTokenSecret = nil;
+   self.fUploadContext.OAuthToken = nil;
+   self.fUploadContext.OAuthTokenSecret = nil;
 
-   self.fRequest.sessionInfo = [Session sessionWithRequestType:AUTH];
-   [self.fRequest
+   self.fUploadRequest.sessionInfo = [Session sessionWithRequestType:AUTH];
+   [self.fUploadRequest
     fetchOAuthRequestTokenWithCallbackURL:[NSURL URLWithString:CALLBACK_BASE_STRING]];
 }
       
@@ -411,7 +441,7 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
 -(void)upload
 {
    //CHANGE THIS TO UPLOAD
-   self.fRequest.sessionInfo = [Session sessionWithRequestType:UPLOAD];
+   self.fUploadRequest.sessionInfo = [Session sessionWithRequestType:UPLOAD];
    
    ///////////////////////////////////////////////////////
    //START THE LOCATION MANAGER
@@ -446,29 +476,19 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
  sourceApplication:(NSString *)sourceApplication
         annotation:(id)annotation
 {
-//   if (self.fRequest.sessionInfo)
-//   {
-//      // already running some other request
-//      NSLog(@"Already running some other request");
-//   }
-//   else
-//   {
-      NSString *token = nil;
-      NSString *verifier = nil;
-      BOOL result = OFExtractOAuthCallback(url, [NSURL URLWithString:CALLBACK_BASE_STRING], &token, &verifier);
-      
-      if (!result)
-      {
-         NSLog(@"Cannot obtain token/secret from URL: %@", [url absoluteString]);
-         return NO;
-      }
-      
-      self.fRequest.sessionInfo = @"";
-      [self.fRequest fetchOAuthAccessTokenWithRequestToken:token verifier:verifier];
-
-      //progress view goes here
-   //}
-	
+   NSString *token = nil;
+   NSString *verifier = nil;
+   BOOL result = OFExtractOAuthCallback(url, [NSURL URLWithString:CALLBACK_BASE_STRING], &token, &verifier);
+   
+   if (!result)
+   {
+      NSLog(@"Cannot obtain token/secret from URL: %@", [url absoluteString]);
+      return NO;
+   }
+   
+   self.fUploadRequest.sessionInfo = @"";
+   [self.fUploadRequest fetchOAuthAccessTokenWithRequestToken:token verifier:verifier];
+   
    return YES;
 }
 
@@ -503,8 +523,17 @@ didObtainOAuthAccessToken:(NSString *)inAccessToken
    [NSUserDefaults resetStandardUserDefaults];
 
    //set these here for now
-   self.fContext.OAuthToken = inAccessToken;
-   self.fContext.OAuthTokenSecret = inSecret;
+   //self.fUploadContext.OAuthToken = inAccessToken;
+   //self.fUploadContext.OAuthTokenSecret = inSecret;
+   
+   [inRequest context].OAuthToken = inAccessToken;
+   [inRequest context].OAuthTokenSecret = inSecret;
+   
+   self.user.username = inUserName;
+   
+   //Post change notification
+   //[[NSNotificationCenter defaultCenter]
+   // postNotificationName:@"photoWallSizeChanged" object:self];
 }
 
 - (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest
@@ -512,11 +541,14 @@ didObtainOAuthRequestToken:(NSString *)inRequestToken
                   secret:(NSString *)inSecret
 {
    // these two lines are important
-   self.fContext.OAuthToken = inRequestToken;
-   self.fContext.OAuthTokenSecret = inSecret;
+   [inRequest context].OAuthToken = inRequestToken;
+   [inRequest context].OAuthTokenSecret = inSecret;
+   
+   //self.fUploadContext.OAuthToken = inRequestToken;
+   //self.fUploadContext.OAuthTokenSecret = inSecret;
    
    NSURL *authURL =
-   [self.fContext
+   [[inRequest context]
     userAuthorizationURLWithRequestToken:inRequestToken
     requestedPermission:OFFlickrWritePermission];
    

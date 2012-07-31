@@ -22,6 +22,17 @@
 -(void)flickrAuthorizationReceived;
 @end
 
+@interface AuthorizedUser : NSObject
+{
+}
+
+@property (copy) NSString* username;
+@property (copy) NSString* fullname;
+@property (copy) NSString* token;
+@property (copy) NSString* secret;
+
+@end
+
 @interface utilityAppDelegate : NSObject <
 UIApplicationDelegate,
 OFFlickrAPIRequestDelegate,
@@ -57,6 +68,8 @@ CLLocationManagerDelegate>
 -(void)getSearchWithOwner:(NSString*)s;
 -(void)authorization;
 -(void)upload;
+
+@property (nonatomic, retain) AuthorizedUser* user;
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet MainViewController *mainViewController;

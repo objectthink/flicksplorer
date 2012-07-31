@@ -6,6 +6,12 @@
 //  Copyright 2011 blue sky computing. All rights reserved.
 //
 
+#define FLICKR_AUTH_TOKEN_KEY @"flickrAuthTokenKey"
+#define FLICKR_AUTH_SECRET_KEY @"flickrAuthSecretKey"
+#define FLICKR_USERNAME_KEY @"flickrUsername"
+#define FLICKR_FULLNAME_KEY @"flickrFullname"
+#define FLICKR_NSID_KEY @"flickrNsid"
+
 #import "utilityAppDelegate.h"
 #import "MainViewController.h"
 #import "SVWebViewController.h"
@@ -36,6 +42,8 @@
 
 @synthesize fContext;
 @synthesize fRequest;
+@synthesize fUploadContext;
+@synthesize fUploadRequest;
 
 @synthesize photoCache;
 
@@ -351,7 +359,6 @@ int page = 0;
    
    NSString* ps =
    [NSString stringWithFormat:@"%d",page];
-
    
    //CHANGE THIS TO SEARCH
    self.fRequest.sessionInfo = [Session sessionWithRequestType:RECENT];
@@ -474,6 +481,7 @@ didObtainOAuthAccessToken:(NSString *)inAccessToken
 {
    NSLog(@"received authorization");
    
+   //dismiss the webview controller from here
    if([self.mainViewController presentedViewController] != nil)
       [[self.mainViewController presentedViewController]dismissModalViewControllerAnimated:YES];
    else
@@ -483,6 +491,16 @@ didObtainOAuthAccessToken:(NSString *)inAccessToken
    
    //dismiss progress here
    //store token and secret in user defaults
+
+   //save the auth
+   [[NSUserDefaults standardUserDefaults] setObject:inAccessToken forKey:FLICKR_AUTH_TOKEN_KEY];
+   [[NSUserDefaults standardUserDefaults] setObject:inSecret forKey:FLICKR_AUTH_SECRET_KEY];
+   [[NSUserDefaults standardUserDefaults] setObject:inFullName forKey:FLICKR_FULLNAME_KEY];
+   [[NSUserDefaults standardUserDefaults] setObject:inUserName forKey:FLICKR_USERNAME_KEY];
+   [[NSUserDefaults standardUserDefaults] setObject:inUserName forKey:FLICKR_NSID_KEY];
+   
+   [[NSUserDefaults standardUserDefaults] synchronize];
+   [NSUserDefaults resetStandardUserDefaults];
 
    //set these here for now
    self.fContext.OAuthToken = inAccessToken;

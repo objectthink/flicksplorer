@@ -65,6 +65,8 @@ CLLocationManagerDelegate>
 
 @property (nonatomic, retain) OFFlickrAPIContext* fContext;
 @property (nonatomic, retain) OFFlickrAPIRequest* fRequest;
+@property (nonatomic, retain) OFFlickrAPIContext* fUploadContext;
+@property (nonatomic, retain) OFFlickrAPIRequest* fUploadRequest;
 
 @property (retain) NSCache* photoCache;
 

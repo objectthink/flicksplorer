@@ -514,6 +514,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 @synthesize tiles;
 @synthesize searchBar;
 @synthesize pandaPicker;
+@synthesize cameraButton;
 @synthesize app;
 
 //#pragma mark - fonemonkey
@@ -800,7 +801,13 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    [[NSUserDefaults standardUserDefaults] integerForKey:USER_DEFAULT_PHOTO_SIZE];
    
    if(size==0)
-       size = 50;
+   {
+      size = SETTING_PHOTO_MEDIUM;
+      
+      [[NSUserDefaults standardUserDefaults]
+       setInteger:SETTING_PHOTO_MEDIUM
+       forKey:USER_DEFAULT_PHOTO_SIZE];
+   }
     
    self.tiles =
    [[[PRPTileView alloc] initWithFrame:infFrame size:size] autorelease];
@@ -836,13 +843,23 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    //[self performSelector:@selector(getPandaList) withObject:nil afterDelay:3.0];
    
    [app getPanda:@"ling ling"];
-   
+      
    //listen for photo size change notification
    [[NSNotificationCenter defaultCenter]
     addObserver:self
     selector:@selector(changePhotoWallSize)
     name:@"photoWallSizeChanged"
     object:nil];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+   //are we authorized?
+   if(app.authorized)
+      self.cameraButton.enabled = YES;
+   else
+      self.cameraButton.enabled = NO;
+
 }
 
 -(void)getPandaList

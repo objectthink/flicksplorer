@@ -80,6 +80,7 @@ CLLocationManagerDelegate>
 @property (nonatomic, retain) OFFlickrAPIRequest* fRequest;
 @property (nonatomic, retain) OFFlickrAPIContext* fUploadContext;
 @property (nonatomic, retain) OFFlickrAPIRequest* fUploadRequest;
+@property (readonly,getter = isAuthorized) BOOL authorized;
 
 @property (retain) NSCache* photoCache;
 

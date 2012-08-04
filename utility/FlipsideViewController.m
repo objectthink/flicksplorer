@@ -510,15 +510,15 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
    [super viewDidLoad];
    self.view.backgroundColor = [UIColor blackColor]; //[UIColor viewFlipsideBackgroundColor];
    
-   //listen for photo size change notification
+   //listen for authorization change notification
    [[NSNotificationCenter defaultCenter]
     addObserver:self
-    selector:@selector(changePhotoWallSize)
-    name:@"photoWallSizeChanged"
+    selector:@selector(authorizationChanged)
+    name:@"authorizationChanged"
     object:nil];
 }
 
--(void) changePhotoWallSize
+-(void) authorizationChanged
 {
    [self.tableView reloadData];
 }

@@ -84,6 +84,8 @@ PhotosUpdatedDelegate>
 @property (retain) PRPTileView *tiles;
 @property (retain) IBOutlet UISearchBar* searchBar;
 @property (retain) IBOutlet UIPickerView* pandaPicker;
+@property (retain) IBOutlet UIBarButtonItem* cameraButton;
+
 @property (assign) utilityAppDelegate* app;
 
 - (IBAction)showInfo:(id)sender;

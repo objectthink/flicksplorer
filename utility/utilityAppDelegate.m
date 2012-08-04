@@ -247,8 +247,8 @@ BOOL userInformedOfDisabledLocationServices = NO;
    
    //self.pandas = [NSMutableArray arrayWithObjects:@"ling ling",@"hsing hsing",@"wang wang", nil];
       
-   self.window.rootViewController = self.mainViewController;
-   [self.window makeKeyAndVisible];
+   //self.window.rootViewController = self.mainViewController;
+   //[self.window makeKeyAndVisible];
    
    self.photoCache = [[NSCache alloc] init];
    
@@ -290,7 +290,15 @@ BOOL userInformedOfDisabledLocationServices = NO;
    self.user.fullname =
    [[NSUserDefaults standardUserDefaults] stringForKey:FLICKR_FULLNAME_KEY];
    
+   self.window.rootViewController = self.mainViewController;
+   [self.window makeKeyAndVisible];
+
    return YES;
+}
+
+-(BOOL)isAuthorized
+{
+   return self.fUploadContext.OAuthToken != nil;
 }
 
 -(void)getPandaList
@@ -532,8 +540,8 @@ didObtainOAuthAccessToken:(NSString *)inAccessToken
    self.user.username = inUserName;
    
    //Post change notification
-   //[[NSNotificationCenter defaultCenter]
-   // postNotificationName:@"photoWallSizeChanged" object:self];
+   [[NSNotificationCenter defaultCenter]
+    postNotificationName:@"authorizationChanged" object:self];
 }
 
 - (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest

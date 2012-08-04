@@ -140,7 +140,11 @@ BOOL userInformedOfDisabledLocationServices = NO;
 {
    //NSLog(@"%s", __PRETTY_FUNCTION__);
    
+   Session* session = self.fUploadRequest.sessionInfo;
+   
    [locationManager stopUpdatingLocation];
+   
+   session.location = currentLocation;
    
    UIImage* newImage = image;
    
@@ -178,7 +182,15 @@ BOOL userInformedOfDisabledLocationServices = NO;
    NSString* title         = @"TITLE";
    NSString* description   = @"DESCRIPTION";
    NSString* safety_level  = @"1";
-   NSString* tags          = @"";
+   
+   //set the location for good measure although
+   //it also must be set through the geo api
+   NSString* tags          =
+   [[NSString alloc]initWithFormat:
+    @"geo:lat=%f geo:lon=%f geotagged" ,
+    currentLocation.latitude,
+    currentLocation.longitude
+    ];
    
    [self.fUploadRequest
     uploadImageStream:[NSInputStream inputStreamWithData:JPEGData]
@@ -581,6 +593,23 @@ didObtainOAuthRequestToken:(NSString *)inRequestToken
    [webViewController release];
 }
 
+///////////////////////////////////////////////////////////////////////////////
+//getPhotoInfo of the last uploaded image
+//query flickr for phtoto info in order to get the flickr photo page
+-(void)getPhotoInfo:(NSDictionary *)response
+{
+   Session* session = self.fUploadRequest.sessionInfo;
+   
+   session.requestType = IMAGEINFO;
+   
+   NSString* photoId = [response valueForKeyPath:@"photoid._text"];
+   
+   [self.fUploadRequest
+    callAPIMethodWithGET:@"flickr.photos.getInfo"
+    arguments:[NSDictionary dictionaryWithObjectsAndKeys:photoId,@"photo_id",nil]
+    ];
+}
+
 - (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest
  didCompleteWithResponse:(NSDictionary *)inResponseDictionary
 {
@@ -592,6 +621,35 @@ didObtainOAuthRequestToken:(NSString *)inRequestToken
    Session* session = (Session*)inRequest.sessionInfo;
    switch (session.requestType) 
    {
+      case UPLOAD:
+      {
+         //get photo info for photo id
+         //to be used to get location
+         [self getPhotoInfo:inResponseDictionary];
+      }
+         break;
+      case IMAGEINFO:
+      {
+         Session* session = self.fUploadRequest.sessionInfo;
+         
+         NSString* photoID  = [inResponseDictionary valueForKeyPath:@"photo.id"];
+
+         session.requestType = LOCATION;
+         
+         NSString* latS = [NSString stringWithFormat:@"%f",session.location.latitude];
+         NSString* lonS = [NSString stringWithFormat:@"%f",session.location.longitude];
+         
+         [self.fUploadRequest
+          callAPIMethodWithPOST:@"flickr.photos.geo.setLocation"
+          arguments:[NSDictionary dictionaryWithObjectsAndKeys:
+                     latS,@"lat",
+                     lonS,@"lon",
+                     photoID, @"photo_id",nil]];
+      }
+         break;
+      case LOCATION:
+         [uploadProgressActionSheet dismissWithClickedButtonIndex:0 animated:YES];
+         break;
       case PANDA_LIST:
       {         
       }
@@ -787,8 +845,8 @@ didObtainOAuthRequestToken:(NSString *)inRequestToken
    [progressView setProgress: (fSent/fTotal)];
    
    if(sent==total)
-      //uploadProgressActionSheet.title = @"Waiting for flickr...\n\n\n";
-      [uploadProgressActionSheet dismissWithClickedButtonIndex:0 animated:YES];
+      uploadProgressActionSheet.title = @"Waiting for flickr...\n\n\n";
+      //[uploadProgressActionSheet dismissWithClickedButtonIndex:0 animated:YES];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

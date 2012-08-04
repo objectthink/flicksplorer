@@ -9,6 +9,7 @@
 //TEST BRANCH
 
 #import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
 
 typedef enum 
 {
@@ -17,7 +18,9 @@ typedef enum
    SEARCH,
    PANDA_LIST,
    AUTH,
-   UPLOAD
+   UPLOAD,
+   IMAGEINFO,
+   LOCATION
 }REQUESTTYPE;
 
 
@@ -27,5 +30,6 @@ typedef enum
 }
 +(Session*)sessionWithRequestType:(REQUESTTYPE)requestType;
 @property (assign) REQUESTTYPE requestType;
+@property (assign) CLLocationCoordinate2D location;
 
 @end

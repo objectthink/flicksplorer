@@ -178,7 +178,7 @@ BOOL userInformedOfDisabledLocationServices = NO;
 //   else
 //      isPublic = [[[NSString alloc] initWithString:@"0"]autorelease];
    
-   NSString* is_public     = @"0";
+   NSString* is_public     = @"1";
    NSString* title         = @"TITLE";
    NSString* description   = @"DESCRIPTION";
    NSString* safety_level  = @"1";
@@ -610,6 +610,11 @@ didObtainOAuthRequestToken:(NSString *)inRequestToken
     ];
 }
 
+-(void)dismissProgressView
+{
+   [uploadProgressActionSheet dismissWithClickedButtonIndex:0 animated:YES];
+}
+
 - (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest
  didCompleteWithResponse:(NSDictionary *)inResponseDictionary
 {
@@ -648,7 +653,9 @@ didObtainOAuthRequestToken:(NSString *)inRequestToken
       }
          break;
       case LOCATION:
-         [uploadProgressActionSheet dismissWithClickedButtonIndex:0 animated:YES];
+         uploadProgressActionSheet.title = @"Upload successful!\n\n\n";
+         [self performSelector:@selector(dismissProgressView) withObject:nil afterDelay:1.0];
+         //[uploadProgressActionSheet dismissWithClickedButtonIndex:0 animated:YES];
          break;
       case PANDA_LIST:
       {         

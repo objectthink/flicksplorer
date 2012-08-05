@@ -838,7 +838,16 @@ didObtainOAuthRequestToken:(NSString *)inRequestToken
    
 - (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest didFailWithError:(NSError *)inError
 {
-   //NSLog(@"%s %@ %@", __PRETTY_FUNCTION__, inRequest, inError); 
+   //NSLog(@"%s %@ %@", __PRETTY_FUNCTION__, inRequest, inError);
+   Session* session = (Session*)inRequest.sessionInfo;
+   switch (session.requestType)
+   {
+      case UPLOAD:
+      case IMAGEINFO:
+      case LOCATION:
+         [self dismissProgressView];
+         break;
+   }
    
    [photosUpdatedDelegate photosReturnedError:inError];
 }

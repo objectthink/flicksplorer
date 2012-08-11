@@ -177,8 +177,13 @@ BOOL userInformedOfDisabledLocationServices = NO;
 //      isPublic = [[[NSString alloc] initWithString:@"1"]autorelease];
 //   else
 //      isPublic = [[[NSString alloc] initWithString:@"0"]autorelease];
+   BOOL is_public_bool =
+   [[NSUserDefaults standardUserDefaults] boolForKey:SETTING_UPLOAD_PUBLIC];
    
    NSString* is_public     = @"1";
+   if(is_public_bool!=YES)
+      is_public = @"0";
+   
    NSString* title         = @"TITLE";
    NSString* description   = @"DESCRIPTION";
    NSString* safety_level  = @"1";
@@ -187,7 +192,7 @@ BOOL userInformedOfDisabledLocationServices = NO;
    //it also must be set through the geo api
    NSString* tags          =
    [[NSString alloc]initWithFormat:
-    @"geo:lat=%f geo:lon=%f geotagged" ,
+    @"geo:lat=%f geo:lon=%f geotagged flicksplorer" ,
     currentLocation.latitude,
     currentLocation.longitude
     ];

@@ -9,20 +9,23 @@
 #import "FlipsideViewController.h"
 #import "utilityAppDelegate.h"
 
-#define SECTIONS_COUNT 5
+#define SECTIONS_COUNT 6
 
 #define SECTION_PHOTO_WALL 0
 #define SECTION_AUTHORIZATION 1
-#define SECTION_MAP 2
-#define SECTION_PANDAS 3
-#define SECTION_CREDITS 4
+#define SECTION_UPLOAD 2
+#define SECTION_MAP 3
+#define SECTION_PANDAS 4
+#define SECTION_CREDITS 5
 
 #define SECTION_PHOTO_WALL_COUNT 1
 #define SECTION_AUTHORIZATION_COUNT 1
+#define SECTION_UPLOAD_COUNT 1
 #define SECTION_MAP_COUNT 1
 #define SECTION_PANDAS_COUNT 3
 #define SECTION_CREDITS_COUNT 1
 
+#define PUBLIC_SETTING 1
 #define MAP_TYPE_SETTING 7
 #define PANDA_LING_LING_SETTING 77
 #define PANDA_HSING_HSING_SETTING 777
@@ -156,6 +159,9 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
       case SECTION_AUTHORIZATION:
          return @"flickr Authorization";
          break;
+      case SECTION_UPLOAD:
+         return @"Upload";
+         break;
       case SECTION_MAP:
          return @"Map";
          break;
@@ -192,6 +198,9 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
    {
       case SECTION_AUTHORIZATION:
          return SECTION_AUTHORIZATION_COUNT;
+         break;
+      case SECTION_UPLOAD:
+         return SECTION_UPLOAD_COUNT;
          break;
       case SECTION_PHOTO_WALL:         //photo wall settings
          return SECTION_PHOTO_WALL_COUNT;
@@ -253,6 +262,21 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
          
          //cell.detailTextLabel.text = @"Unauthorized";
          cell.detailTextLabel.text = app.user.username;
+         break;
+      case SECTION_UPLOAD:
+      {
+         UISwitch *mySwitch = [[[UISwitch alloc] initWithFrame:CGRectZero] autorelease];
+         [mySwitch addTarget:self action:@selector(doit:) forControlEvents:UIControlEventValueChanged];
+         cell.accessoryView = mySwitch;
+         
+         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+         cell.textLabel.text = @"Public";
+            
+         mySwitch.on =
+         [[NSUserDefaults standardUserDefaults] boolForKey:SETTING_UPLOAD_PUBLIC];
+            
+         mySwitch.tag = PUBLIC_SETTING;
+      }
          break;
       case SECTION_PHOTO_WALL:
          cell.textLabel.text = @"Photo size";
@@ -359,6 +383,13 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
    UISwitch* aSwitch = (UISwitch*)sender;
    switch(aSwitch.tag)
    {
+      case PUBLIC_SETTING:
+         if ([aSwitch isOn])
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SETTING_UPLOAD_PUBLIC];
+         else
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:SETTING_UPLOAD_PUBLIC];
+         break;
+         break;
       case MAP_TYPE_SETTING:
          if ([aSwitch isOn])
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SETTING_MAP_TYPE];

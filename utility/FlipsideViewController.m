@@ -47,10 +47,10 @@
    return @"Choose the size of the photos on the photo wall";
 }
 
--(NSString*)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
-{
-   return @"The photo size will be updated in the photo wall the next time the photo wall is updated";
-}
+//-(NSString*)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+//{
+//   return @"The photo size will be updated in the photo wall the next time the photo wall is updated";
+//}
 
 - (UITableViewCell *)
 tableView:(UITableView *)tableView
@@ -443,7 +443,7 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
       case SECTION_PHOTO_WALL:
       {
          UITableViewController* controller =
-         [[UITableViewController alloc]initWithStyle:UITableViewStyleGrouped];
+         [[[UITableViewController alloc]initWithStyle:UITableViewStyleGrouped] autorelease];
          
          controller.title = @"Photo Size";
          
@@ -473,7 +473,6 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
          controller.tableView.dataSource = settings;
                   
          [self.navigationController pushViewController:controller animated:YES];
-         [controller release];
       }
          break;
       case SECTION_AUTHORIZATION:
@@ -547,9 +546,21 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
     selector:@selector(authorizationChanged)
     name:@"authorizationChanged"
     object:nil];
+   
+   //listen for photo wall size changed
+   [[NSNotificationCenter defaultCenter]
+    addObserver:self
+    selector:@selector(photowallSizeChanged)
+    name:@"photoWallSizeChanged"
+    object:nil];
 }
 
 -(void) authorizationChanged
+{
+   [self.tableView reloadData];
+}
+
+-(void) photowallSizeChanged
 {
    [self.tableView reloadData];
 }

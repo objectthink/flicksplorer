@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7319119A15D6BC5500366E15 /* person.png in Resources */ = {isa = PBXBuildFile; fileRef = 7319119915D6BC5500366E15 /* person.png */; };
+		7319119C15D6C09600366E15 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7319119B15D6C09600366E15 /* Default.png */; };
 		733062811412D98300D6755C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 733062801412D98300D6755C /* UIKit.framework */; };
 		733062831412D98300D6755C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 733062821412D98300D6755C /* Foundation.framework */; };
 		733062851412D98300D6755C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 733062841412D98300D6755C /* CoreGraphics.framework */; };
@@ -19,7 +21,6 @@
 		7330629C1412D98300D6755C /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7330629B1412D98300D6755C /* FlipsideViewController.m */; };
 		7330629E1412D98300D6755C /* FlipsideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7330629D1412D98300D6755C /* FlipsideView.xib */; };
 		73678F2815C432BC0095C7E4 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73678F2715C432BC0095C7E4 /* CoreLocation.framework */; };
-		73AB1B9114354A1E0053A8D8 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 73AB1B9014354A1E0053A8D8 /* Default.png */; };
 		73AFC1DB1419AB680062A501 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 73AFC1DA1419AB680062A501 /* Photo.m */; };
 		73C02597143B296C00ADD23F /* InfoViewEx.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73C02596143B296C00ADD23F /* InfoViewEx.xib */; };
 		73C3BC1F15B1AB4100C37F2B /* libObjectiveFlickr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73D6D8F215B1A6EA00D43BA6 /* libObjectiveFlickr.a */; };
@@ -149,6 +150,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7319119915D6BC5500366E15 /* person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = person.png; sourceTree = "<group>"; };
+		7319119B15D6C09600366E15 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		7330627C1412D98300D6755C /* flicksplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flicksplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		733062801412D98300D6755C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		733062821412D98300D6755C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -167,7 +170,6 @@
 		7330629B1412D98300D6755C /* FlipsideViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlipsideViewController.m; sourceTree = "<group>"; };
 		7330629D1412D98300D6755C /* FlipsideView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FlipsideView.xib; path = utility/FlipsideView.xib; sourceTree = "<group>"; };
 		73678F2715C432BC0095C7E4 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		73AB1B9014354A1E0053A8D8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		73AFC1D91419AB680062A501 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
 		73AFC1DA1419AB680062A501 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Photo.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		73C02596143B296C00ADD23F /* InfoViewEx.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoViewEx.xib; sourceTree = "<group>"; };
@@ -529,7 +531,8 @@
 		A346431414197F220003FD8C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				73AB1B9014354A1E0053A8D8 /* Default.png */,
+				7319119B15D6C09600366E15 /* Default.png */,
+				7319119915D6BC5500366E15 /* person.png */,
 				A3EE4F4F142A092F00591E9C /* icon.png */,
 				A3DC05571424D636000CF95F /* popoverArrowDown.png */,
 				A3DC05581424D636000CF95F /* popoverArrowDown@2x.png */,
@@ -687,7 +690,6 @@
 				A3DC056A1424D636000CF95F /* popoverBg@2x.png in Resources */,
 				A346B3DD1427613C000127E8 /* SVWebViewController.bundle in Resources */,
 				A3EE4F50142A092F00591E9C /* icon.png in Resources */,
-				73AB1B9114354A1E0053A8D8 /* Default.png in Resources */,
 				73C02597143B296C00ADD23F /* InfoViewEx.xib in Resources */,
 				73FDB77A14675B6E005091BF /* iphonesim in Resources */,
 				73FDB77C14675B6E005091BF /* COPYRIGHT in Resources */,
@@ -755,6 +757,8 @@
 				73FDB7FC14675B6E005091BF /* Verify.png in Resources */,
 				73FDB7FE14675B6E005091BF /* VScroll.png in Resources */,
 				73FDB80014675B6E005091BF /* WaitFor.png in Resources */,
+				7319119A15D6BC5500366E15 /* person.png in Resources */,
+				7319119C15D6C09600366E15 /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

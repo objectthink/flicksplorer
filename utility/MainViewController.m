@@ -704,6 +704,12 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
       case RECENT: return @"Recent"; break;
       case PANDA:  return @"Panda"; break;
       case SEARCH: return @"Search"; break;
+      case PANDA_LIST:
+      case AUTH:
+      case UPLOAD:
+      case IMAGEINFO:
+      case LOCATION:
+         break;
    }
    
    return nil;

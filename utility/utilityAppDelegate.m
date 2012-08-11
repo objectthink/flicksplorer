@@ -191,11 +191,11 @@ BOOL userInformedOfDisabledLocationServices = NO;
    //set the location for good measure although
    //it also must be set through the geo api
    NSString* tags          =
-   [[NSString alloc]initWithFormat:
+   [[[NSString alloc]initWithFormat:
     @"geo:lat=%f geo:lon=%f geotagged flicksplorer" ,
     currentLocation.latitude,
     currentLocation.longitude
-    ];
+    ] autorelease];
    
    [self.fUploadRequest
     uploadImageStream:[NSInputStream inputStreamWithData:JPEGData]
@@ -851,6 +851,12 @@ didObtainOAuthRequestToken:(NSString *)inRequestToken
       case IMAGEINFO:
       case LOCATION:
          [self dismissProgressView];
+         break;
+      case PANDA:
+      case RECENT:
+      case SEARCH:
+      case PANDA_LIST:
+      case AUTH:
          break;
    }
    

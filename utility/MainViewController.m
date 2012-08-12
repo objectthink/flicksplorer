@@ -1225,15 +1225,49 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    [controller release];
 }
 
-- (IBAction)showInfo:(id)sender
+-(IBAction)showInfo:(id)sender
+{
+   UIViewController* c =
+   [[UIViewController alloc] init];
+   
+   UIWebView* w = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+   
+   NSURL *searchURL = [NSURL URLWithString:[self.infoView.photo.photoSourceURL absoluteString]];
+   [w loadRequest:[NSURLRequest requestWithURL:searchURL]];
+
+   c.view = w;
+   
+   UINavigationController* navigation =
+   [[UINavigationController alloc] initWithRootViewController:c];
+   
+   navigation.navigationBar.tintColor = [UIColor blackColor];
+   
+   UIBarButtonItem* done =
+   [[UIBarButtonItem alloc]
+    initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+    target:self
+    action:@selector(dismissSettings)];
+   
+   c.navigationItem.leftBarButtonItem = done;
+   
+   c.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+   
+   [self presentModalViewController:navigation animated:YES];
+   
+   [navigation release];
+   [done release];
+   [c release];
+}
+
+- (IBAction)showInfoX:(id)sender
 {    
    SVWebViewController *webViewController = 
    [[SVWebViewController alloc] 
     initWithAddress:[self.infoView.photo.photoSourceURL absoluteString]];
    
-   webViewController.navigationController.navigationBar.tintColor = [UIColor blackColor];
-	
-   webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
+   //webViewController.navigationController.navigationBar.tintColor = [UIColor blackColor];
+   //webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
+   
    webViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
 	[self presentModalViewController:webViewController animated:YES];	
 

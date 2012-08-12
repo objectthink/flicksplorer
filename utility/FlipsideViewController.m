@@ -42,10 +42,10 @@
    return 4;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-   return @"Choose the size of the photos on the photo wall";
-}
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+//{
+//   return @"Choose the size of the photos on the photo wall";
+//}
 
 //-(NSString*)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 //{
@@ -176,21 +176,21 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
    return nil;
 }
 
--(NSString*)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
-{
-   switch(section)
-   {
-      case SECTION_AUTHORIZATION:
-         return @"flickr account used for uploads";
-         break;
-      case SECTION_PANDAS:
-         return @"flickr pandas you wish to see!";
-         break;
-      default:
-         return @"";
-         break;
-   }   
-}
+//-(NSString*)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+//{
+//   switch(section)
+//   {
+//      case SECTION_AUTHORIZATION:
+//         return @"flickr account used for uploads";
+//         break;
+//      case SECTION_PANDAS:
+//         return @"flickr pandas you wish to see!";
+//         break;
+//      default:
+//         return @"";
+//         break;
+//   }   
+//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -219,6 +219,64 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
          break;
    }
 }
+
+/**
+	return a view used for the tableview header
+   so that we can affect the color of the text
+	@param tableView the tableview
+	@param section the section
+	@returns a uiview
+ */
+-(UIView *)
+tableView:(UITableView *)tableView
+viewForHeaderInSection:(NSInteger)section
+{
+   NSString *sectionTitle =
+   [self tableView:tableView titleForHeaderInSection:section];
+   
+   if (sectionTitle == nil) {
+      return nil;
+   }
+   
+   UILabel *label = [[UILabel alloc] init];
+   label.frame = CGRectMake(20, 8, 320, 20);
+   label.backgroundColor = [UIColor clearColor];
+   label.textColor = [UIColor whiteColor];
+   label.shadowColor = [UIColor grayColor];
+   label.shadowOffset = CGSizeMake(-1.0, 1.0);
+   label.font = [UIFont boldSystemFontOfSize:16];
+   label.text = sectionTitle;
+   
+   UIView *view = [[UIView alloc] init];
+   [view addSubview:label];
+   
+   return view;
+}
+
+//-(UIView *)tableView:(UITableView *)tableView
+//viewForFooterInSection:(NSInteger)section
+//{
+//   NSString *sectionTitle =
+//   [self tableView:tableView titleForFooterInSection:section];
+//   
+//   if (sectionTitle == nil) {
+//      return nil;
+//   }
+//   
+//   UILabel *label = [[UILabel alloc] init];
+//   label.frame = CGRectMake(20, 8, 320, 20);
+//   label.backgroundColor = [UIColor clearColor];
+//   label.textColor = [UIColor whiteColor];
+//   label.shadowColor = [UIColor grayColor];
+//   label.shadowOffset = CGSizeMake(-1.0, 1.0);
+//   label.font = [UIFont boldSystemFontOfSize:16];
+//   label.text = sectionTitle;
+//   
+//   UIView *view = [[UIView alloc] init];
+//   [view addSubview:label];
+//   
+//   return view;
+//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -443,9 +501,17 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
       case SECTION_PHOTO_WALL:
       {
          UITableViewController* controller =
-         [[[UITableViewController alloc]initWithStyle:UITableViewStyleGrouped] autorelease];
-         
+         [[[UITableViewController alloc]
+           initWithStyle:UITableViewStyleGrouped]
+          autorelease];
+                  
          controller.title = @"Photo Size";
+         controller.tableView.backgroundColor = [UIColor blackColor];
+         
+         UIView *backView = [[UIView alloc] init];
+         [backView setBackgroundColor:[UIColor clearColor]];
+         
+         [controller.tableView setBackgroundView:backView];
          
          PhotoWallSetting* settings =
          [[PhotoWallSetting alloc]init];
@@ -562,7 +628,11 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
 
 -(void) photowallSizeChanged
 {
+   //update the list
    [self.tableView reloadData];
+   
+   //pop back to the settings list
+   [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewDidUnload

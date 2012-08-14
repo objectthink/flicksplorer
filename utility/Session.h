@@ -14,8 +14,9 @@
 typedef enum 
 {
    PANDA       = 0,
-   RECENT,
-   SEARCH,
+   RECENT      = 1,
+   ME          = 2,
+   SEARCH      = 3,
    PANDA_LIST,
    AUTH,
    UPLOAD,

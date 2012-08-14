@@ -697,23 +697,23 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    [self updateInfoViewWith:photo];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-   switch(requestType)
-   {
-      case RECENT: return @"Recent"; break;
-      case PANDA:  return @"Panda"; break;
-      case SEARCH: return @"Search"; break;
-      case PANDA_LIST:
-      case AUTH:
-      case UPLOAD:
-      case IMAGEINFO:
-      case LOCATION:
-         break;
-   }
-   
-   return nil;
-}
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+//{
+//   switch(requestType)
+//   {
+//      case RECENT: return @"Recent"; break;
+//      case PANDA:  return @"Panda"; break;
+//      case SEARCH: return @"Search"; break;
+//      case PANDA_LIST:
+//      case AUTH:
+//      case UPLOAD:
+//      case IMAGEINFO:
+//      case LOCATION:
+//         break;
+//   }
+//   
+//   return nil;
+//}
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
@@ -924,30 +924,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    }
 }
 
--(void)doPandaX
+-(void)doMe
 {
-   [self.pandaPicker selectRow:-1 inComponent:0 animated:YES];
-   
-   CGRect pickerframe = self.pandaPicker.frame;
-   CGRect startFrame = self.pandaPicker.frame;
-   
-   startFrame.origin.y = -pickerframe.size.height;
-   
-   self.pandaPicker.frame = startFrame;
-   
-   self.pandaPicker.hidden = NO;  
-   
-   [UIView animateWithDuration:0.7
-                         delay:0.0
-                       options: UIViewAnimationCurveEaseOut
-                    animations:
-   ^{
-       self.pandaPicker.frame = pickerframe;
-    } 
-                    completion:
-    ^(BOOL finished)
-    {
-    }];
+   [self showWaitWith:@"Me"];
+   [self.app getMe];
 }
 
 -(void)doPanda
@@ -1062,6 +1042,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
          break;
       case SEARCH:
          [self doSearch];
+         break;
+      case ME:
+         [self doMe];
          break;
       default:
          break;

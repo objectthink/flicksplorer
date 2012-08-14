@@ -104,6 +104,11 @@
 		A346B3DD1427613C000127E8 /* SVWebViewController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A346B3DA1427613C000127E8 /* SVWebViewController.bundle */; };
 		A346B3DE1427613C000127E8 /* SVWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A346B3DC1427613C000127E8 /* SVWebViewController.m */; };
 		A346B3E5142763C4000127E8 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A346B3E4142763C4000127E8 /* MessageUI.framework */; };
+		A385FFCE15DB031E00343461 /* agent.png in Resources */ = {isa = PBXBuildFile; fileRef = A385FFCD15DB031E00343461 /* agent.png */; };
+		A385FFD015DB03DB00343461 /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = A385FFCF15DB03DB00343461 /* search.png */; };
+		A385FFD215DB048100343461 /* fancy-globe.png in Resources */ = {isa = PBXBuildFile; fileRef = A385FFD115DB048100343461 /* fancy-globe.png */; };
+		A385FFD415DB04BF00343461 /* happy-face.png in Resources */ = {isa = PBXBuildFile; fileRef = A385FFD315DB04BF00343461 /* happy-face.png */; };
+		A385FFD615DB05A700343461 /* configuration.png in Resources */ = {isa = PBXBuildFile; fileRef = A385FFD515DB05A700343461 /* configuration.png */; };
 		A38EEDAB1424005500038D9B /* 74-location.png in Resources */ = {isa = PBXBuildFile; fileRef = A38EEDAA1424005500038D9B /* 74-location.png */; };
 		A3DC054C1424C787000CF95F /* WEPopoverContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3DC05481424C787000CF95F /* WEPopoverContainerView.m */; };
 		A3DC054D1424C787000CF95F /* WEPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3DC054A1424C787000CF95F /* WEPopoverController.m */; };
@@ -271,6 +276,11 @@
 		A346B3DB1427613C000127E8 /* SVWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVWebViewController.h; sourceTree = "<group>"; };
 		A346B3DC1427613C000127E8 /* SVWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVWebViewController.m; sourceTree = "<group>"; };
 		A346B3E4142763C4000127E8 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		A385FFCD15DB031E00343461 /* agent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = agent.png; sourceTree = "<group>"; };
+		A385FFCF15DB03DB00343461 /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
+		A385FFD115DB048100343461 /* fancy-globe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fancy-globe.png"; sourceTree = "<group>"; };
+		A385FFD315DB04BF00343461 /* happy-face.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "happy-face.png"; sourceTree = "<group>"; };
+		A385FFD515DB05A700343461 /* configuration.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = configuration.png; sourceTree = "<group>"; };
 		A38EEDAA1424005500038D9B /* 74-location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "74-location.png"; sourceTree = "<group>"; };
 		A3DC05471424C787000CF95F /* WEPopoverContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WEPopoverContainerView.h; sourceTree = "<group>"; };
 		A3DC05481424C787000CF95F /* WEPopoverContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WEPopoverContainerView.m; sourceTree = "<group>"; };
@@ -531,6 +541,11 @@
 		A346431414197F220003FD8C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A385FFD515DB05A700343461 /* configuration.png */,
+				A385FFD315DB04BF00343461 /* happy-face.png */,
+				A385FFD115DB048100343461 /* fancy-globe.png */,
+				A385FFCF15DB03DB00343461 /* search.png */,
+				A385FFCD15DB031E00343461 /* agent.png */,
 				7319119B15D6C09600366E15 /* Default.png */,
 				7319119915D6BC5500366E15 /* person.png */,
 				A3EE4F4F142A092F00591E9C /* icon.png */,
@@ -759,6 +774,11 @@
 				73FDB80014675B6E005091BF /* WaitFor.png in Resources */,
 				7319119A15D6BC5500366E15 /* person.png in Resources */,
 				7319119C15D6C09600366E15 /* Default.png in Resources */,
+				A385FFCE15DB031E00343461 /* agent.png in Resources */,
+				A385FFD015DB03DB00343461 /* search.png in Resources */,
+				A385FFD215DB048100343461 /* fancy-globe.png in Resources */,
+				A385FFD415DB04BF00343461 /* happy-face.png in Resources */,
+				A385FFD615DB05A700343461 /* configuration.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

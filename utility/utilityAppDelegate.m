@@ -384,6 +384,29 @@ int pandaIndex=0;
 }
 
 int page = 0;
+-(void)getMe
+{
+   [self.photos removeAllObjects];
+   
+   [self.photoCache removeAllObjects];
+   
+   page++;
+   
+   NSString* ps =
+   [NSString stringWithFormat:@"%d",page];
+   
+   
+   //CHANGE THIS TO SEARCH
+   self.fUploadRequest.sessionInfo = [Session sessionWithRequestType:RECENT];
+   
+   [self.fUploadRequest
+    callAPIMethodWithGET:@"flickr.photos.search"
+    arguments:[NSDictionary dictionaryWithObjectsAndKeys:
+               @"me",@"user_id",@"description,license, date_upload, date_taken, owner_name, icon_server, original_format, last_update, geo, tags, machine_tags, o_dims, views, media, path_alias, url_sq, url_t, url_s, url_m, url_z, url_l, url_o", @"extras",@"100",@"per_page",ps,@"page",nil]
+    
+    ];
+}
+
 -(void)getRecent
 {
    page++;

@@ -561,6 +561,15 @@ didObtainOAuthAccessToken:(NSString *)inAccessToken
     postNotificationName:@"authorizationChanged" object:self];
 }
 
+-(void)dissmissAuthorizationRequest
+{
+   //dismiss the webview controller from here
+   if([self.mainViewController presentedViewController] != nil)
+      [[self.mainViewController presentedViewController]dismissModalViewControllerAnimated:YES];
+   else
+      [self.mainViewController dismissModalViewControllerAnimated:YES];  
+}
+
 - (void)flickrAPIRequest:(OFFlickrAPIRequest *)inRequest
 didObtainOAuthRequestToken:(NSString *)inRequestToken
                   secret:(NSString *)inSecret
@@ -568,16 +577,60 @@ didObtainOAuthRequestToken:(NSString *)inRequestToken
    // these two lines are important
    [inRequest context].OAuthToken = inRequestToken;
    [inRequest context].OAuthTokenSecret = inSecret;
+
+   UIViewController* c =
+   [[UIViewController alloc] init];
    
-   //self.fUploadContext.OAuthToken = inRequestToken;
-   //self.fUploadContext.OAuthTokenSecret = inSecret;
+   UIWebView* w = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
    
    NSURL *authURL =
    [[inRequest context]
     userAuthorizationURLWithRequestToken:inRequestToken
     requestedPermission:OFFlickrWritePermission];
    
-   //[[UIApplication sharedApplication] openURL:authURL];
+   [w loadRequest:[NSURLRequest requestWithURL:authURL]];
+   
+   c.view = w;
+   
+   UINavigationController* navigation =
+   [[UINavigationController alloc] initWithRootViewController:c];
+   
+   navigation.navigationBar.tintColor = [UIColor blackColor];
+   
+   UIBarButtonItem* done =
+   [[UIBarButtonItem alloc]
+    initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+    target:self
+    action:@selector(dissmissAuthorizationRequest)];
+   
+   c.navigationItem.leftBarButtonItem = done;
+   
+   c.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+   
+   if([self.mainViewController presentedViewController] != nil)
+      [self.mainViewController.presentedViewController
+       presentModalViewController:navigation
+       animated:YES];
+   else
+      [self.mainViewController presentModalViewController:navigation animated:YES];
+   
+   [navigation release];
+   [done release];
+   [c release];
+   
+}
+- (void)flickrAPIRequestX:(OFFlickrAPIRequest *)inRequest
+didObtainOAuthRequestToken:(NSString *)inRequestToken
+                  secret:(NSString *)inSecret
+{
+   // these two lines are important
+   [inRequest context].OAuthToken = inRequestToken;
+   [inRequest context].OAuthTokenSecret = inSecret;
+      
+   NSURL *authURL =
+   [[inRequest context]
+    userAuthorizationURLWithRequestToken:inRequestToken
+    requestedPermission:OFFlickrWritePermission];
    
    SVWebViewController *webViewController =
    [[SVWebViewController alloc]
@@ -585,7 +638,6 @@ didObtainOAuthRequestToken:(NSString *)inRequestToken
    
    webViewController.navigationController.navigationBar.tintColor = [UIColor blackColor];
 	
-   //webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
    webViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
    
    if([self.mainViewController presentedViewController] != nil)

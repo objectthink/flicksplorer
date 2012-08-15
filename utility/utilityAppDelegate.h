@@ -64,6 +64,7 @@ CLLocationManagerDelegate>
 -(NSString*)nextPanda;
 -(void)getPanda:(NSString*)s;
 -(void)getRecent;
+-(void)getMe;
 -(void)getSearchWith:(NSString*)s;
 -(void)getSearchWithOwner:(NSString*)s;
 -(void)authorization;

@@ -862,9 +862,15 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 {
    //are we authorized?
    if(app.authorized)
+   {
+      [choice setEnabled:YES forSegmentAtIndex:ME];
       self.cameraButton.enabled = YES;
+   }
    else
+   {
+      [choice setEnabled:NO forSegmentAtIndex:ME];
       self.cameraButton.enabled = NO;
+   }
 
 }
 

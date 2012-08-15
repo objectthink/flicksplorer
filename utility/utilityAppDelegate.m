@@ -932,6 +932,7 @@ didObtainOAuthRequestToken:(NSString *)inRequestToken
       case SEARCH:
       case PANDA_LIST:
       case AUTH:
+      case ME:
          break;
    }
    

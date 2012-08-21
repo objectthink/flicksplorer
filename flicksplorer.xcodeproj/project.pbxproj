@@ -24,6 +24,8 @@
 		73AFC1DB1419AB680062A501 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 73AFC1DA1419AB680062A501 /* Photo.m */; };
 		73C02597143B296C00ADD23F /* InfoViewEx.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73C02596143B296C00ADD23F /* InfoViewEx.xib */; };
 		73C3BC1F15B1AB4100C37F2B /* libObjectiveFlickr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73D6D8F215B1A6EA00D43BA6 /* libObjectiveFlickr.a */; };
+		73D36E2815E1661500DD3D05 /* EditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73D36E2715E1661500DD3D05 /* EditViewController.xib */; };
+		73D36E3615E169FE00DD3D05 /* EditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D36E2A15E1663800DD3D05 /* EditViewController.m */; };
 		73E5EDA71416D4C600E7D61F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73E5EDA61416D4C600E7D61F /* CFNetwork.framework */; };
 		73E5EDD81417850100E7D61F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73E5EDD71417850100E7D61F /* MapKit.framework */; };
 		73E5EDDA1417883300E7D61F /* InfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73E5EDD91417883300E7D61F /* InfoView.xib */; };
@@ -173,6 +175,9 @@
 		73AFC1D91419AB680062A501 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
 		73AFC1DA1419AB680062A501 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Photo.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		73C02596143B296C00ADD23F /* InfoViewEx.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoViewEx.xib; sourceTree = "<group>"; };
+		73D36E2715E1661500DD3D05 /* EditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditViewController.xib; sourceTree = "<group>"; };
+		73D36E2915E1663800DD3D05 /* EditViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditViewController.h; sourceTree = "<group>"; };
+		73D36E2A15E1663800DD3D05 /* EditViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EditViewController.m; sourceTree = "<group>"; };
 		73E0259E15B1A0ED00CFA14D /* ObjectiveFlickr.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ObjectiveFlickr.xcodeproj; path = ../objectiveflicker/ObjectiveFlickr.xcodeproj; sourceTree = "<group>"; };
 		73E5EDA61416D4C600E7D61F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		73E5EDD71417850100E7D61F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -360,6 +365,8 @@
 		733062861412D98300D6755C /* utility */ = {
 			isa = PBXGroup;
 			children = (
+				73D36E2915E1663800DD3D05 /* EditViewController.h */,
+				73D36E2A15E1663800DD3D05 /* EditViewController.m */,
 				73F142F8141BA53D00C12473 /* Session.h */,
 				73F142F9141BA53D00C12473 /* Session.m */,
 				73AFC1D91419AB680062A501 /* Photo.h */,
@@ -531,6 +538,7 @@
 		A346431414197F220003FD8C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				73D36E2715E1661500DD3D05 /* EditViewController.xib */,
 				A37468AE15DC4E6200767AF8 /* line-globe.png */,
 				A385FFD515DB05A700343461 /* configuration.png */,
 				A385FFD315DB04BF00343461 /* happy-face.png */,
@@ -759,6 +767,7 @@
 				A385FFD415DB04BF00343461 /* happy-face.png in Resources */,
 				A385FFD615DB05A700343461 /* configuration.png in Resources */,
 				A37468AF15DC4E6200767AF8 /* line-globe.png in Resources */,
+				73D36E2815E1661500DD3D05 /* EditViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -769,6 +778,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73D36E3615E169FE00DD3D05 /* EditViewController.m in Sources */,
 				7330628D1412D98300D6755C /* main.m in Sources */,
 				733062911412D98300D6755C /* utilityAppDelegate.m in Sources */,
 				733062971412D98300D6755C /* MainViewController.m in Sources */,

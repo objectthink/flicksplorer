@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ObjectiveFlickr.h"
 #import "Photo.h"
+#import "EditViewController.h"
 
 #define OBJECTIVE_FLICKR_API_KEY             @"d383d50645fa96a10d0b9f69004b08f2"
 #define OBJECTIVE_FLICKR_API_SHARED_SECRET   @"ea0b1f6014bae383"
@@ -39,7 +40,8 @@ OFFlickrAPIRequestDelegate,
 UIImagePickerControllerDelegate,
 UINavigationControllerDelegate,
 UIActionSheetDelegate,
-CLLocationManagerDelegate>
+CLLocationManagerDelegate,
+EditViewDelegate>
 {
    CLLocationManager* locationManager;
    CLLocationCoordinate2D currentLocation;

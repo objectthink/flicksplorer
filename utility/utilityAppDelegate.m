@@ -15,6 +15,7 @@
 #import "utilityAppDelegate.h"
 #import "MainViewController.h"
 #import "SVWebViewController.h"
+#import "EditViewController.h"
 #import "Session.h"
 #import "Photo.h"
 
@@ -131,12 +132,65 @@ BOOL userInformedOfDisabledLocationServices = NO;
       
    /////////////////////////////////////////////////////////////////////////
    // we schedule this call in run loop because we want to dismiss the modal view first
-   [self performSelector:@selector(send:) withObject:image afterDelay:0.5];
+   [self performSelector:@selector(send:) withObject:image afterDelay:1.0];
+}
+
+-(void)dismissViewController
+{
+   //dismiss the webview controller from here
+   if([self.mainViewController presentedViewController] != nil)
+      [[self.mainViewController presentedViewController]dismissModalViewControllerAnimated:YES];
+   else
+      [self.mainViewController dismissModalViewControllerAnimated:YES];
+}
+
+-(void)presentViewController:(id)controller
+{
+   if([self.mainViewController presentedViewController] != nil)
+      [self.mainViewController.presentedViewController
+       presentModalViewController:controller
+       animated:YES];
+   else
+      [self.mainViewController presentModalViewController:controller animated:YES];
+}
+-(void)editViewSaved
+{
+   [self dismissViewController];
+}
+
+-(void)editViewCanceled
+{
+   [self dismissViewController];
+}
+
+-(void)send:(UIImage*)image
+{
+   EditViewController* evc =
+   [[EditViewController alloc] initWithNibName:@"EditViewController" bundle:nil];
+   
+   UINavigationController* navigation =
+   [[UINavigationController alloc] initWithRootViewController:evc];
+   
+   evc.delegate = self;
+   
+   [self presentViewController:navigation];
+
+//   Trip* trip;
+//   trip = [trips objectAtIndex:indexPath.row];
+//   
+//   evc.tripComposite = trip;
+   
+//   if([self.mainViewController presentedViewController] != nil)
+//      [self.mainViewController.presentedViewController
+//       presentModalViewController:navigation
+//       animated:YES];
+//   else
+//      [self.mainViewController presentModalViewController:navigation animated:YES];
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 //Upload:withStop
-- (void)send:(UIImage *)image
+- (void)sendX:(UIImage *)image
 {
    //NSLog(@"%s", __PRETTY_FUNCTION__);
    

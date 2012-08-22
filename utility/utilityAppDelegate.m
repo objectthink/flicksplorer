@@ -153,9 +153,75 @@ BOOL userInformedOfDisabledLocationServices = NO;
    else
       [self.mainViewController presentModalViewController:controller animated:YES];
 }
--(void)editViewSaved
+-(void)editViewSaved:(EditViewData*)data
 {
    [self dismissViewController];
+   
+   Session* session = self.fUploadRequest.sessionInfo;
+   
+   [locationManager stopUpdatingLocation];
+   
+   session.location = currentLocation;
+   
+   UIImage* newImage = data.image;
+   
+   //upload image data
+   NSData *JPEGData = UIImageJPEGRepresentation(newImage, 1.0);
+   
+   BOOL is_public_bool =
+   [[NSUserDefaults standardUserDefaults] boolForKey:SETTING_UPLOAD_PUBLIC];
+   
+   NSString* is_public     = @"1";
+   if(is_public_bool!=YES)
+      is_public = @"0";
+   
+   NSString* title         = data.title;           //@"TITLE";
+   NSString* description   = data.description;     //@"DESCRIPTION";
+   NSString* safety_level  = @"1";
+   
+   //set the location for good measure although
+   //it also must be set through the geo api
+   NSString* tags          =
+   [[[NSString alloc]initWithFormat:
+     @"geo:lat=%f geo:lon=%f geotagged flicksplorer" ,
+     currentLocation.latitude,
+     currentLocation.longitude
+     ] autorelease];
+   
+   [self.fUploadRequest
+    uploadImageStream:[NSInputStream inputStreamWithData:JPEGData]
+    suggestedFilename:@"flicksplorer"
+    MIMEType:@"image/jpeg"
+    arguments:[NSDictionary dictionaryWithObjectsAndKeys:
+               is_public            ,@"is_public",
+               title                ,@"title",
+               description          ,@"description",
+               safety_level         ,@"safety_level",
+               tags                 ,@"tags",
+               nil]
+    ];
+   
+   uploadProgressActionSheet =
+   [[[UIActionSheet alloc]
+     initWithTitle:[NSString stringWithFormat:@"Uploading image.\n%@\n\n",title]
+     delegate:self
+     cancelButtonTitle:nil
+     destructiveButtonTitle: nil
+     otherButtonTitles: nil]
+    autorelease];
+   
+   [uploadProgressActionSheet retain];
+   
+   progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0.0f, 50.0f, 220.0f, 90.0f)];
+   [progressView setProgressViewStyle: UIProgressViewStyleDefault];
+   [uploadProgressActionSheet addSubview:progressView];
+   [progressView release];
+	
+   [progressView setProgress:(0.0f)];
+   [uploadProgressActionSheet
+    showInView:self.mainViewController.view];
+   
+   progressView.center = CGPointMake(uploadProgressActionSheet.center.x, progressView.center.y);
 }
 
 -(void)editViewCanceled
@@ -168,24 +234,14 @@ BOOL userInformedOfDisabledLocationServices = NO;
    EditViewController* evc =
    [[EditViewController alloc] initWithNibName:@"EditViewController" bundle:nil];
    
+   evc.image = image;
+   
    UINavigationController* navigation =
    [[UINavigationController alloc] initWithRootViewController:evc];
    
    evc.delegate = self;
    
    [self presentViewController:navigation];
-
-//   Trip* trip;
-//   trip = [trips objectAtIndex:indexPath.row];
-//   
-//   evc.tripComposite = trip;
-   
-//   if([self.mainViewController presentedViewController] != nil)
-//      [self.mainViewController.presentedViewController
-//       presentModalViewController:navigation
-//       animated:YES];
-//   else
-//      [self.mainViewController presentModalViewController:navigation animated:YES];
 }
 
 ///////////////////////////////////////////////////////////////////////////////

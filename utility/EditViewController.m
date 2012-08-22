@@ -11,6 +11,32 @@
 
 #define SYSBARBUTTON(ITEM, SELECTOR) [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:ITEM target:self action:SELECTOR] autorelease]
 
+@implementation EditViewData
+
++(id)withTitle:(NSString *)title description:(NSString *)description image:(UIImage*)image
+{
+   EditViewData* data =
+   [[EditViewData alloc]init];
+   
+   data.title = title;
+   data.description = description;
+   data.image = image;
+   
+   return [data autorelease];
+}
+
+-(void)dealloc
+{
+   self.image = nil;
+   
+   [super dealloc];
+}
+
+@synthesize title;
+@synthesize description;
+
+@end
+
 @interface EditViewController ()
 
 @end
@@ -187,31 +213,26 @@
 {
    [self.name resignFirstResponder];
    
+   //GET THE FIELD THAT IS ON THE SCREEN
+   switch (self.segmentedControl.selectedSegmentIndex)
+   {
+      case 0: //Name
+         self.theName = [NSString stringWithString:name.text];
+         break;
+         
+      case 1: //Details
+         self.theDetails = [NSString stringWithString:name.text];
+         break;
+   }
+   
    if(delegate != nil)
-      [delegate editViewSaved];
-   
-//   MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//   hud.labelText = @"Updating flickr tags";   
-//
-//   //GET THE FIELD THAT IS ON THE SCREEN
-//   switch (self.segmentedControl.selectedSegmentIndex) 
-//   {
-//      case 0: //Name
-//         self.theName = [NSString stringWithString:name.text];
-//         break;
-//         
-//      case 1: //Details
-//         self.theDetails = [NSString stringWithString:name.text];
-//         break;
-//   }
-
-   //[tripComposite setDetails:self.theDetails];
-   //[tripComposite setName:self.theName];
-   
-   //[self setPhotoTags];
-   
-   //[self.navigationController popViewControllerAnimated:YES];
+      [delegate
+       editViewSaved:[EditViewData
+                      withTitle:self.theName
+                      description:self.theDetails
+                      image:self.image]];
 }
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -222,6 +243,13 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+-(void)dealloc
+{
+   self.image = nil;
+   
+   [super dealloc];
 }
 
 @end

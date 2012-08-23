@@ -153,7 +153,7 @@
    //CREATE SEGMENTED NAME/DETAILS CONTROL
 	self.segmentedControl = 
    [[UISegmentedControl alloc] initWithItems:
-    [NSArray arrayWithObjects:@"Name", @"Details", nil ]];
+    [NSArray arrayWithObjects:@"Title", @"Description", nil ]];
    
 	[self.segmentedControl 
     addTarget:self 

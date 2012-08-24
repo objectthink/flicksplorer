@@ -239,6 +239,8 @@ BOOL userInformedOfDisabledLocationServices = NO;
    UINavigationController* navigation =
    [[UINavigationController alloc] initWithRootViewController:evc];
    
+   navigation.navigationBar.tintColor = [UIColor blackColor];
+   
    evc.delegate = self;
    
    [self presentViewController:navigation];

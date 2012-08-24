@@ -155,6 +155,8 @@
    [[UISegmentedControl alloc] initWithItems:
     [NSArray arrayWithObjects:@"Title", @"Description", nil ]];
    
+   self.segmentedControl.tintColor = [UIColor darkGrayColor];
+   
 	[self.segmentedControl 
     addTarget:self 
     action:@selector(segmentAction:) 

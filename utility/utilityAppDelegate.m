@@ -422,6 +422,9 @@ BOOL userInformedOfDisabledLocationServices = NO;
    self.window.rootViewController = self.mainViewController;
    [self.window makeKeyAndVisible];
 
+   //try to set some appearance defaults here
+   [[UISegmentedControl appearance] setTintColor:[UIColor darkGrayColor]];
+   
    return YES;
 }
 

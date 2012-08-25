@@ -1263,10 +1263,19 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 	[webViewController release];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (NSInteger)supportedInterfaceOrientations
 {
-    // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+   return UIInterfaceOrientationMaskPortrait;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+   return UIInterfaceOrientationPortrait;
+}
+
+- (BOOL)shouldAutorotate
+{
+   return NO;
 }
 
 - (void)didReceiveMemoryWarning

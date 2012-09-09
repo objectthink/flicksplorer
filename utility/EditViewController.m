@@ -162,7 +162,7 @@
     action:@selector(segmentAction:) 
     forControlEvents:UIControlEventValueChanged];
    
-	self.segmentedControl.frame = CGRectMake(0, 0, 90, 30);
+	//self.segmentedControl.frame = CGRectMake(0, 0, 90, 30);
 	self.segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
 	self.segmentedControl.selectedSegmentIndex = 0;
    

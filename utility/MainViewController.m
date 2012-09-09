@@ -1265,7 +1265,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (NSInteger)supportedInterfaceOrientations
 {
-   return UIInterfaceOrientationMaskPortrait;
+   return 0;//UIInterfaceOrientationMaskPortrait;
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation

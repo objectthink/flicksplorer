@@ -53,9 +53,9 @@
 @synthesize isFetching = _isFetching;
 
 @synthesize photoURL = _photoURL;
-@synthesize photoSourceURL;
-@synthesize photoThumbURL;
-@synthesize buddyURL;
+@synthesize photoSourceURL = _photoSourceURL;
+@synthesize photoThumbURL = _photoThumbURL;
+@synthesize buddyURL = _buddyURL;
 @synthesize image;
 @synthesize thumb;
 @synthesize buddy;
@@ -113,27 +113,18 @@
 {
    NSLog(@"%s", __PRETTY_FUNCTION__); 
    
-   _owner = nil;
-   _photoid = nil;
-   _ownername = nil;
-   _title = nil;
-   _description = nil;
-   _dateTaken = nil;
-   _tags = nil;
-   
-   _photoURL = nil;
-   
-   //[photoid release];
-   //[ownername release];
-   //[title release];
-   //[description release];
-   //[dateTaken release];
-   //[tags release];
-   
-   //[photoURL release];
-   [photoSourceURL release];
-   [photoThumbURL release];
-   [buddyURL release];
+   [_owner release];
+   [_photoid release];
+   [_ownername release];
+   [_title release];
+   [_description release];
+   [_dateTaken release];
+   [_tags release];
+      
+   [_photoURL release];
+   [_photoSourceURL release];
+   [_photoThumbURL release];
+   [_buddyURL release];
       
    [thumb release];
    [image release];
@@ -141,6 +132,15 @@
    
    [mapPoint release];
    
+   _owner = nil;
+   _photoid = nil;
+   _ownername = nil;
+   _title = nil;
+   _description = nil;
+   _dateTaken = nil;
+   _tags = nil;
+   _photoURL = nil;
+
    [super dealloc];
 }
 

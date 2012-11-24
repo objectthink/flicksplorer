@@ -84,6 +84,8 @@ PhotosUpdatedDelegate>
 @property (retain) PRPTileView *tiles;
 @property (retain) IBOutlet UISearchBar* searchBar;
 @property (retain) IBOutlet UIPickerView* pandaPicker;
+@property (retain) IBOutlet UIBarButtonItem* cameraButton;
+
 @property (assign) utilityAppDelegate* app;
 
 - (IBAction)showInfo:(id)sender;
@@ -92,11 +94,13 @@ PhotosUpdatedDelegate>
 - (IBAction)viewTypeTapped:(id)sender;
 - (IBAction)refreshTapped:(id)sender;
 - (IBAction)photoTapped:(id)sender;
+- (IBAction)cameraTapped:(id)sender;
 
 -(void)showWaitWith:(NSString*)s;
 
 -(void)photosUpdated;
 -(void)photosReturnedError:(NSError*)error;
+-(void)flickrAuthorizationReceived;
 
 @end
 

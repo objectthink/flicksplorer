@@ -49,22 +49,37 @@
 	
 	CGRect deviceBounds = [[UIApplication sharedApplication] keyWindow].bounds;
 	
-	if(!deviceIsTablet) {
-
-		backBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SVWebViewController.bundle/iPhone/back"] style:UIBarButtonItemStylePlain target:self.webView action:@selector(goBack)];
-        backBarButton.imageInsets = UIEdgeInsetsMake(2, 0, -2, 0);
+	if(!deviceIsTablet)
+   {
+      backBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SVWebViewController.bundle/iPhone/back"] style:UIBarButtonItemStylePlain target:self.webView action:@selector(goBack)];
+      
+      backBarButton.imageInsets = UIEdgeInsetsMake(2, 0, -2, 0);
 		backBarButton.width = 18;
 		
-		forwardBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SVWebViewController.bundle/iPhone/forward"] style:UIBarButtonItemStylePlain target:self.webView action:@selector(goForward)];
-        forwardBarButton.imageInsets = UIEdgeInsetsMake(2, 0, -2, 0);
+		forwardBarButton =
+      [[UIBarButtonItem alloc]
+       initWithImage:
+       [UIImage imageNamed:@"SVWebViewController.bundle/iPhone/forward"]
+       style:UIBarButtonItemStylePlain
+       target:self.webView
+       action:@selector(goForward)];
+      
+      forwardBarButton.imageInsets = UIEdgeInsetsMake(2, 0, -2, 0);
 		forwardBarButton.width = 18;
 		
 		actionBarButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActions)];
         
-		if(self.navigationController == nil) {
-			
-            navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0,0,CGRectGetWidth(deviceBounds),44)];
-            navBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleBottomMargin;
+		if(self.navigationController == nil)
+      {
+         navBar =
+         [[UINavigationBar alloc]
+          initWithFrame:CGRectMake(0,0,CGRectGetWidth(deviceBounds),44)];
+         
+         navBar.autoresizingMask =
+         UIViewAutoresizingFlexibleWidth|
+         UIViewAutoresizingFlexibleHeight|
+         UIViewAutoresizingFlexibleBottomMargin;
+         
 			[self.view addSubview:navBar];
 			[navBar release];
             
@@ -72,21 +87,30 @@
 			[navBar setItems:[NSArray arrayWithObject:navItem] animated:YES];
 			[navItem release];
             
-            toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.view.bounds)-44, CGRectGetWidth(deviceBounds), 44)];
-            toolbar.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth;
-            [self.view addSubview:toolbar];
-            [toolbar release];
-        }
-        
-        else {
-            navBar = self.navigationController.navigationBar;
-            toolbar = self.navigationController.toolbar;
-        }
+         toolbar =
+         [[UIToolbar alloc]
+          initWithFrame:CGRectMake(
+                                   0,
+                                   CGRectGetMaxY(self.view.bounds)-44,
+                                   CGRectGetWidth(deviceBounds), 44)];
+         
+         toolbar.autoresizingMask =
+         UIViewAutoresizingFlexibleHeight|
+         UIViewAutoresizingFlexibleTopMargin|
+         UIViewAutoresizingFlexibleWidth;
+         
+         [self.view addSubview:toolbar];
+         [toolbar release];
+      }
+      else
+      {
+         navBar = self.navigationController.navigationBar;
+         toolbar = self.navigationController.toolbar;
+      }
       
       navBar.tintColor = [UIColor blackColor];
-      toolbar.tintColor = [UIColor blackColor]; 
+      toolbar.tintColor = [UIColor blackColor];
 	}
-	
 	else {
 				
 		if(self.navigationController == nil) {
@@ -364,12 +388,24 @@
 
 - (UIWebView*) webView {
     
-    if (!rWebView) {
-        rWebView = [[UIWebView alloc] initWithFrame:self.view.bounds];
-        rWebView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleBottomMargin;
-        rWebView.delegate = self;
-        rWebView.scalesPageToFit = YES;
-        [self.view addSubview:rWebView];
+    if (!rWebView)
+    {
+       rWebView =
+       [[UIWebView alloc] initWithFrame:self.view.bounds];
+
+       rWebView.autoresizingMask =
+       UIViewAutoresizingFlexibleWidth|
+       UIViewAutoresizingFlexibleHeight|
+       UIViewAutoresizingFlexibleBottomMargin|
+       UIViewAutoresizingFlexibleTopMargin|
+       UIViewAutoresizingFlexibleLeftMargin|
+       UIViewAutoresizingFlexibleRightMargin;
+       
+       rWebView.scalesPageToFit = YES;
+       
+       [self.view addSubview:rWebView];
+       
+       rWebView.delegate = self;
     }
     
     return rWebView;

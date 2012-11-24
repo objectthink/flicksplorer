@@ -266,7 +266,9 @@
                      });      
    }
    else
+   {
       [self processPopover];
+   }
    
    if(processOwner == YES)
    {
@@ -281,7 +283,6 @@
       popupQuery.actionSheetStyle = UIActionSheetStyleAutomatic;
       [popupQuery showInView:mainViewController.view];
       [popupQuery release];
-
    }
 }
 
@@ -372,11 +373,15 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
    UITableViewController* tvc =
    [[[UITableViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
-     
+   
+   //tvc.view.backgroundColor = [UIColor darkGrayColor];
+   
    UIToolbar* tb = [[[UIToolbar alloc]initWithFrame:CGRectMake(0, 0,320, 44)] autorelease];
    UIBarButtonItem* tbi = 
    [[[UIBarButtonItem alloc] 
     initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelOwnerList:)] autorelease];
+   
+   //tb.tintColor = [UIColor blackColor];
    
    [tb setItems:[NSArray arrayWithObject:tbi]];
     
@@ -513,12 +518,13 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 @synthesize tiles;
 @synthesize searchBar;
 @synthesize pandaPicker;
+@synthesize cameraButton;
 @synthesize app;
 
-#pragma mark - fonemonkey
--(void) fmAssureAutomationInit
-{
-}
+//#pragma mark - fonemonkey
+//-(void) fmAssureAutomationInit
+//{
+//}
 
 
 #pragma mark - 
@@ -695,6 +701,24 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    [self updateInfoViewWith:photo];
 }
 
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+//{
+//   switch(requestType)
+//   {
+//      case RECENT: return @"Recent"; break;
+//      case PANDA:  return @"Panda"; break;
+//      case SEARCH: return @"Search"; break;
+//      case PANDA_LIST:
+//      case AUTH:
+//      case UPLOAD:
+//      case IMAGEINFO:
+//      case LOCATION:
+//         break;
+//   }
+//   
+//   return nil;
+//}
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
@@ -783,14 +807,28 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    
    CGRect infFrame = CGRectMake(0, 0, BIG, BIG);
    
-   self.tiles = [[[PRPTileView alloc] initWithFrame:infFrame] autorelease];
+   int size =
+   [[NSUserDefaults standardUserDefaults] integerForKey:USER_DEFAULT_PHOTO_SIZE];
    
-   UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] 
-                                  initWithTarget:self 
-                                  action:@selector(photoWallTapped:)];								
+   if(size==0)
+   {
+      size = SETTING_PHOTO_MEDIUM;
+      
+      [[NSUserDefaults standardUserDefaults]
+       setInteger:SETTING_PHOTO_MEDIUM
+       forKey:USER_DEFAULT_PHOTO_SIZE];
+   }
+    
+   self.tiles =
+   [[[PRPTileView alloc] initWithFrame:infFrame size:size] autorelease];
+   
+   UITapGestureRecognizer *tap =
+   [[UITapGestureRecognizer alloc]
+    initWithTarget:self
+    action:@selector(photoWallTapped:)];
+   
    [self.tiles addGestureRecognizer:tap];
    [tap release]; 
-   
    
    self.tiles.photos = self.app.photos;
    
@@ -801,15 +839,43 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    [self.view bringSubviewToFront:self.searchBar];
    [self.view bringSubviewToFront:self.pandaPicker];
    
+   //set the keyboard appearance for the searchbar
+   for(UIView *subView in searchBar.subviews)
+      if([subView isKindOfClass: [UITextField class]])
+         [(UITextField *)subView setKeyboardAppearance: UIKeyboardAppearanceAlert];
+   
+   /////////////////////////////////
+   
+   /////////////// NOT DOING THIS NOW
    //[app getPandaList];
-   
    //[self performSelector:@selector(getPandaList) withObject:nil afterDelay:3.0 inModes:nil];
-   
    //[self refreshTapped:nil];
-   
    //[self performSelector:@selector(getPandaList) withObject:nil afterDelay:3.0];
    
    [app getPanda:@"ling ling"];
+      
+   //listen for photo size change notification
+   [[NSNotificationCenter defaultCenter]
+    addObserver:self
+    selector:@selector(changePhotoWallSize)
+    name:@"photoWallSizeChanged"
+    object:nil];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+   //are we authorized?
+   if(app.authorized)
+   {
+      [choice setEnabled:YES forSegmentAtIndex:ME];
+      self.cameraButton.enabled = YES;
+   }
+   else
+   {
+      [choice setEnabled:NO forSegmentAtIndex:ME];
+      self.cameraButton.enabled = NO;
+   }
+
 }
 
 -(void)getPandaList
@@ -868,30 +934,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    }
 }
 
--(void)doPandaX
+-(void)doMe
 {
-   [self.pandaPicker selectRow:-1 inComponent:0 animated:YES];
-   
-   CGRect pickerframe = self.pandaPicker.frame;
-   CGRect startFrame = self.pandaPicker.frame;
-   
-   startFrame.origin.y = -pickerframe.size.height;
-   
-   self.pandaPicker.frame = startFrame;
-   
-   self.pandaPicker.hidden = NO;  
-   
-   [UIView animateWithDuration:0.7
-                         delay:0.0
-                       options: UIViewAnimationCurveEaseOut
-                    animations:
-   ^{
-       self.pandaPicker.frame = pickerframe;
-    } 
-                    completion:
-    ^(BOOL finished)
-    {
-    }];
+   [self showWaitWith:@"Me"];
+   [self.app getMe];
 }
 
 -(void)doPanda
@@ -913,41 +959,86 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    
    self.searchBar.hidden = NO;  
    
-   [UIView animateWithDuration:0.7
+   [UIView animateWithDuration:0.3
                          delay:0.0
                        options: UIViewAnimationCurveEaseOut
                     animations:
                   ^{
                      self.searchBar.frame = searchBarFrame;
+                     [self.searchBar becomeFirstResponder];
                   } 
                     completion:
                   ^(BOOL finished)
                   {
-                     [self.searchBar becomeFirstResponder];
+                     //[self.searchBar becomeFirstResponder];
                   }];
 }
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-   self.searchBar.hidden = YES;
-   [self.searchBar resignFirstResponder];
+   //self.searchBar.hidden = YES;
+   //[self.searchBar resignFirstResponder];
+      
+   //MOVE THE SEARCHBAR
+   CGRect searchBarFrame = self.searchBar.frame;
+   CGRect endFrame = self.searchBar.frame;
    
-   [self showWaitWith:self.searchBar.text];
+   endFrame.origin.y = -searchBarFrame.size.height;
    
+   self.searchBar.hidden = NO;  
+   
+   [UIView animateWithDuration:0.3
+                         delay:0.0
+                       options: UIViewAnimationCurveEaseOut
+                    animations:
+    ^{
+       self.searchBar.frame = endFrame;
+       [self.searchBar resignFirstResponder];
+    } 
+                    completion:
+    ^(BOOL finished)
+    {
+       self.searchBar.hidden = YES;
+       self.searchBar.frame = searchBarFrame;
+    }];
+   ////////////////////
+   
+   [self showWaitWith:self.searchBar.text];   
    [self.app getSearchWith:self.searchBar.text];
-   //[self.app getSearchWithOwner:self.infoView.photo.owner];
 }
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-   self.searchBar.hidden = YES;
-   [self.searchBar resignFirstResponder];
+   //self.searchBar.hidden = YES;
+   //[self.searchBar resignFirstResponder];
+   
+   CGRect searchBarFrame = self.searchBar.frame;
+   CGRect endFrame = self.searchBar.frame;
+   
+   endFrame.origin.y = -searchBarFrame.size.height;
+   
+   self.searchBar.hidden = NO;  
+   
+   [UIView animateWithDuration:0.3
+                         delay:0.0
+                       options: UIViewAnimationCurveEaseOut
+                    animations:
+    ^{
+       self.searchBar.frame = endFrame;
+       [self.searchBar resignFirstResponder];
+    } 
+                    completion:
+    ^(BOOL finished)
+    {
+       self.searchBar.hidden = YES;
+       self.searchBar.frame = searchBarFrame;
+    }];
 }
 
 - (IBAction)refreshTapped:(id)sender
 {
    //NSLog(@"%s", __PRETTY_FUNCTION__);  
-   
+
    switch(requestType)
    {
       case PANDA:
@@ -962,9 +1053,45 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
       case SEARCH:
          [self doSearch];
          break;
+      case ME:
+         [self doMe];
+         break;
       default:
          break;
    }
+}
+
+-(void)changePhotoWallSize
+{
+   int size = 50;
+   size = [[NSUserDefaults standardUserDefaults] integerForKey:USER_DEFAULT_PHOTO_SIZE];
+
+   [self.tiles removeFromSuperview];
+   self.tiles = nil;
+   
+   CGRect infFrame = CGRectMake(0, 0, BIG, BIG);
+   
+   self.tiles =
+   [[[PRPTileView alloc] initWithFrame:infFrame size:size] autorelease];
+
+   UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                  initWithTarget:self
+                                  action:@selector(photoWallTapped:)];
+   
+   [self.tiles addGestureRecognizer:tap];
+   [tap release];
+   
+   self.tiles.photos = self.app.photos;
+   
+   [self.photoWall addSubview:self.tiles];
+}
+
+-(IBAction)cameraTapped:(id)sender
+{
+   //NSLog(@"cameraTapped");
+   
+   //[self.app authorization];
+   [self.app upload];
 }
 
 - (IBAction)choiceMade:(id)sender;
@@ -983,6 +1110,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    //NSLog(@"%s", __PRETTY_FUNCTION__);  
 }
 
+#pragma mark - PhotosUpdatedDelegate
 - (void)photosUpdated
 {
    //NSLog(@"%s", __PRETTY_FUNCTION__); 
@@ -1027,6 +1155,11 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    [alert show];
 }
 
+-(void)flickrAuthorizationReceived
+{
+   [self flipsideViewControllerDidFinish:nil];
+}
+
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)sv
 {
@@ -1049,38 +1182,104 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     [self dismissModalViewControllerAnimated:YES];
 }
 
+-(void)dismissSettings
+{
+   [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (IBAction)showSettings:(id)sender
-{    
-   FlipsideViewController *controller = 
+{
+   FlipsideViewController *controller =
    [[FlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
+
    controller.delegate = self;
+   
+   controller.title = @"Settings";
        
+   UINavigationController* navigation =
+   [[UINavigationController alloc] initWithRootViewController:controller];
+   
+   navigation.navigationBar.tintColor = [UIColor blackColor];
+   
+   UIBarButtonItem* done =
+   [[UIBarButtonItem alloc]
+    initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+    target:self
+    action:@selector(dismissSettings)];
+
+   controller.navigationItem.leftBarButtonItem = done;
+   
    controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-   [self presentModalViewController:controller animated:YES];
+
+   [self presentModalViewController:navigation animated:YES];
        
+   [navigation release];
+   [done release];
    [controller release];
 }
 
-- (IBAction)showInfo:(id)sender
+-(IBAction)showInfo:(id)sender
+{
+   UIViewController* c =
+   [[UIViewController alloc] init];
+   
+   UIWebView* w = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+   
+   NSURL *searchURL = [NSURL URLWithString:[self.infoView.photo.photoSourceURL absoluteString]];
+   [w loadRequest:[NSURLRequest requestWithURL:searchURL]];
+
+   c.view = w;
+   
+   UINavigationController* navigation =
+   [[UINavigationController alloc] initWithRootViewController:c];
+   
+   navigation.navigationBar.tintColor = [UIColor blackColor];
+   
+   UIBarButtonItem* done =
+   [[UIBarButtonItem alloc]
+    initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+    target:self
+    action:@selector(dismissSettings)];
+   
+   c.navigationItem.leftBarButtonItem = done;
+   
+   c.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+   
+   [self presentModalViewController:navigation animated:YES];
+   
+   [navigation release];
+   [done release];
+   [c release];
+}
+
+- (IBAction)showInfoX:(id)sender
 {    
    SVWebViewController *webViewController = 
    [[SVWebViewController alloc] 
     initWithAddress:[self.infoView.photo.photoSourceURL absoluteString]];
    
-   webViewController.navigationController.navigationBar.tintColor = [UIColor blackColor];
-	
-   webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
+   //webViewController.navigationController.navigationBar.tintColor = [UIColor blackColor];
+   //webViewController.modalPresentationStyle = UIModalPresentationPageSheet;
+   
    webViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
 	[self presentModalViewController:webViewController animated:YES];	
 
 	[webViewController release];
-
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (NSInteger)supportedInterfaceOrientations
 {
-    // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+   return UIInterfaceOrientationMaskPortrait;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+   return UIInterfaceOrientationPortrait;
+}
+
+- (BOOL)shouldAutorotate
+{
+   return NO;
 }
 
 - (void)didReceiveMemoryWarning

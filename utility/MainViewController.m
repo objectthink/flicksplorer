@@ -373,11 +373,15 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
    UITableViewController* tvc =
    [[[UITableViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
-     
+   
+   //tvc.view.backgroundColor = [UIColor darkGrayColor];
+   
    UIToolbar* tb = [[[UIToolbar alloc]initWithFrame:CGRectMake(0, 0,320, 44)] autorelease];
    UIBarButtonItem* tbi = 
    [[[UIBarButtonItem alloc] 
     initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelOwnerList:)] autorelease];
+   
+   //tb.tintColor = [UIColor blackColor];
    
    [tb setItems:[NSArray arrayWithObject:tbi]];
     
@@ -1265,7 +1269,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (NSInteger)supportedInterfaceOrientations
 {
-   return 0;//UIInterfaceOrientationMaskPortrait;
+   return UIInterfaceOrientationMaskPortrait;
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation

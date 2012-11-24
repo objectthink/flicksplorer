@@ -6,14 +6,22 @@
 //  Copyright 2011 blue sky computing. All rights reserved.
 //
 
+//TEST BRANCH
+
 #import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
 
 typedef enum 
 {
    PANDA       = 0,
    RECENT      = 1,
-   SEARCH      = 2,
-   PANDA_LIST  = 3
+   ME          = 2,
+   SEARCH      = 3,
+   PANDA_LIST,
+   AUTH,
+   UPLOAD,
+   IMAGEINFO,
+   LOCATION
 }REQUESTTYPE;
 
 
@@ -23,5 +31,6 @@ typedef enum
 }
 +(Session*)sessionWithRequestType:(REQUESTTYPE)requestType;
 @property (assign) REQUESTTYPE requestType;
+@property (assign) CLLocationCoordinate2D location;
 
 @end

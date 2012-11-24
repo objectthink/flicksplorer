@@ -11,6 +11,7 @@
 @implementation Session
 
 @synthesize requestType;
+@synthesize location;
 
 - (id)init
 {

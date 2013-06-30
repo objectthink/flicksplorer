@@ -1094,7 +1094,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    [self.app upload];
 }
 
-- (IBAction)choiceMade:(id)sender;
+- (IBAction)choiceMade:(id)sender
 {
    //NSLog(@"%s", __PRETTY_FUNCTION__);  
    
@@ -1225,8 +1225,22 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    
    UIWebView* w = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
    
-   NSURL *searchURL = [NSURL URLWithString:[self.infoView.photo.photoSourceURL absoluteString]];
+   NSString* urlString = [self.infoView.photo.photoSourceURL absoluteString];
+   NSMutableString* murlString = [urlString mutableCopy];
+   
+   [murlString
+    replaceOccurrencesOfString:@"www"
+    withString:@"m"
+    options:NSCaseInsensitiveSearch
+    range:NSMakeRange(0, [murlString length])
+    ];
+   
+   //NSURL *searchURL = [NSURL URLWithString:[self.infoView.photo.photoSourceURL absoluteString]];
+   NSURL *searchURL = [NSURL URLWithString:murlString];
+   
    [w loadRequest:[NSURLRequest requestWithURL:searchURL]];
+   
+   NSLog(@"%@",searchURL);
 
    c.view = w;
    

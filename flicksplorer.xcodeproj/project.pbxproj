@@ -23,9 +23,9 @@
 		73678F2815C432BC0095C7E4 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73678F2715C432BC0095C7E4 /* CoreLocation.framework */; };
 		73AFC1DB1419AB680062A501 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 73AFC1DA1419AB680062A501 /* Photo.m */; };
 		73C02597143B296C00ADD23F /* InfoViewEx.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73C02596143B296C00ADD23F /* InfoViewEx.xib */; };
-		73C3BC1F15B1AB4100C37F2B /* libObjectiveFlickr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73D6D8F215B1A6EA00D43BA6 /* libObjectiveFlickr.a */; };
 		73D36E2815E1661500DD3D05 /* EditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73D36E2715E1661500DD3D05 /* EditViewController.xib */; };
 		73D36E3615E169FE00DD3D05 /* EditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D36E2A15E1663800DD3D05 /* EditViewController.m */; };
+		73E167FD1661AAD20002E19F /* libObjectiveFlickr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73D6D8F215B1A6EA00D43BA6 /* libObjectiveFlickr.a */; };
 		73E5EDA71416D4C600E7D61F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73E5EDA61416D4C600E7D61F /* CFNetwork.framework */; };
 		73E5EDD81417850100E7D61F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73E5EDD71417850100E7D61F /* MapKit.framework */; };
 		73E5EDDA1417883300E7D61F /* InfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73E5EDD91417883300E7D61F /* InfoView.xib */; };
@@ -307,8 +307,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73E167FD1661AAD20002E19F /* libObjectiveFlickr.a in Frameworks */,
 				73678F2815C432BC0095C7E4 /* CoreLocation.framework in Frameworks */,
-				73C3BC1F15B1AB4100C37F2B /* libObjectiveFlickr.a in Frameworks */,
 				A346B3E5142763C4000127E8 /* MessageUI.framework in Frameworks */,
 				A3EC8ECA141F7BE0001E52BD /* MediaPlayer.framework in Frameworks */,
 				A3EC8ECB141F7BE0001E52BD /* QuartzCore.framework in Frameworks */,
@@ -854,6 +854,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				ONLY_ACTIVE_ARCH = YES;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "98C4B1E5-B930-49B4-AD62-DC2C167C7570";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "../objectiveflicker/Source ../objectiveflicker/LFWebAPIKit";
@@ -874,6 +875,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -885,6 +887,7 @@
 		733062A21412D98300D6755C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "utility/flicksplorer-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -894,6 +897,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = flicksplorer;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				USER_HEADER_SEARCH_PATHS = "../objectiveflicker/Source ../objectiveflicker/LFWebAPIKit";
 				WRAPPER_EXTENSION = app;
 			};

@@ -6,10 +6,19 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>flicksplorer</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>MKDirectionsRequest</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.apple.maps.directionsrequest</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIconFile</key>
-	<string>icon.png</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.objectthink.flicksplorer</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -22,28 +31,28 @@
 	<string>2.0.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>2.0.0</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.objectthink.flicksplorer</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>flicksplorer</string>
 			</array>
-			<key>CFBundleURLName</key>
-			<string>com.objectthink.flicksplorer</string>
 		</dict>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>2.0.0</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>MKDirectionsApplicationSupportedModes</key>
+	<array/>
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 </dict>
 </plist>

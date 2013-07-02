@@ -789,7 +789,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    
    //width = self.view.bounds.size.width;
    //height = self.view.bounds.size.height;
-   CGRect frameRect = CGRectMake(0, 42, 320, 262);
+   CGRect frameRect = tableView.frame;//CGRectMake(0, 42, 320, 262);
 	
    //UIScrollView *infScroller = 
    self.photoWall =
@@ -1199,7 +1199,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    UINavigationController* navigation =
    [[UINavigationController alloc] initWithRootViewController:controller];
    
-   navigation.navigationBar.tintColor = [UIColor blackColor];
+   //navigation.navigationBar.tintColor = [UIColor blackColor];
    
    UIBarButtonItem* done =
    [[UIBarButtonItem alloc]
@@ -1233,7 +1233,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    UINavigationController* navigation =
    [[UINavigationController alloc] initWithRootViewController:c];
    
-   navigation.navigationBar.tintColor = [UIColor blackColor];
+   //navigation.navigationBar.tintColor = [UIColor blackColor];
    
    UIBarButtonItem* done =
    [[UIBarButtonItem alloc]

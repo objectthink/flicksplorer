@@ -239,7 +239,7 @@ BOOL userInformedOfDisabledLocationServices = NO;
    UINavigationController* navigation =
    [[UINavigationController alloc] initWithRootViewController:evc];
    
-   navigation.navigationBar.tintColor = [UIColor blackColor];
+   //navigation.navigationBar.tintColor = [UIColor blackColor];
    
    evc.delegate = self;
    
@@ -423,7 +423,7 @@ BOOL userInformedOfDisabledLocationServices = NO;
    [self.window makeKeyAndVisible];
 
    //try to set some appearance defaults here
-   [[UISegmentedControl appearance] setTintColor:[UIColor darkGrayColor]];
+   //[[UISegmentedControl appearance] setTintColor:[UIColor darkGrayColor]];
    
    return YES;
 }
@@ -733,7 +733,7 @@ didObtainOAuthRequestToken:(NSString *)inRequestToken
    UINavigationController* navigation =
    [[UINavigationController alloc] initWithRootViewController:c];
    
-   navigation.navigationBar.tintColor = [UIColor blackColor];
+   //navigation.navigationBar.tintColor = [UIColor blackColor];
    
    UIBarButtonItem* done =
    [[UIBarButtonItem alloc]
@@ -774,7 +774,7 @@ didObtainOAuthRequestToken:(NSString *)inRequestToken
    [[SVWebViewController alloc]
     initWithAddress:[authURL absoluteString]];
    
-   webViewController.navigationController.navigationBar.tintColor = [UIColor blackColor];
+   //webViewController.navigationController.navigationBar.tintColor = [UIColor blackColor];
 	
    webViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
    

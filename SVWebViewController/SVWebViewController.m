@@ -107,10 +107,7 @@
          navBar = self.navigationController.navigationBar;
          toolbar = self.navigationController.toolbar;
       }
-      
-      navBar.tintColor = [UIColor blackColor];
-      toolbar.tintColor = [UIColor blackColor];
-	}
+   }
 	else {
 				
 		if(self.navigationController == nil) {

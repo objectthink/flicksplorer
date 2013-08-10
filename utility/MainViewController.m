@@ -742,7 +742,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    
    self.infoView.thumb.layer.cornerRadius = 9.0;
    self.infoView.thumb.layer.masksToBounds = YES;
-   self.infoView.thumb.layer.borderColor = [UIColor blackColor].CGColor;
+   //self.infoView.thumb.layer.borderColor = [UIColor blackColor].CGColor;
    self.infoView.thumb.layer.borderWidth = 1.0;
    
    //add extended info view
@@ -798,7 +798,6 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    self.photoWall.contentSize = CGSizeMake(BIG, BIG);
    self.photoWall.delegate = self;
    self.photoWall.contentOffset = CGPointMake(BIG/2, BIG/2);
-   self.photoWall.backgroundColor = [UIColor blackColor];
    self.photoWall.showsHorizontalScrollIndicator = NO;
    self.photoWall.showsVerticalScrollIndicator = NO;
    self.photoWall.decelerationRate = UIScrollViewDecelerationRateNormal;

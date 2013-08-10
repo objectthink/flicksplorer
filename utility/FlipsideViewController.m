@@ -227,31 +227,31 @@ cellForRowAtIndexPath:(NSIndexPath *)indexPath
 	@param section the section
 	@returns a uiview
  */
--(UIView *)
-tableView:(UITableView *)tableView
-viewForHeaderInSection:(NSInteger)section
-{
-   NSString *sectionTitle =
-   [self tableView:tableView titleForHeaderInSection:section];
-   
-   if (sectionTitle == nil) {
-      return nil;
-   }
-   
-   UILabel *label = [[UILabel alloc] init];
-   label.frame = CGRectMake(20, 8, 320, 20);
-   label.backgroundColor = [UIColor clearColor];
-   label.textColor = [UIColor whiteColor];
-   label.shadowColor = [UIColor grayColor];
-   label.shadowOffset = CGSizeMake(-1.0, 1.0);
-   label.font = [UIFont boldSystemFontOfSize:16];
-   label.text = sectionTitle;
-   
-   UIView *view = [[UIView alloc] init];
-   [view addSubview:label];
-   
-   return view;
-}
+//-(UIView *)
+//tableView:(UITableView *)tableView
+//viewForHeaderInSection:(NSInteger)section
+//{
+//   NSString *sectionTitle =
+//   [self tableView:tableView titleForHeaderInSection:section];
+//   
+//   if (sectionTitle == nil) {
+//      return nil;
+//   }
+//   
+//   UILabel *label = [[UILabel alloc] init];
+//   label.frame = CGRectMake(20, 8, 320, 20);
+//   label.backgroundColor = [UIColor clearColor];
+//   label.textColor = [UIColor whiteColor];
+//   label.shadowColor = [UIColor grayColor];
+//   label.shadowOffset = CGSizeMake(-1.0, 1.0);
+//   label.font = [UIFont boldSystemFontOfSize:16];
+//   label.text = sectionTitle;
+//   
+//   UIView *view = [[UIView alloc] init];
+//   [view addSubview:label];
+//   
+//   return view;
+//}
 
 //-(UIView *)tableView:(UITableView *)tableView
 //viewForFooterInSection:(NSInteger)section
@@ -315,7 +315,7 @@ viewForHeaderInSection:(NSInteger)section
    {
       case SECTION_AUTHORIZATION:
          cell.textLabel.text = @"flickr Authorization";
-         cell.textLabel.textAlignment = UITextAlignmentLeft;
+         cell.textLabel.textAlignment = NSTextAlignmentLeft;
          cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
          
          //cell.detailTextLabel.text = @"Unauthorized";
@@ -338,7 +338,7 @@ viewForHeaderInSection:(NSInteger)section
          break;
       case SECTION_PHOTO_WALL:
          cell.textLabel.text = @"Photo size";
-         cell.textLabel.textAlignment = UITextAlignmentLeft;
+         cell.textLabel.textAlignment = NSTextAlignmentLeft;
          cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
          
          //SET FROM USER DEFAULTS
@@ -428,7 +428,7 @@ viewForHeaderInSection:(NSInteger)section
       break;
       case SECTION_CREDITS: //LEGAL
          cell.textLabel.text = @"Credits";
-         cell.textLabel.textAlignment = UITextAlignmentCenter;
+         cell.textLabel.textAlignment = NSTextAlignmentCenter;
          cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
          break;
    }  
@@ -506,12 +506,6 @@ viewForHeaderInSection:(NSInteger)section
           autorelease];
                   
          controller.title = @"Photo Size";
-         controller.tableView.backgroundColor = [UIColor blackColor];
-         
-         UIView *backView = [[UIView alloc] init];
-         [backView setBackgroundColor:[UIColor clearColor]];
-         
-         [controller.tableView setBackgroundView:backView];
          
          PhotoWallSetting* settings =
          [[PhotoWallSetting alloc]init];
@@ -604,7 +598,6 @@ viewForHeaderInSection:(NSInteger)section
 - (void)viewDidLoad
 {
    [super viewDidLoad];
-   self.view.backgroundColor = [UIColor blackColor]; //[UIColor viewFlipsideBackgroundColor];
    
    //listen for authorization change notification
    [[NSNotificationCenter defaultCenter]

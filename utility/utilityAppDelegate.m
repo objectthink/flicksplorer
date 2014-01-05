@@ -118,8 +118,9 @@ BOOL userInformedOfDisabledLocationServices = NO;
    //STOP THE LOCATION MANAGER
    [locationManager stopUpdatingLocation];
    
-   [self.mainViewController dismissModalViewControllerAnimated:YES];
+   [self.mainViewController dismissViewControllerAnimated:YES completion:nil];
 }
+
 ///////////////////////////////////////////////////////////////////////////////
 //imagePickerController:didFInishPickingMediaWithInfo:
 - (void)imagePickerController:(UIImagePickerController *)picker
@@ -128,7 +129,7 @@ BOOL userInformedOfDisabledLocationServices = NO;
 {
    //[image retain];
       
-   [self.mainViewController dismissModalViewControllerAnimated:YES];
+   [self.mainViewController dismissViewControllerAnimated:YES completion:nil];
       
    /////////////////////////////////////////////////////////////////////////
    // we schedule this call in run loop because we want to dismiss the modal view first
@@ -138,10 +139,12 @@ BOOL userInformedOfDisabledLocationServices = NO;
 -(void)dismissViewController
 {
    //dismiss the webview controller from here
-   if([self.mainViewController presentedViewController] != nil)
-      [[self.mainViewController presentedViewController]dismissModalViewControllerAnimated:YES];
-   else
-      [self.mainViewController dismissModalViewControllerAnimated:YES];
+//   if([self.mainViewController presentedViewController] != nil)
+//      [[self.mainViewController presentedViewController]dismissModalViewControllerAnimated:YES];
+//   else
+//      [self.mainViewController dismissModalViewControllerAnimated:YES];
+   
+   [self.mainViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)presentViewController:(id)controller
@@ -212,16 +215,25 @@ BOOL userInformedOfDisabledLocationServices = NO;
    
    [uploadProgressActionSheet retain];
    
-   progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0.0f, 50.0f, 220.0f, 90.0f)];
+   progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(20.0f, 50.0f, 280.0f, 90.0f)];
+   //progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0.0f, 50.0f, 220.0f, 90.0f)];
+   //progressView = [[UIProgressView alloc] initWithFrame:uploadProgressActionSheet.frame];
+   
    [progressView setProgressViewStyle: UIProgressViewStyleDefault];
    [uploadProgressActionSheet addSubview:progressView];
    [progressView release];
 	
    [progressView setProgress:(0.0f)];
-   [uploadProgressActionSheet
-    showInView:self.mainViewController.view];
    
-   progressView.center = CGPointMake(uploadProgressActionSheet.center.x, progressView.center.y);
+   //progressView.center = CGPointMake(uploadProgressActionSheet.center.x, progressView.center.y);
+   
+   //[uploadProgressActionSheet showInView:self.mainViewController.view];
+   [self performSelector:@selector(showProgress) withObject:nil afterDelay:0.4];
+}
+
+-(void)showProgress
+{
+   [uploadProgressActionSheet showInView:self.mainViewController.view];
 }
 
 -(void)editViewCanceled
@@ -626,10 +638,8 @@ s,@"text",@"description,license, date_upload, date_taken, owner_name, icon_serve
    
    picker.delegate = self;
    picker.allowsEditing = YES;
-   
-   [self.mainViewController
-    presentModalViewController:picker
-    animated:YES];
+      
+   [self.mainViewController presentViewController:picker animated:YES completion:nil];
    
    [picker release];
 }

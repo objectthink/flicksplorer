@@ -789,7 +789,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    
    //width = self.view.bounds.size.width;
    //height = self.view.bounds.size.height;
-   CGRect frameRect = CGRectMake(0, 42, 320, 262);
+   CGRect frameRect = CGRectMake(0, 62, 320, 244);
 	
    //UIScrollView *infScroller = 
    self.photoWall =
@@ -852,7 +852,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
    //[self refreshTapped:nil];
    //[self performSelector:@selector(getPandaList) withObject:nil afterDelay:3.0];
    
-   [app getPanda:@"ling ling"];
+   if(app.isAuthorized)
+      [app getMe];
+   else
+      [app getRecent];
       
    //listen for photo size change notification
    [[NSNotificationCenter defaultCenter]

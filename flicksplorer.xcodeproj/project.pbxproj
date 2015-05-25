@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		29E0A377A147842631F9685C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FEE52AA168DA30EFB2B3142 /* libPods.a */; };
 		7319119A15D6BC5500366E15 /* person.png in Resources */ = {isa = PBXBuildFile; fileRef = 7319119915D6BC5500366E15 /* person.png */; };
 		7319119C15D6C09600366E15 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7319119B15D6C09600366E15 /* Default.png */; };
 		733062811412D98300D6755C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 733062801412D98300D6755C /* UIKit.framework */; };
@@ -23,7 +24,6 @@
 		73678F2815C432BC0095C7E4 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73678F2715C432BC0095C7E4 /* CoreLocation.framework */; };
 		73AFC1DB1419AB680062A501 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 73AFC1DA1419AB680062A501 /* Photo.m */; };
 		73C02597143B296C00ADD23F /* InfoViewEx.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73C02596143B296C00ADD23F /* InfoViewEx.xib */; };
-		73C3BC1F15B1AB4100C37F2B /* libObjectiveFlickr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73D6D8F215B1A6EA00D43BA6 /* libObjectiveFlickr.a */; };
 		73D36E2815E1661500DD3D05 /* EditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73D36E2715E1661500DD3D05 /* EditViewController.xib */; };
 		73D36E3615E169FE00DD3D05 /* EditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D36E2A15E1663800DD3D05 /* EditViewController.m */; };
 		73E5EDA71416D4C600E7D61F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73E5EDA61416D4C600E7D61F /* CFNetwork.framework */; };
@@ -152,6 +152,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4F1C0A2AC317383424CC706F /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		6FEE52AA168DA30EFB2B3142 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7319119915D6BC5500366E15 /* person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = person.png; sourceTree = "<group>"; };
 		7319119B15D6C09600366E15 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		7330627C1412D98300D6755C /* flicksplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flicksplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -266,6 +268,7 @@
 		73FDB77714675B6D005091BF /* Verify.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Verify.png; sourceTree = "<group>"; };
 		73FDB77814675B6D005091BF /* VScroll.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = VScroll.png; sourceTree = "<group>"; };
 		73FDB77914675B6D005091BF /* WaitFor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WaitFor.png; sourceTree = "<group>"; };
+		A3012E6C24756F3B00E47455 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		A329700B14237266009CC6E3 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		A329700C14237266009CC6E3 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		A346B3DA1427613C000127E8 /* SVWebViewController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVWebViewController.bundle; sourceTree = "<group>"; };
@@ -308,7 +311,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				73678F2815C432BC0095C7E4 /* CoreLocation.framework in Frameworks */,
-				73C3BC1F15B1AB4100C37F2B /* libObjectiveFlickr.a in Frameworks */,
 				A346B3E5142763C4000127E8 /* MessageUI.framework in Frameworks */,
 				A3EC8ECA141F7BE0001E52BD /* MediaPlayer.framework in Frameworks */,
 				A3EC8ECB141F7BE0001E52BD /* QuartzCore.framework in Frameworks */,
@@ -317,6 +319,7 @@
 				733062811412D98300D6755C /* UIKit.framework in Frameworks */,
 				733062831412D98300D6755C /* Foundation.framework in Frameworks */,
 				733062851412D98300D6755C /* CoreGraphics.framework in Frameworks */,
+				29E0A377A147842631F9685C /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +343,7 @@
 				733062861412D98300D6755C /* utility */,
 				7330627F1412D98300D6755C /* Frameworks */,
 				7330627D1412D98300D6755C /* Products */,
+				B8A3F83B91BF6E6D23FC5EB0 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -358,6 +362,7 @@
 				733062801412D98300D6755C /* UIKit.framework */,
 				733062821412D98300D6755C /* Foundation.framework */,
 				733062841412D98300D6755C /* CoreGraphics.framework */,
+				6FEE52AA168DA30EFB2B3142 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -598,6 +603,15 @@
 			name = Extra;
 			sourceTree = "<group>";
 		};
+		B8A3F83B91BF6E6D23FC5EB0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A3012E6C24756F3B00E47455 /* Pods.debug.xcconfig */,
+				4F1C0A2AC317383424CC706F /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -605,9 +619,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 733062A11412D98300D6755C /* Build configuration list for PBXNativeTarget "flicksplorer" */;
 			buildPhases = (
+				A426A5728C7A7026F9742D06 /* Check Pods Manifest.lock */,
 				733062781412D98300D6755C /* Sources */,
 				733062791412D98300D6755C /* Frameworks */,
 				7330627A1412D98300D6755C /* Resources */,
+				E4DDE85E08EDDCA1E2956363 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -627,6 +643,11 @@
 			attributes = {
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "blue sky computing";
+				TargetAttributes = {
+					7330627B1412D98300D6755C = {
+						DevelopmentTeam = 6AP8DGBG6H;
+					};
+				};
 			};
 			buildConfigurationList = 733062761412D98300D6755C /* Build configuration list for PBXProject "flicksplorer" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -773,6 +794,39 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		A426A5728C7A7026F9742D06 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E4DDE85E08EDDCA1E2956363 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		733062781412D98300D6755C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -884,7 +938,10 @@
 		};
 		733062A21412D98300D6755C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A3012E6C24756F3B00E47455 /* Pods.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "utility/flicksplorer-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -894,15 +951,18 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = flicksplorer;
-				USER_HEADER_SEARCH_PATHS = "../objectiveflicker/Source ../objectiveflicker/LFWebAPIKit";
+				PROVISIONING_PROFILE = "";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
 		733062A31412D98300D6755C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F1C0A2AC317383424CC706F /* Pods.release.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "utility/flicksplorer-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -912,8 +972,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = flicksplorer;
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				USER_HEADER_SEARCH_PATHS = "../objectiveflicker/Source ../objectiveflicker/LFWebAPIKit";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

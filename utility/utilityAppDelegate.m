@@ -55,6 +55,27 @@
 
 @synthesize photoCache;
 
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+   //NSLog(@"%@ time:%f",[locations lastObject],[[[locations lastObject] timestamp]timeIntervalSinceNow]);
+   
+   //currentLocation = [[locations lastObject] coordinate];
+   
+   CLLocation* location = [locations lastObject];
+   currentLocation = [location coordinate];
+   
+   // test that the horizontal accuracy does not indicate an invalid measurement
+   if (location.horizontalAccuracy < 0) return;
+   
+   // test the age of the location measurement to determine if the measurement is cached
+   // in most cases you will not want to rely on cached measurements
+   NSTimeInterval locationAge = -[location.timestamp timeIntervalSinceNow];
+   if (locationAge > 5.0) return;
+   
+   //WEVE GOT A LOCATION SO STOP UPDATES
+   [locationManager stopUpdatingLocation];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //locationManager:didUpdateToLocation:fromLocation
 //store the current location to be used in the new stop
@@ -402,6 +423,10 @@ BOOL userInformedOfDisabledLocationServices = NO;
    locationManager = [[CLLocationManager alloc] init];
    [locationManager setDistanceFilter:kCLDistanceFilterNone];
    [locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+   
+   if ([locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)])
+      [locationManager requestWhenInUseAuthorization];
+   
 
    //do we have an oauth token?
    NSString* token =

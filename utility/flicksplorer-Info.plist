@@ -39,11 +39,7 @@
 	</array>
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>flicksplorer uses this to tag your uploaded photos with your location.</string>
 </dict>
 </plist>

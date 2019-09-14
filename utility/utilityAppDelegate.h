@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ObjectiveFlickr.h"
+//#import "objectiveFlickr/source/ObjectiveFlickr.h"
+#import "/Volumes/xtra/projects/objectiveflickr/ObjectiveFlickr.h"
 #import "Photo.h"
 #import "EditViewController.h"
 
